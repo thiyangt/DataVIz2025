@@ -62,7 +62,8 @@ emissions
 
 4 ToothGrowth
 
-```r
+``` r
 ToothGrowth
 ```
+
 Take a suitable visualization to illustrate the relationship between supp, dose, and the mean tooth growth
