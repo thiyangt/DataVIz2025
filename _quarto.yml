@@ -12,7 +12,7 @@ website:
 
 format:
   html:
-    theme: yeti
+    theme: minty
     css: styles.css
     toc: true
 
