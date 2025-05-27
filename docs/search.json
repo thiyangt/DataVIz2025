@@ -1,0 +1,128 @@
+[
+  {
+    "objectID": "week2/index.html#packages-we-need-today",
+    "href": "week2/index.html#packages-we-need-today",
+    "title": "The Grammar of Graphics",
+    "section": "Packages we need today",
+    "text": "Packages we need today\n\nlibrary(ggplot2)\nlibrary(palmerpenguins)"
+  },
+  {
+    "objectID": "week2/index.html#pioneers",
+    "href": "week2/index.html#pioneers",
+    "title": "The Grammar of Graphics",
+    "section": "Pioneers",
+    "text": "Pioneers\n\n\nConcept: Leland Wilkinson\n\n\nImplementation: Hadley Wickham"
+  },
+  {
+    "objectID": "week2/index.html#building-blocks-of-layers-with-the-grammar-of-graphics",
+    "href": "week2/index.html#building-blocks-of-layers-with-the-grammar-of-graphics",
+    "title": "The Grammar of Graphics",
+    "section": "Building Blocks of layers with the grammar of graphics",
+    "text": "Building Blocks of layers with the grammar of graphics\n\nData\nAesthetics\nGeometrics\nFacets\nScales\nStatistics\nCoordinates\nThemes"
+  },
+  {
+    "objectID": "week2/index.html#step-1-take-data",
+    "href": "week2/index.html#step-1-take-data",
+    "title": "The Grammar of Graphics",
+    "section": "Step 1: Take Data",
+    "text": "Step 1: Take Data\n\ndata(penguins)"
+  },
+  {
+    "objectID": "week2/index.html#step-2-take-a-canvas-to-do-the-plot",
+    "href": "week2/index.html#step-2-take-a-canvas-to-do-the-plot",
+    "title": "The Grammar of Graphics",
+    "section": "Step 2: Take a canvas to do the plot",
+    "text": "Step 2: Take a canvas to do the plot\n\nggplot()"
+  },
+  {
+    "objectID": "week2/index.html#take-your-data-onto-your-canvas-for-plotting",
+    "href": "week2/index.html#take-your-data-onto-your-canvas-for-plotting",
+    "title": "The Grammar of Graphics",
+    "section": "Take your data onto your canvas for plotting",
+    "text": "Take your data onto your canvas for plotting\n\nggplot(data=penguins)"
+  },
+  {
+    "objectID": "week2/index.html#data-aesthetics",
+    "href": "week2/index.html#data-aesthetics",
+    "title": "The Grammar of Graphics",
+    "section": "Data + Aesthetics",
+    "text": "Data + Aesthetics"
+  },
+  {
+    "objectID": "week2/index.html#data-aesthetics-geom",
+    "href": "week2/index.html#data-aesthetics-geom",
+    "title": "The Grammar of Graphics",
+    "section": "Data + Aesthetics + Geom",
+    "text": "Data + Aesthetics + Geom\n\nggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +\ngeom_point()"
+  },
+  {
+    "objectID": "week2/index.html#data-aesthetics-geom-facet",
+    "href": "week2/index.html#data-aesthetics-geom-facet",
+    "title": "The Grammar of Graphics",
+    "section": "Data + Aesthetics + Geom + Facet",
+    "text": "Data + Aesthetics + Geom + Facet\n\nggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +\ngeom_point() + \nfacet_wrap(~species)"
+  },
+  {
+    "objectID": "week2/index.html#data-aesthetics-geom-facet-scale",
+    "href": "week2/index.html#data-aesthetics-geom-facet-scale",
+    "title": "The Grammar of Graphics",
+    "section": "Data + Aesthetics + Geom + Facet + Scale",
+    "text": "Data + Aesthetics + Geom + Facet + Scale\n\nggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +\ngeom_point() + \nfacet_grid(species ~ island) + \nscale_colour_manual(values = c(\"#1b9e77\",\"#d95f02\",\"#7570b3\"))"
+  },
+  {
+    "objectID": "week2/index.html#data-aesthetics-geom-facet-stat",
+    "href": "week2/index.html#data-aesthetics-geom-facet-stat",
+    "title": "The Grammar of Graphics",
+    "section": "Data + Aesthetics + Geom + Facet + Stat",
+    "text": "Data + Aesthetics + Geom + Facet + Stat\n\nggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +\ngeom_point() + \nfacet_grid(species ~ island) +\nscale_color_brewer(palette = \"Dark2\") +\nstat_summary(\n    geom = \"point\",\n    fun.y = \"mean\",\n    col = \"black\",\n    size = 7,\n    shape = 24,\n    fill = \"red\",\n    alpha = 0.5,\n  )"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "",
+    "text": "Dr Thiyanga S. Talagala"
+  },
+  {
+    "objectID": "index.html#lecturer-in-charge",
+    "href": "index.html#lecturer-in-charge",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "",
+    "text": "Dr Thiyanga S. Talagala"
+  },
+  {
+    "objectID": "index.html#email",
+    "href": "index.html#email",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Email:",
+    "text": "Email:\nttatalagala@sjp.ac.lk"
+  },
+  {
+    "objectID": "index.html#course-outline",
+    "href": "index.html#course-outline",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Course outline:",
+    "text": "Course outline:\nAvailable on Google Classroom"
+  },
+  {
+    "objectID": "index.html#policies-and-regulations",
+    "href": "index.html#policies-and-regulations",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Policies and regulations:",
+    "text": "Policies and regulations:\nTo access important information regarding the unit, please go to the course Learning Management System (LMS) page. Click here to go directly to the LMS."
+  },
+  {
+    "objectID": "index.html#weekly-schedule",
+    "href": "index.html#weekly-schedule",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Weekly Schedule:",
+    "text": "Weekly Schedule:\n\n\n\n\n\nWeek No.\nDate\nTopic\nReading\nExercise\nAssignments\n\n\n\n\n1\nMay 27, 2025\nIntroduction to Data Viualisation\nGestalt Law in Photography\n\nAssignment 1"
+  },
+  {
+    "objectID": "index.html#datasets",
+    "href": "index.html#datasets",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Datasets",
+    "text": "Datasets\n\nPedestrian counts in Melbourne city\n\nlibrary(sugrrants)\ndata(hourly_peds)\n\nTickets issued for parking violations in the city of Philadelphia, Pennsylvania in 2017\n\nlibrary(tidyverse)\n\nphilly &lt;- read_csv(\"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-03/tickets.csv\")\n\nEmission data\n\nemissions &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-05-21/emissions.csv')\nemissions\n4 ToothGrowth\nToothGrowth\nTake a suitable visualization to illustrate the relationship between supp, dose, and the mean tooth growth"
+  }
+]

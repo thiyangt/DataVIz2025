@@ -1,0 +1,12 @@
+/*-- scss:defaults --*/
+
+
+$presentation-font-size-root: 50px;
+
+
+/*-- scss:rules --*/
+
+.reveal .slide blockquote {
+  border-left: 3px solid $text-muted;
+  padding-left: 0.5em;
+}

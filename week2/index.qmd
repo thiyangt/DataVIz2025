@@ -1,0 +1,479 @@
+---
+title: "The Grammar of Graphics"
+subtitle: ""
+author: "Dr. Thiyanga S. Talagala <br/>  Department of Statistics, Faculty of Applied Sciences <br/> University of Sri Jayewardenepura, Sri Lanka"
+format:
+  revealjs:
+    width: 2000
+    height: 1000
+    margin: 0.1
+    theme: [simple, custom.scss]
+    transition: slide
+    background-transition: fade
+    slide-number: true
+    show-slide-number: all
+    title-slide-attributes: 
+      data-background-color: "#800026"
+      data-background-image: none
+---
+
+## Packages we need today
+
+```{r, message=FALSE, warning=FALSE, echo=TRUE}
+library(ggplot2)
+library(palmerpenguins)
+```
+
+## Pioneers
+
+::: columns
+::: {.column width="50%"}
+Concept: Leland Wilkinson
+
+![](lw.png)
+:::
+
+::: {.column width="50%"}
+Implementation: Hadley Wickham
+
+![](hw.png)
+:::
+:::
+
+## Building Blocks of layers with the grammar of graphics
+
+1.  Data
+
+2.  Aesthetics
+
+3.  Geometrics
+
+4.  Facets
+
+5.  Scales
+
+6.  Statistics
+
+7.  Coordinates
+
+8.  Themes
+
+# Data
+
+A data frame or tibble containing data for the plot.
+
+# Ingeridients to do the plotting
+
+## Step 1: Take Data
+
+```{r, echo=TRUE}
+data(penguins)
+```
+
+## Step 2: Take a canvas to do the plot
+
+```{r, echo=TRUE}
+ggplot()
+```
+
+# Process: drawing the plot
+
+## Take your data onto your canvas for plotting
+
+```{r, echo=TRUE}
+ggplot(data=penguins)
+```
+
+# Aesthetics
+
+How variables in the data are mapped to visual properties (`aesthetics`) of geometries (`geoms`)
+
+## Data + Aesthetics
+
+```{r}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species))
+```
+
+# Geometrics (Geoms)
+
+The visual elements used to plot data
+
+## Data + Aesthetics + Geom
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point()
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_smooth()
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_smooth(method="lm")
+```
+
+# Facets
+
+Plotting small multiples (Partition the data into smaller “sub plots”, or panels)
+
+------------------------------------------------------------------------
+
+## Data + Aesthetics + Geom + Facet
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+facet_wrap(~species)
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+facet_wrap(~species, ncol=3)
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+facet_wrap(~species, nrow=3)
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+facet_wrap(~species, nrow=3, strip.position = "left") 
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+facet_grid(species ~ island)
+```
+
+# Scale
+
+cales control the mapping between data values and aesthetics like color, size, and shape. You can customize scales using functions like scale_x_continuous(), scale_fill_manual(), etc., to adjust the appearance of the plot.
+
+## Data + Aesthetics + Geom + Facet + Scale
+
+```{r, echo=TRUE}
+
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+facet_grid(species ~ island) + 
+scale_colour_manual(values = c("#1b9e77","#d95f02","#7570b3"))
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+facet_grid(species ~ island) + 
+scale_colour_manual(values = c("#1b9e77","red","#7570b3"))
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+facet_grid(species ~ island) + 
+scale_colour_manual(values = c("Gentoo"="#1b9e77", "Chinstrap"="red", "Adelie" = "#7570b3"))
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+RColorBrewer::display.brewer.all(type = "div")
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+RColorBrewer::display.brewer.all(type = "seq")
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+RColorBrewer::display.brewer.all(type = "qual")
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + facet_grid(species ~ island) + scale_color_brewer(palette = "Dark2")
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + facet_grid(species ~ island) +
+scale_color_manual(values = RColorBrewer::brewer.pal(n = 3, name = "Set1"))
+```
+
+# Statistics
+
+Visualize statistical measures
+
+------------------------------------------------------------------------
+
+## Data + Aesthetics + Geom + Facet + Stat
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+facet_grid(species ~ island) +
+scale_color_brewer(palette = "Dark2") +
+stat_summary(
+    geom = "point",
+    fun.y = "mean",
+    col = "black",
+    size = 7,
+    shape = 24,
+    fill = "red",
+    alpha = 0.5,
+  )
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+scale_color_brewer(palette = "Dark2") +
+stat_summary(
+    geom = "point",
+    fun.y = "mean",
+    col = "black",
+    size = 3,
+    shape = 24,
+    fill = "red",
+    alpha = 0.5,
+  )
+```
+
+# Coordinates
+
+Controls coordinate system
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+facet_grid(species ~ island) + 
+scale_color_brewer(palette = "Dark2") +
+stat_summary(
+    geom = "point",
+    fun.y = "mean",
+    col = "black",
+    size = 3,
+    shape = 24,
+    fill = "red",
+    alpha = 0.5,
+  ) + coord_flip()
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+facet_grid(species ~ island) + 
+scale_color_brewer(palette = "Dark2") +
+stat_summary(
+    geom = "point",
+    fun.y = "mean",
+    col = "black",
+    size = 3,
+    shape = 24,
+    fill = "red",
+    alpha = 0.5,
+  ) + coord_fixed(0.03)
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+facet_grid(species ~ island) + 
+scale_color_brewer(palette = "Dark2") +
+stat_summary(
+    geom = "point",
+    fun.y = "mean",
+    col = "black",
+    size = 3,
+    shape = 24,
+    fill = "red",
+    alpha = 0.5,
+  ) + coord_fixed(1)
+```
+
+# Themes
+
+Themes control non-data elements, including elements like background color, grid lines, axis labels, and titles.
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+facet_grid(species ~ island) + 
+scale_color_brewer(palette = "Dark2") +
+stat_summary(
+    geom = "point",
+    fun.y = "mean",
+    col = "black",
+    size = 3,
+    shape = 24,
+    fill = "red",
+    alpha = 0.5,
+  ) + coord_cartesian() +
+theme(title = element_text("Penguin flipper length vs body mass"),
+       axis.title.x =  element_text("Flipper length (mm)"),
+       axis.title.y =  element_text("Body mass (g)"),
+legend.position = "bottom")
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+facet_grid(species ~ island) + 
+scale_color_brewer(palette = "Dark2") +
+stat_summary(
+    geom = "point",
+    fun.y = "mean",
+    col = "black",
+    size = 3,
+    shape = 24,
+    fill = "red",
+    alpha = 0.5,
+  ) + coord_cartesian() + theme_bw() + 
+theme(title = element_text("Penguin flipper length vs body mass"),
+       axis.title.x =  element_text("Flipper length (mm)"),
+axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+       axis.title.y =  element_text("Body mass (g)"),
+legend.position = "bottom") 
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+facet_grid(species ~ island) + 
+scale_color_brewer(palette = "Dark2") +
+stat_summary(
+    geom = "point",
+    fun.y = "mean",
+    col = "black",
+    size = 3,
+    shape = 24,
+    fill = "red",
+    alpha = 0.5,
+  ) + coord_cartesian() + 
+theme(title = element_text("Penguin flipper length vs body mass"),
+       axis.title.x =  element_text("Flipper length (mm)"),
+axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+       axis.title.y =  element_text("Body mass (g)"),
+legend.position = "bottom") + theme_bw() 
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+facet_grid(species ~ island) + 
+scale_color_brewer(palette = "Dark2") +
+stat_summary(
+    geom = "point",
+    fun.y = "mean",
+    col = "black",
+    size = 3,
+    shape = 24,
+    fill = "red",
+    alpha = 0.5,
+  ) + coord_cartesian() + 
+theme(title = element_text("Penguin flipper length vs body mass"),
+       axis.title.x =  element_text("Flipper length (mm)"),
+axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1),
+       axis.title.y =  element_text("Body mass (g)"),
+legend.position = "bottom") + theme_dark() 
+```
+
+# Labs
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+facet_grid(species ~ island) + 
+scale_color_brewer(palette = "Dark2") +
+stat_summary(
+    geom = "point",
+    fun.y = "mean",
+    col = "black",
+    size = 3,
+    shape = 24,
+    fill = "red",
+    alpha = 0.5,
+  ) + coord_cartesian() + 
+labs(tile = "Penguin flipper length vs body mass",
+     x = "Flipper length (mm)",
+     y = "Body mass (g)") + 
+theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1), legend.position = "bottom") + theme_dark() 
+
+```
+
+# Local Data vs Global Data
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+coord_fixed(ratio=0.02)
+```
+
+# I want to mark (200, 4500) on the plot
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+df <- tibble::tibble(x=200, y=4500)
+```
+
+------------------------------------------------------------------------
+
+```{r, echo=TRUE}
+ggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +
+geom_point() + 
+geom_point(data=df, aes(x=x, y=y), col="black", size=5) + 
+coord_fixed(ratio=0.02)
+```

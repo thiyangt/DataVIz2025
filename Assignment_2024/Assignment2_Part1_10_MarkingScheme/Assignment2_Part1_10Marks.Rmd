@@ -1,0 +1,48 @@
+---
+title: "Assignment 2 - Part 1"
+output: pdf_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## 1. Optimal Use of Space (2 points)
+
+- 2 points: Excellent use of space, with no clutter and all elements well-organized.
+
+- 1 point: Adequate use of space, minor clutter or slight misalignment of elements.
+
+- 0 points: Poor use of space, significant clutter, and poor organization.
+
+## 2. Right Visualizations (2 points)
+
+- 2 points: Visualizations are highly appropriate for the data and insights; enhance understanding.
+
+- 1 point: Visualizations are somewhat appropriate but could be improved for better clarity.
+
+- 0 points: Visualizations are inappropriate, misleading, or do not aid in understanding the data.
+
+## 3. Use of Colors Appropriately (2 points)
+
+- 2 points: Colors are used effectively, enhancing readability and insights without being overwhelming.
+
+- 1 point: Colors are used adequately but could be improved for better readability or emphasis.
+
+- 0 points: Poor use of colors, causing confusion or distraction.
+
+## 4. Key Messages (2 points)
+
+- 2 points: Key messages are clear, concise, and effectively communicated.
+
+- 1 point: Key messages are present but could be clearer or more concise.
+
+- 0 points: Key messages are unclear or missing.
+
+## 5. Reproducibility (2 points)
+
+- 2 points: Dashboard is fully reproducible, with clear documentation and steps to recreate the analysis.
+
+- 1 point: Dashboard is somewhat reproducible, with some documentation but missing details.
+
+- 0 points: Dashboard is not reproducible, lacking documentation or clear steps.

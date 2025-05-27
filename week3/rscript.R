@@ -1,0 +1,12 @@
+penguins |> ggplot(aes(x=species)) + geom_bar()
+penguins |> ggplot(aes(x=species, fill=sex)) + geom_bar()
+penguins |> ggplot(aes(x=species, fill=sex)) + geom_bar(position = position_stack())
+penguins |> ggplot(aes(x=species, fill=sex)) + geom_bar(position = position_dodge())
+penguins |> ggplot(aes(x=species, fill=island)) + geom_bar(position = position_dodge())
+penguins |> ggplot(aes(x=species, fill=sex)) + geom_bar(position = position_dodge())
+
+gg <- ggplot(data=KS, aes(x=main_category, fill=state)) 
+gg <- gg + geom_bar(position="fill")
+gg <- gg + geom_text(aes(label = paste0(100*pcnt,"%"),y=labelpos),size = 3)
+gg <- gg + scale_y_continuous(labels = scales::percent)
+print(gg)

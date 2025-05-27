@@ -1,0 +1,488 @@
+---
+title: "Visualising Qualitative Data"
+---
+
+# Packages
+
+```{r, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(skimr)
+library(viridis)
+```
+
+# Data
+
+```{r}
+data(diamonds)
+skimr::skim(diamonds)
+```
+
+# Univariate Visualisations
+
+## Common Code
+
+```{r, comment=NA}
+p1 <- ggplot(data=diamonds, aes(x=cut))
+```
+
+## Bar chart: Counts
+
+```{r}
+p1 + geom_bar()
+```
+
+Add color
+
+```{r}
+p1 + geom_bar(fill="forestgreen")
+```
+
+Add title
+
+```{r, comment=NA, echo=FALSE}
+p1 + geom_bar(fill="forestgreen")+
+  labs(title="Composition of diamonds by cuts")
+```
+
+Add sequential colour theme
+
+```{r}
+p1 + geom_bar(aes(fill=cut))+
+  scale_fill_viridis_d() + 
+  labs(title="Composition of diamonds by cuts")
+```
+
+Change color pallet
+
+```{r}
+p1 + geom_bar(aes(fill=cut))+
+  scale_fill_viridis_d(option = "magma") + 
+  labs(title="Composition of diamonds by cuts")
+```
+
+Manually fill colors
+
+``` r
+p1 + geom_bar(aes(fill=cut))+
+  scale_fill_manual(<>) + 
+  labs(title="Composition of diamonds by cuts")
+```
+
+## Bar charts: percentages
+
+### Method 1: geom_col
+
+```{r}
+diamonds |> 
+  summarize(prop = n() / nrow(diamonds), .by = cut) 
+```
+
+```{r}
+diamonds |> 
+  summarize(prop = n() / nrow(diamonds), .by = cut) |> 
+  mutate(cut = forcats::fct_reorder(cut, prop))
+```
+
+```{r}
+diamonds |> 
+  summarize(prop = n() / nrow(diamonds), .by = cut) |> 
+  mutate(cut = forcats::fct_reorder(cut, prop)) |> 
+  ggplot(aes(y=prop, x=cut)) +
+  geom_col()
+```
+
+### Method 2: geom_bar and after_stat
+
+```{r}
+ggplot(diamonds, aes(x = cut, y = after_stat(count / sum(count)))) +
+  geom_bar()
+```
+
+Flip coords
+
+```{r}
+ggplot(diamonds, aes(x = cut, y = after_stat(count / sum(count)))) +
+  geom_bar() + 
+  coord_flip()
+```
+
+Obtain percentage
+
+```{r}
+ggplot(diamonds, aes(x = cut, y = after_stat(count / sum(count)*100))) +
+  geom_bar() + 
+  coord_flip()
+```
+
+## Level-up-your plots
+
+```{r}
+
+
+diamonds |> 
+  summarize(prop = n() / nrow(diamonds), .by = cut) |> 
+  mutate(cut = forcats::fct_reorder(cut, prop)) |> 
+  ggplot(aes(prop, cut)) +
+  geom_col() +
+  scale_x_continuous(
+    expand = c(0, 0), limits = c(0, .50),
+    labels = scales::label_percent(),
+    name = "Percentage"
+  ) 
+
+```
+
+More work on the plot
+
+```{r}
+diamonds |> 
+  summarize(prop = n() / nrow(diamonds), .by = cut) |> 
+  mutate(cut = forcats::fct_reorder(cut, prop)) |> 
+  ggplot(aes(prop, cut)) +
+  geom_col() +
+  scale_x_continuous(
+    expand = c(0, 0), limits = c(0, .5),
+    labels = scales::label_percent(),
+    name = "Percentage"
+  ) + theme(axis.title.y = element_blank())
+
+```
+
+```{r}
+diamonds |> 
+  summarize(prop = n() / nrow(diamonds), .by = cut) |> 
+  mutate(cut = forcats::fct_reorder(cut, prop)) |> 
+  ggplot(aes(prop, cut)) +
+  geom_col() +
+  geom_text(
+    aes(label = paste0("  ", sprintf("%2.1f", prop * 100), "%  ")),
+    position = position_dodge(width = .9),    # move to center of bars
+              hjust = -0.1,    # nudge above top of bar
+              size = 3)+
+  scale_x_continuous(
+    expand = c(0, 0), limits = c(0, .5),
+    labels = scales::label_percent(),
+    name = "Percentage"
+  ) + theme(axis.title.y = element_blank())
+
+```
+
+## Bi-variate
+
+### Stacked bar chart
+
+**Encoding by colour**
+
+Position: `stack`
+
+```{r, comment=NA, message=FALSE}
+b1 <- ggplot(data=diamonds, aes(x=cut, fill=color))
+```
+
+R code:\_\_\_\_\_\_\_\_\_\_\_
+
+```{r, echo=FALSE}
+#  stack is default
+b1 + geom_bar(position = "stack")
+```
+
+### Grouped bar chart/ Cluster bar chart
+
+This chart displays bars for multiple categories grouped together side by side.
+
+**Encoding by colour**
+
+Position: `dodge`
+
+R code:\_\_\_\_\_\_\_\_\_\_\_
+
+```{r, echo=FALSE}
+#  stack is default
+b1 + geom_bar(position = "dodge")
+```
+
+### Small Multiples or Trellis Chart
+
+This chart displays multiple small bar charts, each representing a different subset of the data.
+
+**Encoding by position**
+
+```{r, comment=NA, message==FALSE}
+ggplot(data=diamonds, aes(x=color))+geom_bar()+facet_wrap(~cut)
+
+```
+
+Your turn: What is the best chart: grouped bar chart, stack bar chart or faceting?
+
+### Percentage stacked bar chart
+
+```{r, echo=FALSE}
+#  stack is default
+b1 + geom_bar(position = "fill")
+```
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+df <- data.frame(x1 = as.factor(c(1,1,1,1,1,1,1,1,0,0,0,0,0,0,0,0,0,0)),
+                 x2= as.factor(c(1,1,0,0,0,1,1,1,0,0,0,0,0,0,1,1,0,0)))
+ggplot(data=df, aes(x=x1, fill=x2))+
+  geom_bar(position = "fill")
+```
+
+# Categorical vs Quantitative
+
+## Cleveland dot chart
+
+This is useful when you have large number of categories.
+
+```{r, echo=FALSE, comment=NA, message=FALSE, warning=FALSE}
+library(gapminder)
+gap2007 <- gapminder %>%
+filter(continent == "Asia" &
+year == 2007)
+
+ggplot(gap2007,
+aes(x= lifeExp, y = country)) +
+geom_point()
+
+ggplot(gap2007,
+aes(x=lifeExp,
+y=reorder(country, lifeExp))) +
+geom_point()+ggtitle("life expectancy at birth, in 2007")
+
+
+
+```
+
+Representation using bar chart
+
+```{r, echo=FALSE}
+ggplot(gap2007,
+aes(x=lifeExp,
+y=reorder(country, lifeExp))) +
+geom_bar(stat="identity")+ggtitle("life expectancy at birth, in 2007")
+```
+
+Question: What is the best representation? Dot chart or Bar chart?
+
+# Heat map
+
+Geospatial visualisation: Good to identify "hot spots".
+
+```{r comment=NA, message=FALSE, warning=FALSE, echo=FALSE}
+gapminderAsia <- gapminder %>%
+filter(continent == "Asia")
+
+
+
+ggplot(gapminderAsia, aes(x=year, y=lifeExp, col=country))+
+  geom_line()
+
+ggplot(gapminderAsia, aes(x=year, y=lifeExp, col=country))+
+  geom_line() + theme(legend.position = "bottom")
+```
+
+```{r}
+ggplot(gapminderAsia, aes(x=year, fill=lifeExp, y=country))+
+  geom_raster()+
+  scale_fill_viridis_c()
+
+ggplot(gapminderAsia, aes(x=year, fill=lifeExp, y=reorder(country, lifeExp)))+
+  geom_raster()+
+  scale_fill_viridis_c()
+```
+
+# Plotting summary statistics
+
+## Plotting Summary statistics: Method 1
+
+Calculate summary statistics before plotting.
+
+R code:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+```{r, comment=NA, message=FALSE, echo=FALSE}
+cut.summary <- diamonds %>%
+  group_by(cut) %>%
+  summarize(mean_carat=mean(carat))
+cut.summary
+```
+
+R Code:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+```{r, comment=NA, message=FALSE, echo=FALSE}
+ggplot(cut.summary,
+aes(x = cut,
+y = mean_carat)) +
+geom_bar(stat = "identity")
+
+```
+
+### Plotting summary statistics: Method 2 - with `stat_summary`
+
+Common code
+
+```{r, comment=NA, message=FALSE}
+g1 <- ggplot(diamonds, aes(x = cut, y = carat)) 
+```
+
+Plot mean values.
+
+```{r, comment=NA, message=FALSE,  message=FALSE, warning=FALSE}
+g1+
+  stat_summary(fun.y = "mean", geom="point", color="red")
+
+```
+
+Your turn: Plot mean and median.
+
+R code:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+```{r, comment=NA, message=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+g1+
+  stat_summary(fun.y = "mean", geom="point", color="red")+
+  stat_summary(fun.y = "median", geom="point", color="forestgreen")
+
+```
+
+R code:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+`mean_se`: mean and standard error
+
+```{r, comment=NA, message=FALSE, echo=FALSE}
+g1+stat_summary(fun.data = "mean_se")
+
+```
+
+R code:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+`mean_cl_normal`: 95 per cent confidence interval assuming normality. (Use `library(Hmisc)`)
+
+```{r, comment=NA, message=FALSE}
+library(Hmisc)
+g1+stat_summary(fun.data = "mean_cl_normal")
+
+```
+
+R code:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+`mean_cl_boot`: Bootstrap confidence interval (95%)
+
+```{r, comment=NA, message=FALSE, echo=FALSE, message=FALSE, warning=FALSE}
+g1 + stat_summary(fun.data = "mean_cl_boot") 
+
+```
+
+Confidence limits provide us a better idea than standard error limits of whether two means would be deemed statistically different.
+
+## Design of Experiments
+
+Description
+
+The response is the length of odontoblasts (cells responsible for tooth growth) in 60 guinea pigs. Each animal received one of three dose levels of vitamin C (0.5, 1, and 2 mg/day) by one of two delivery methods, orange juice or ascorbic acid (a form of vitamin C and coded as VC).
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE, comment=NA}
+data(ToothGrowth)
+skim(ToothGrowth)
+head(ToothGrowth)
+```
+
+R code:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+```{r, comment=NA, message=FALSE, warning=FALSE, echo=FALSE}
+ggplot(ToothGrowth, aes(x = dose, y = len, colour = supp)) +
+stat_summary(fun.data = "mean_se")
+```
+
+R code:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+```{r, comment=NA, message=FALSE, warning=FALSE, echo=FALSE}
+ggplot(ToothGrowth, aes(x = dose, y = len, colour = supp)) +
+stat_summary(fun.data = "mean_se")+
+  stat_summary(fun.y = mean, geom = "line")
+```
+
+R code:\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_\_
+
+Avoid overlapping in the last category `position_dodge(0.1)`
+
+```{r, comment=NA, message=FALSE, warning=FALSE, echo=FALSE}
+ggplot(ToothGrowth, aes(x = dose, y = len, colour = supp)) +
+stat_summary(fun.data = "mean_se", position= position_dodge(0.1))+
+stat_summary(fun.y = mean, geom = "line", position= position_dodge(0.1))
+```
+
+R code: \_\_\_\_\_\_\_\_\_\_\_
+
+Not suitable for this example: Why?
+
+```{r, comment=NA, message=FALSE, warning=FALSE, echo=FALSE}
+ggplot(ToothGrowth, aes(x = dose, y = len, colour = supp, fill = supp)) +
+stat_summary(fun.y = mean, geom = "line") +
+stat_summary(fun.data = mean_se, geom = "ribbon", alpha = .5)
+```
+
+## Categorical with two Quantitative variables
+
+R code: \_\_\_\_\_\_\_\_\_\_\_
+
+```{r, comment=NA, message=FALSE, warning=FALSE, echo=FALSE}
+ggplot(diamonds, aes(y = price,
+x = carat,
+color=color)) +
+geom_point()
+
+```
+
+<!--Price colour relasionship changes according to the colour-->
+
+R code: \_\_\_\_\_\_\_\_\_\_\_
+
+```{r, comment=NA, message=FALSE, warning=FALSE, echo=FALSE}
+ggplot(diamonds, aes(y = price,
+x = carat,
+color=color)) +
+geom_point(alpha=0.5)
+
+```
+
+R code: \_\_\_\_\_\_\_\_\_\_\_
+
+```{r, comment=NA, message=FALSE, warning=FALSE, echo=FALSE}
+ggplot(diamonds, aes(y = price,
+x = carat,
+color=color)) +
+geom_point(alpha=0.5)+
+  geom_smooth(se=FALSE)
+
+```
+
+R code: \_\_\_\_\_\_\_\_\_\_\_
+
+```{r, comment=NA, message=FALSE, warning=FALSE, echo=FALSE}
+ggplot(diamonds, aes(y = price,
+x = carat,
+color=color)) +
+  geom_smooth(se=FALSE)
+
+```
+
+R code: \_\_\_\_\_\_\_\_\_\_\_
+
+```{r, comment=NA, message=FALSE, warning=FALSE, echo=FALSE}
+ggplot(diamonds, aes(y = price,
+x = carat,
+color=color)) +
+  geom_smooth(se=TRUE)
+
+```
+
+R code: \_\_\_\_\_\_\_\_\_\_\_
+
+```{r, comment=NA, message=FALSE, warning=FALSE, echo=FALSE}
+ggplot(diamonds, aes(y = price,
+x = carat,
+color=color)) +
+  geom_smooth(se=FALSE)+facet_grid(~color)
+
+```
+
+Your turn: What is the best chart to visualize the relationship between the price, carat, and color of diamonds?

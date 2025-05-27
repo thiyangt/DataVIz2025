@@ -1,0 +1,128 @@
+[
+  {
+    "objectID": "week1/index.html#perceiving",
+    "href": "week1/index.html#perceiving",
+    "title": "Introduction to Data Visualisation",
+    "section": "Perceiving",
+    "text": "Perceiving\n\nWhat do I see?: Reading the chart\n\n\nWhat data is shown?\nWhat is on x-axis/ y-axis?\nWhat do colours represent?\nWhat range of values are displayed?\nStepped magnitude judgement?\nWhere are the least and most/ average?/largest and smallest?"
+  },
+  {
+    "objectID": "week1/index.html#interpreting",
+    "href": "week1/index.html#interpreting",
+    "title": "Introduction to Data Visualisation",
+    "section": "Interpreting",
+    "text": "Interpreting\n\nTranslate what you see into quantitative and/or qualitative meaning\nReader’s ability to perform relational interpretation\n\nAre these patterns normal, expected or unusual?\nWhat features are interesting?\nWhat features are important given the subject knowledge?\n\n\n\nIf you do not have any knowledge about the subject your understanding stops after the perceiving phase."
+  },
+  {
+    "objectID": "week1/index.html#comprehending",
+    "href": "week1/index.html#comprehending",
+    "title": "Introduction to Data Visualisation",
+    "section": "Comprehending",
+    "text": "Comprehending\n\nWhat does it mean to me?\n\n\nWhat does one do with this understanding?\nHave I learned something I did not know before?\nWas it confirmed I did not know before?"
+  },
+  {
+    "objectID": "week1/index.html#exploratory-vs-explanatory",
+    "href": "week1/index.html#exploratory-vs-explanatory",
+    "title": "Introduction to Data Visualisation",
+    "section": "Exploratory vs Explanatory",
+    "text": "Exploratory vs Explanatory\n\n\nExploratory\n\nWhen you have a whole bunch of data and you are not sure what types of trends, relationships, etc. it contains.\nFind the story that the data has to tell you.\n\n\nExplanatory\n\nWhen you already know what the data has to say and you are trying to tell that story to somebody else."
+  },
+  {
+    "objectID": "week1/index.html#three-important-parties",
+    "href": "week1/index.html#three-important-parties",
+    "title": "Introduction to Data Visualisation",
+    "section": "Three important parties",
+    "text": "Three important parties\n\nData\nDesigner\nReader"
+  },
+  {
+    "objectID": "week1/index.html#data",
+    "href": "week1/index.html#data",
+    "title": "Introduction to Data Visualisation",
+    "section": "Data",
+    "text": "Data\n\nCategorical?\nOrdinal?\nDiscrete or continuous?\nHow they are bounded?\nNetwroks/ trees/ hierarchy\nCollection of items, groups, sets, clusters\nSpatial field: scalar, vector, tensor\nOutliers\nHow many dimensions?"
+  },
+  {
+    "objectID": "week1/index.html#designer",
+    "href": "week1/index.html#designer",
+    "title": "Introduction to Data Visualisation",
+    "section": "Designer",
+    "text": "Designer\n\nPlanning:\n\n\nWhat is the output format? (printout, mobile app, etc)\nTime scale\nTools\nWho is your audience (How much assistance do they need?, How familiar are they with the charts?)\nIdentify the goal\n\nWhat point or message are you trying to convey?\nWhat information should they be able to learn from your visualisations?\nExamples: Compare performances, Identify trends, Find outliers, Find relationshsips"
+  },
+  {
+    "objectID": "week1/index.html#reader",
+    "href": "week1/index.html#reader",
+    "title": "Introduction to Data Visualisation",
+    "section": "Reader",
+    "text": "Reader\n\nContextual considerations for the reader\n\n\nPerceiving: What do colors means? What is on x-axis, y-axis?\nIn what direction does the reader follow the plot?\nWhich types of plots are they familiar with?"
+  },
+  {
+    "objectID": "week1/index.html#proximity",
+    "href": "week1/index.html#proximity",
+    "title": "Introduction to Data Visualisation",
+    "section": "Proximity",
+    "text": "Proximity\nWe perceive objects close to each other as belonging to a group."
+  },
+  {
+    "objectID": "week1/index.html#similarity",
+    "href": "week1/index.html#similarity",
+    "title": "Introduction to Data Visualisation",
+    "section": "Similarity",
+    "text": "Similarity\nOur brain group objects that share the same colour, shape, and direction"
+  },
+  {
+    "objectID": "week1/index.html#enclosure",
+    "href": "week1/index.html#enclosure",
+    "title": "Introduction to Data Visualisation",
+    "section": "Enclosure",
+    "text": "Enclosure\nWe perceive objects as belonging to a group when they are enclosed in a way that creates a boundary or border around them."
+  },
+  {
+    "objectID": "about.html",
+    "href": "about.html",
+    "title": "About",
+    "section": "",
+    "text": "About this site\n\n1 + 1\n\n[1] 2"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "STA 492 2.0/ ASP 454 2.0 Data Visualisation",
+    "section": "",
+    "text": "Dr Thiyanga S. Talagala"
+  },
+  {
+    "objectID": "index.html#lecturer-in-charge",
+    "href": "index.html#lecturer-in-charge",
+    "title": "STA 492 2.0/ ASP 454 2.0 Data Visualisation",
+    "section": "",
+    "text": "Dr Thiyanga S. Talagala"
+  },
+  {
+    "objectID": "index.html#email",
+    "href": "index.html#email",
+    "title": "STA 492 2.0/ ASP 454 2.0 Data Visualisation",
+    "section": "Email:",
+    "text": "Email:\nttatalagala@sjp.ac.lk"
+  },
+  {
+    "objectID": "index.html#course-outline",
+    "href": "index.html#course-outline",
+    "title": "STA 492 2.0/ ASP 454 2.0 Data Visualisation",
+    "section": "Course outline:",
+    "text": "Course outline:\nAvailable on LMS"
+  },
+  {
+    "objectID": "index.html#policies-and-regulations",
+    "href": "index.html#policies-and-regulations",
+    "title": "STA 492 2.0/ ASP 454 2.0 Data Visualisation",
+    "section": "Policies and regulations:",
+    "text": "Policies and regulations:\nTo access important information regarding the unit, please go to the course Learning Management System (LMS) page. Click here to go directly to the LMS."
+  },
+  {
+    "objectID": "index.html#weekly-schedule",
+    "href": "index.html#weekly-schedule",
+    "title": "STA 492 2.0/ ASP 454 2.0 Data Visualisation",
+    "section": "Weekly Schedule:",
+    "text": "Weekly Schedule:\n\n\n\n\n\nWeek No.\nDate\nTopic\nReading\nExercise\n\n\n\n\n1\nApril 30, 2024\nIntroduction to Data Viualisation"
+  }
+]

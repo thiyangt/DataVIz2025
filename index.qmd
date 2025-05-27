@@ -1,0 +1,68 @@
+---
+title: "STA 492 2.0/ ASP 460 2.0 Data Visualisation"
+---
+
+## Lecturer-in-charge:
+
+Dr Thiyanga S. Talagala
+
+## Email:
+
+ttatalagala\@sjp.ac.lk
+
+## Course outline:
+
+Available on Google Classroom
+
+## Policies and regulations:
+
+To access important information regarding the unit, please go to the course Learning Management System (LMS) page. [Click here](https://lms.fas.sjp.ac.lk/enrol/index.php?id=3720) to go directly to the LMS.
+
+## Weekly Schedule:
+
+```{r, warning=FALSE, message=FALSE, echo=FALSE}
+library(tidyverse)
+wkno <- c(1)
+date <- c("May 27, 2025")
+Topic <- c("[Introduction to Data Viualisation](./week1/index.html)")
+reading <- c("[Gestalt Law in Photography](https://www.creative-photographer.com/how-to-use-gestalt-theory-for-better-composition/)")
+exercise <- c("")
+assignments <- c("[Assignment 1](./week1/assignment1.html)")
+df <- tibble(wkno, date, Topic, reading, exercise, assignments)
+colnames(df) <- c("Week No.", "Date", "Topic", "Reading", "Exercise", "Assignments"
+                  )
+df |> knitr::kable()
+```
+
+<!--https://clauswilke.com/dataviz/boxplots-violins.html-->
+
+## Datasets
+
+1.  Pedestrian counts in Melbourne city
+
+``` r
+library(sugrrants)
+data(hourly_peds)
+```
+
+2.  Tickets issued for parking violations in the city of Philadelphia, Pennsylvania in 2017
+
+``` r
+library(tidyverse)
+
+philly <- read_csv("https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-03/tickets.csv")
+```
+
+3.  Emission data
+
+``` r
+emissions <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-05-21/emissions.csv')
+emissions
+```
+
+4 ToothGrowth
+
+```r
+ToothGrowth
+```
+Take a suitable visualization to illustrate the relationship between supp, dose, and the mean tooth growth
