@@ -1,3 +1,5 @@
+------------------------------------------------------------------------
+
 ---
 title: "Beyond Basics: Elevate Your Plots"
 subtitle: ""
@@ -98,7 +100,7 @@ Your turn: Fix aspect ratio of the plots.
 
 ------------------------------------------------------------------------
 
-::: columns
+::::: columns
 ::: {.column width="50%"}
 ```{r, echo=TRUE}
 df <- data.frame(
@@ -114,7 +116,7 @@ ggplot(df, aes(x=x, y=y)) + geom_point()
 ggplot(df, aes(x=x, y=y)) + geom_point() + coord_fixed()
 ```
 :::
-:::
+:::::
 
 ------------------------------------------------------------------------
 
@@ -173,7 +175,7 @@ ggpairs(elephants, columns = c(2, 8, 9), mapping=aes(color=Gender, alpha=0.5)) +
 
 ------------------------------------------------------------------------
 
-::: columns
+::::: columns
 ::: {.column width="50%"}
 ```{r, echo=TRUE}
 p1 <- ggplot(elephants, aes(x=Gender, fill=Gender)) + geom_bar()
@@ -189,7 +191,7 @@ y=Height)) + geom_point() + coord_fixed(ratio=ar)
 p2
 ```
 :::
-:::
+:::::
 
 ## 
 
@@ -204,7 +206,7 @@ p1+p2
 
 ------------------------------------------------------------------------
 
-::: columns
+::::: columns
 ::: {.column width="50%"}
 ```{r, echo=TRUE}
 p1 <- ggplot(elephants, aes(x=Gender, fill=Gender)) + geom_bar()
@@ -220,7 +222,7 @@ y=Height)) + geom_point() + coord_fixed(ratio=ar)
 p2
 ```
 :::
-:::
+:::::
 
 ## 
 
