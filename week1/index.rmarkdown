@@ -153,7 +153,7 @@ Perceiving -\> Interpreting -\> Comprehending
 
 ## Exploratory vs Explanatory
 
-::: columns
+::::: columns
 ::: {.column width="50%"}
 **Exploratory**
 
@@ -169,7 +169,7 @@ Perceiving -\> Interpreting -\> Comprehending
 
 ![](img1.jpeg)
 :::
-:::
+:::::
 
 ## Three important parties
 
@@ -282,10 +282,10 @@ ggplot(iris, aes(x=Petal.Length, y=Petal.Width, shape=Species)) + geom_point() +
 ```
 
 
+
 ## Closure
 
 Our brains tend to complete missing parts in the picture.
-
 
 
 
@@ -321,7 +321,12 @@ ggplot(df, aes(x=time, y=values)) +  geom_point() +
   scale_x_date(date_breaks = "1 year",  date_labels = "%Y") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
----
+
+
+------------------------------------------------------------------------
+
+
+
 ```{r}
 time <- 2000:2020
 time <- rep(lubridate::ymd(time, truncated = 2L), times= 2)
@@ -335,15 +340,21 @@ ggplot(df, aes(x=time, y=values, group=group)) +  geom_point() + geom_line() +
   scale_x_date(date_breaks = "1 year",  date_labels = "%Y") + theme(axis.text.x = element_text(angle = 90, vjust = 0.5, hjust=1))
 ```
 
+
+
 ## Continuity
 
 Humans tendency is to see shapes as continuous to the greatest degree possible. The human eye/brain follows lines, curves or a sequence of shapes to create pathways.
+
+
 
 ```{r}
 library(tidyverse)
 ggplot(mpg) +
     geom_bar(aes(x = class))
 ```
+
+
 
 ## Figure and Ground
 
@@ -353,12 +364,13 @@ Example 1:
 
 ![](day1.png)
 
-Example 2: 
-[Click here: https://thiyangt.github.io/coviddashboard/](https://thiyangt.github.io/coviddashboard/)
+Example 2: [Click here: https://thiyangt.github.io/coviddashboard/](https://thiyangt.github.io/coviddashboard/)
 
 ## Simplicity
 
 The law of simplicity indicates that our mind perceives everything in its simplest form.
+
+
 
 ```{r}
 library(gganimate)
@@ -383,9 +395,11 @@ animate(p, fps=5)
 
 
 
-## Common fate 
+## Common fate
 
 When objects move in the same direction or at a similar pace, our brains automatically group them together. (eg: a flock of birds)
+
+
 
 ```{r}
 library(gapminder)
@@ -404,15 +418,15 @@ ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, colour = country)) +
 
 
 
-
-
 # Preattentive attributes that we can use in our visualisations to direct our readers attention.
 
 Watch [this video](https://www.interaction-design.org/literature/topics/law-of-continuity).
 
-## Exercise 
+## Exercise
 
 Draw a plot to show the relationship between Life Expectancy and Countries
+
+
 
 ```{r, echo=TRUE, message=FALSE, warning=FALSE}
 library(gapminder)
@@ -426,6 +440,7 @@ gapminder |>
 
 ## Acknowledgement
 
-- Kirk, A. (2016). Data visualisation: a handbook for data driven design
+-   Kirk, A. (2016). Data visualisation: a handbook for data driven design
 
-- [Gestalt Laws Applied to Data Visualization, https://daydreamingnumbers.com/](https://daydreamingnumbers.com/blog/gestalt-laws-data-visualization/)
+-   [Gestalt Laws Applied to Data Visualization, https://daydreamingnumbers.com/](https://daydreamingnumbers.com/blog/gestalt-laws-data-visualization/)
+

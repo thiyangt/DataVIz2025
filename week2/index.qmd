@@ -26,7 +26,7 @@ library(palmerpenguins)
 
 ## Pioneers
 
-::: columns
+::::: columns
 ::: {.column width="50%"}
 Concept: Leland Wilkinson
 
@@ -38,7 +38,7 @@ Implementation: Hadley Wickham
 
 ![](hw.png)
 :::
-:::
+:::::
 
 ## Building Blocks of layers with the grammar of graphics
 
