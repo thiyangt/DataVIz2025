@@ -26,9 +26,17 @@ To access important information regarding the unit, please go to the Google Clas
 
 ### Week 3: June 17, 2025
 
+### Week 10: August 1, 2025
+
+[Create interactive dashboards](https://thiyanga-statisticalconsultancy.netlify.app/slides/lecture2#1)
+
+[Visualising DIstributions](https://tstdataviz.netlify.app/slides/dis22#1)
+
+[Data Visualisation Catalogue](https://datavizcatalogue.com/search/distribution.html)
+
 ### Week 11: August 5, 2025
 
-[Data Quality Analysis](./qa/index.html)
+[Data Quality Analysis](https://thiyangt.github.io/tstalagala-MIS4141/ch2.html)
 
 
 <!--https://clauswilke.com/dataviz/boxplots-violins.html-->
@@ -64,3 +72,31 @@ ToothGrowth
 ```
 
 Take a suitable visualization to illustrate the relationship between supp, dose, and the mean tooth growth
+
+4. Sydney Beaches: Water Quality Reliability
+
+```r
+suppressPackageStartupMessages({
+if (!require("pacman")) install.packages("pacman")
+pacman::p_load(
+  tidytuesdayR,
+  tidyverse,    
+  ggtext,        
+  showtext,      
+  janitor,       
+  scales,        
+  glue         
+  )
+})
+
+```
+
+```r
+tt <- tidytuesdayR::tt_load(2025, week = 20)
+
+water_quality_raw <- tt$water_quality |> clean_names()
+weather_raw <- tt$weather |> clean_names()
+
+tidytuesdayR::readme(tt)
+rm(tt)
+```

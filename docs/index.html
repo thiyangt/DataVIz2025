@@ -155,6 +155,7 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
   <li><a href="#week-1-may-27-2025" id="toc-week-1-may-27-2025" class="nav-link" data-scroll-target="#week-1-may-27-2025">Week 1: May 27, 2025</a></li>
   <li><a href="#week-2-june-3-2025" id="toc-week-2-june-3-2025" class="nav-link" data-scroll-target="#week-2-june-3-2025">Week 2: June 3, 2025</a></li>
   <li><a href="#week-3-june-17-2025" id="toc-week-3-june-17-2025" class="nav-link" data-scroll-target="#week-3-june-17-2025">Week 3: June 17, 2025</a></li>
+  <li><a href="#week-10-august-1-2025" id="toc-week-10-august-1-2025" class="nav-link" data-scroll-target="#week-10-august-1-2025">Week 10: August 1, 2025</a></li>
   <li><a href="#week-11-august-5-2025" id="toc-week-11-august-5-2025" class="nav-link" data-scroll-target="#week-11-august-5-2025">Week 11: August 5, 2025</a></li>
   </ul></li>
   <li><a href="#datasets" id="toc-datasets" class="nav-link" data-scroll-target="#datasets">Datasets</a></li>
@@ -210,9 +211,15 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <section id="week-3-june-17-2025" class="level3">
 <h3 class="anchored" data-anchor-id="week-3-june-17-2025">Week 3: June 17, 2025</h3>
 </section>
+<section id="week-10-august-1-2025" class="level3">
+<h3 class="anchored" data-anchor-id="week-10-august-1-2025">Week 10: August 1, 2025</h3>
+<p><a href="https://thiyanga-statisticalconsultancy.netlify.app/slides/lecture2#1">Create interactive dashboards</a></p>
+<p><a href="https://tstdataviz.netlify.app/slides/dis22#1">Visualising DIstributions</a></p>
+<p><a href="https://datavizcatalogue.com/search/distribution.html">Data Visualisation Catalogue</a></p>
+</section>
 <section id="week-11-august-5-2025" class="level3">
 <h3 class="anchored" data-anchor-id="week-11-august-5-2025">Week 11: August 5, 2025</h3>
-<p><a href="./qa/index.html">Data Quality Analysis</a></p>
+<p><a href="https://thiyangt.github.io/tstalagala-MIS4141/ch2.html">Data Quality Analysis</a></p>
 <!--https://clauswilke.com/dataviz/boxplots-violins.html-->
 </section>
 </section>
@@ -237,6 +244,28 @@ pre > code.sourceCode > span > a:first-child::before { text-decoration: underlin
 <p>4 ToothGrowth</p>
 <div class="sourceCode" id="cb4"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a>ToothGrowth</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 <p>Take a suitable visualization to illustrate the relationship between supp, dose, and the mean tooth growth</p>
+<ol start="4" type="1">
+<li>Sydney Beaches: Water Quality Reliability</li>
+</ol>
+<div class="sourceCode" id="cb5"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="fu">suppressPackageStartupMessages</span>({</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> (<span class="sc">!</span><span class="fu">require</span>(<span class="st">"pacman"</span>)) <span class="fu">install.packages</span>(<span class="st">"pacman"</span>)</span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>pacman<span class="sc">::</span><span class="fu">p_load</span>(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>  tidytuesdayR,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>  tidyverse,    </span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>  ggtext,        </span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>  showtext,      </span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>  janitor,       </span>
+<span id="cb5-9"><a href="#cb5-9" aria-hidden="true" tabindex="-1"></a>  scales,        </span>
+<span id="cb5-10"><a href="#cb5-10" aria-hidden="true" tabindex="-1"></a>  glue         </span>
+<span id="cb5-11"><a href="#cb5-11" aria-hidden="true" tabindex="-1"></a>  )</span>
+<span id="cb5-12"><a href="#cb5-12" aria-hidden="true" tabindex="-1"></a>})</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
+<div class="sourceCode" id="cb6"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a>tt <span class="ot">&lt;-</span> tidytuesdayR<span class="sc">::</span><span class="fu">tt_load</span>(<span class="dv">2025</span>, <span class="at">week =</span> <span class="dv">20</span>)</span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>water_quality_raw <span class="ot">&lt;-</span> tt<span class="sc">$</span>water_quality <span class="sc">|&gt;</span> <span class="fu">clean_names</span>()</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>weather_raw <span class="ot">&lt;-</span> tt<span class="sc">$</span>weather <span class="sc">|&gt;</span> <span class="fu">clean_names</span>()</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>tidytuesdayR<span class="sc">::</span><span class="fu">readme</span>(tt)</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span>(tt)</span></code><button title="Copy to Clipboard" class="code-copy-button"><i class="bi"></i></button></pre></div>
 
 
 </section>
