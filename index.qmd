@@ -20,19 +20,16 @@ To access important information regarding the unit, please go to the Google Clas
 
 ## Weekly Schedule:
 
-```{r, warning=FALSE, message=FALSE, echo=FALSE}
-library(tidyverse)
-wkno <- c(1, 2, 3)
-date <- c("May 27, 2025", "June 3, 2025", "June 17, 2025")
-Topic <- c("[Introduction to Data Viualisation](./week1/index.html)", "[Grammar of Graphics](./week2/index.html)", "[Beyond Basics: Elevate your plots](./week3/index.html)")
-reading <- c("[Gestalt Law in Photography](https://www.creative-photographer.com/how-to-use-gestalt-theory-for-better-composition/)", "[ggplot2: Elegant Graphics for Data Analysis](https://ggplot2-book.org/)", "")
-exercise <- c("", "", "")
-assignments <- c("[Assignment 1](./week1/assignment1.html)", "", "")
-df <- tibble(wkno, date, Topic, reading, exercise, assignments)
-colnames(df) <- c("Week No.", "Date", "Topic", "Reading", "Exercise", "Assignments"
-                  )
-df |> knitr::kable()
-```
+### Week 1: May 27, 2025
+
+### Week 2: June 3, 2025
+
+### Week 3: June 17, 2025
+
+### Week 11: August 5, 2025
+
+
+
 
 <!--https://clauswilke.com/dataviz/boxplots-violins.html-->
 
