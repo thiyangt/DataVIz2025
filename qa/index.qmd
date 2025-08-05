@@ -1,0 +1,419 @@
+---
+title: "Data Quality Analysis"
+---
+
+# Data Quality Analysis
+
+Data quality analysis is the process of evaluating the quality of data against a set of defined standards or requirements. It ensures that the data is fit for its intended use by checking for errors, inconsistencies, and other issues.
+
+## Required software and packages
+
+1.  R Software
+
+2.  RStudio
+
+3.  Following packages:
+
+    -   tidyverse
+
+    -   rmarkdown
+
+    -   knitr
+
+    -   data.validator
+
+    -   dlookr
+
+    -   skimr
+
+    -   naniar
+
+    -   visdat
+
+    -   denguedatahub
+
+    -   DSjobtracker
+
+## Data sets
+
+`denguedatahub::srilanka_weekly_data`
+
+```{r}
+library(tibble)
+library(denguedatahub)
+data(srilanka_weekly_data)
+srilanka_weekly_data
+```
+
+`denguedatahub::world_annual`
+
+```{r}
+library(tibble)
+data(world_annual)
+as_tibble(world_annual)
+```
+
+## Data Profiling
+
+Data Profiling is about exploring the data. It helps us to identify the characteristics of a dataset, such as its dimensions, data types, and overall structure.
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(denguedatahub)
+library(tidyverse)
+library(naniar)
+```
+
+### Data Description: `denguedatahub::srilanka_weekly_data`
+
+#### Method 1
+
+R Code:..................................
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(skimr)
+skim(srilanka_weekly_data)
+```
+
+#### Method 2
+
+R Code:..................................
+
+```{r, echo=FALSE, message=FALSE, warning=FALSE}
+library(funModeling)
+status(srilanka_weekly_data)
+```
+
+R Code:..................................
+
+```{r,  echo=FALSE, message=FALSE, warning=FALSE}
+data_integrity(srilanka_weekly_data)
+```
+
+R Code:..................................
+
+```{r,  echo=FALSE, message=FALSE, warning=FALSE}
+profiling_num(srilanka_weekly_data)
+```
+
+Distribution of Numeric Variables
+
+R Code:..................................
+
+```{r,  echo=FALSE, warning=FALSE, message=FALSE}
+plot_num(srilanka_weekly_data)
+```
+
+Distribution of Categorical Variables
+
+R Code:..................................
+
+```{r,  echo=FALSE, warning=FALSE, message=FALSE}
+freq(srilanka_weekly_data)
+```
+
+#### Method 3
+
+R Code:..................................
+
+```{r, echo=FALSE, warning=FALSE, message=FALSE}
+#install.packages(c("DBI", "RSQLite"))
+#devtools::install_github("choonghyunryu/dlookr", build_vignettes = TRUE)
+library(dlookr)
+diagnose(flights, year, month, day)
+```
+
+### Data Description: `denguedatahub::world_annual`
+
+R Code:..................................
+
+```{r, echo=FALSE}
+library(skimr)
+skim(world_annual)
+```
+
+Method 2:
+
+```{r}
+status(world_annual)
+```
+
+```{r}
+data_integrity(world_annual)
+```
+
+```{r, message=FALSE, warning=FALSE}
+profiling_num(world_annual)
+```
+
+Distribution of Numeric Variables
+
+```{r}
+plot_num(world_annual)
+```
+
+Distribution of Categorical Variables
+
+```{r, eval=FALSE, warning=FALSE, message=FALSE}
+freq(world_annual)
+```
+
+Note: Output has been omitted due to its length.
+
+## Variable Types
+
+### `denguedatahub::srilanka_weekly_data`
+
+R Code:..................................
+
+```{r, echo=FALSE}
+library(visdat)
+vis_dat(srilanka_weekly_data)
+```
+
+Question: Why is there no observable variability in the `cases` column?
+
+### `denguedatahub::world_annual`
+
+This example shows how to work with a large dataset with `visdat`
+
+R Code:..................................
+
+```{r, echo=FALSE}
+world_annual |>
+  dplyr::slice(1:1000) |>
+  vis_dat()
+```
+
+## Visualising Numerial Data
+
+### `denguedatahub::srilanka_weekly_data`
+
+R Code:..................................
+
+```{r, echo=FALSE}
+srilanka_weekly_data |>
+  select(where(is.numeric)) |>
+  vis_value()
+```
+
+### `denguedatahub::world_annual`
+
+R Code:..................................
+
+```{r, echo=FALSE}
+world_annual |>
+  slice(1:1000) |>
+  select(where(is.numeric)) |>
+  vis_value()
+```
+
+## Arrange Data Before Plotting Numeric Variables
+
+### `denguedatahub::srilanka_weekly_data`
+
+R Code:..................................
+
+```{r, echo=FALSE}
+srilanka_weekly_data |>
+  select(where(is.numeric)) |>
+  arrange(cases) |>
+  vis_value()
+```
+
+## Visualise Binary Variables in the Data
+
+```{r}
+## Sample dataset
+df1 <- tibble(x=rep(c(1, 0), 50), y=c(rep(1, 50), rep(0, 50)))
+```
+
+R Code:..................................
+
+```{r, echo=FALSE}
+vis_binary(df1)
+```
+
+## Visualise Messy Data Sets with Mixed Data Types
+
+R Code:..................................
+
+```{r,  echo=FALSE}
+set.seed(8)
+x <- c("TRUE", "TRUE", 1, 200, 1L, 30, 30.5, 1, 0, "2014/1/2")
+y <- sample(x)
+z <- sample(y)
+df2 <- tibble(x, y, z)
+df2
+```
+
+### Visualise the Data Set
+
+R Code:..................................
+
+```{r,  echo=FALSE}
+vis_dat(df2)
+```
+
+### Cell Identification Challenge: Guess the Function of Each Cell
+
+```{r}
+vis_guess(df2)
+```
+
+## Data Completeness
+
+### Visualize the distribution of missing data.
+
+#### `denguedatahub::srilanka_weekly_data`
+
+R Code:..................................
+
+```{r, echo=FALSE}
+vis_miss(srilanka_weekly_data)
+```
+
+#### `denguedatahub::world_annual`
+
+R Code:..................................
+
+```{r, echo=FALSE}
+world_annual |>
+  slice(1:2000) |>
+  vis_miss()
+```
+
+### Visualise Missing in Variables
+
+R Code:..................................
+
+```{r, echo=FALSE}
+world_annual |>
+  slice(1:2000) |>
+  gg_miss_var()
+```
+
+Small multiples of the same plot facet by year
+
+R Code:..................................
+
+```{r, echo=FALSE, fig.height=15}
+world_annual |>
+  slice(1:2000) |>
+  gg_miss_var(facet = year)
+```
+
+## Explore Missing Relationships
+
+### `denguedatahub::srilanka_weekly_data`
+
+R Code:..................................
+
+```{r, echo=FALSE}
+world_annual |>
+  slice(1:2000) |>
+  as_shadow_upset() |>
+  UpSetR::upset()
+```
+
+### `drone::worldbankdata`
+
+```{r, eval=FALSE}
+# install.packages("devtools")
+devtools::install_github("thiyangt/drone")
+```
+
+```{r}
+library(tibble)
+library(drone)
+data("worldbankdata")
+worldbankdata
+```
+
+> Your turn: Perform a data profiling analysis on `worldbankdata`.
+
+```{r}
+worldbankdata |>
+  as_shadow_upset() |>
+  UpSetR::upset()
+```
+
+## Visualizing Values That Meet Specific Conditions
+
+Visualize values greater than 50 in the cases Column of the `srilanka_weekly_data` dataset.
+
+R Code:..................................
+
+```{r, echo=FALSE}
+srilanka_weekly_data |>
+  select(week, cases) |>
+  vis_expect(~.x >= 50)
+```
+
+## Descriptive Statistcs
+
+### denguedatahub::srilanka_weekly_data
+
+R Code:..................................
+
+```{r}
+describe(srilanka_weekly_data)
+```
+
+### denguedatahub::worldbankdata
+
+R Code:..................................
+
+```{r}
+describe(worldbankdata)
+```
+
+## Diagnosing outliers
+
+### denguedatahub::srilanka_weekly_data
+
+R Code:..................................
+
+```{r, echo=FALSE}
+diagnose_outlier(srilanka_weekly_data)
+```
+
+### denguedatahub::worldbankdata
+
+R Code:..................................
+
+```{r, echo=FALSE}
+diagnose_outlier(worldbankdata)
+```
+
+## Bi-variate relationships
+
+### drone::worldbankdata
+
+R Code:..................................
+
+```{r, echo=FALSE}
+worldbankdata|>
+  select(where(is.numeric)) |>
+  vis_cor()
+```
+
+## Exercise
+
+1.  Explore the methodologies behind each code used to generate the outputs.
+
+2.  Explore data validation methods implemented in R.
+
+3.  Perform data quality analysis for the following datasets and properly report your findings:
+
+-   Datasets in the denguedatahub package in R
+
+-   Datasets in the drone package in R
+
+-   The penguins dataset in the palmerpenguins package in R
+
+4.  Perform a data quality analysis on the following data set.
+
+```{r}
+library(DSjobtracker)
+data(DSraw)
+```
