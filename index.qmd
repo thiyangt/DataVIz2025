@@ -38,8 +38,12 @@ To access important information regarding the unit, please go to the Google Clas
 
 [Data Quality Analysis](https://thiyangt.github.io/tstalagala-MIS4141/ch2.html)
 
-
 <!--https://clauswilke.com/dataviz/boxplots-violins.html-->
+
+
+### Week 12: August 12, 2025
+
+[Dimension Reduction Methods](https://thiyangt.github.io/DR/)
 
 ## Datasets
 
@@ -73,9 +77,9 @@ ToothGrowth
 
 Take a suitable visualization to illustrate the relationship between supp, dose, and the mean tooth growth
 
-4. Sydney Beaches: Water Quality Reliability
+4.  Sydney Beaches: Water Quality Reliability
 
-```r
+``` r
 suppressPackageStartupMessages({
 if (!require("pacman")) install.packages("pacman")
 pacman::p_load(
@@ -88,10 +92,9 @@ pacman::p_load(
   glue         
   )
 })
-
 ```
 
-```r
+``` r
 tt <- tidytuesdayR::tt_load(2025, week = 20)
 
 water_quality_raw <- tt$water_quality |> clean_names()
