@@ -40,10 +40,13 @@ To access important information regarding the unit, please go to the Google Clas
 
 <!--https://clauswilke.com/dataviz/boxplots-violins.html-->
 
-
 ### Week 12: August 12, 2025
 
 [Dimension Reduction Methods](https://thiyangt.github.io/DR/)
+
+### Week 13: August 19, 2025
+
+[Interactive Data Visualisation](https://thiyangt.github.io/iviz/)
 
 ## Datasets
 
