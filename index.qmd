@@ -46,7 +46,10 @@ To access important information regarding the unit, please go to the Google Clas
 
 ### Week 13: August 19, 2025
 
-[Interactive Data Visualisation](https://thiyangt.github.io/iviz/)
+[Interactive Data Visualisation](https://thiyangt.github.io/iviz/
+)
+
+Improve [this](https://github.com/thiyangt/DescriptiveStatistics25/blob/main/week15/pie2.png) chart
 
 ## Datasets
 
