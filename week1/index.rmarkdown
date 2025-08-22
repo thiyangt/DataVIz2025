@@ -19,9 +19,6 @@ format:
 
 
 
-
-
-
 # **Where have you seen data visualisations?**
 
 # **What is data visualization?**
@@ -242,9 +239,6 @@ We perceive objects close to each other as belonging to a group.
 
 
 
-
-
-
 ```{r, echo=FALSE}
 library(ggplot2)
 ggplot(iris, aes(x=Petal.Length, y=Petal.Width)) + geom_point() + theme(aspect.ratio = 1)
@@ -252,15 +246,9 @@ ggplot(iris, aes(x=Petal.Length, y=Petal.Width)) + geom_point() + theme(aspect.r
 
 
 
-
-
-
 ## Similarity
 
 Our brain group objects that share the same colour, shape, and direction
-
-
-
 
 
 
@@ -271,13 +259,7 @@ ggplot(iris, aes(x=Petal.Length, y=Petal.Width, col=Species)) + geom_point() + s
 
 
 
-
-
-
 ------------------------------------------------------------------------
-
-
-
 
 
 
@@ -288,15 +270,9 @@ ggplot(iris, aes(x=Petal.Length, y=Petal.Width, shape=Species)) + geom_point() +
 
 
 
-
-
-
 ## Enclosure
 
 We perceive objects as belonging to a group when they are enclosed in a way that creates a boundary or border around them.
-
-
-
 
 
 
@@ -307,15 +283,9 @@ ggplot(iris, aes(x=Petal.Length, y=Petal.Width, shape=Species)) + geom_point() +
 
 
 
-
-
-
 ## Closure
 
 Our brains tend to complete missing parts in the picture.
-
-
-
 
 
 
@@ -332,15 +302,9 @@ ggplot(df, aes(x=time, y=values)) + geom_path() + geom_point() +
 
 
 
-
-
-
 ## Connectedness
 
 We perceive objects connected to each other as a single group.
-
-
-
 
 
 
@@ -359,13 +323,7 @@ ggplot(df, aes(x=time, y=values)) +  geom_point() +
 
 
 
-
-
-
 ------------------------------------------------------------------------
-
-
-
 
 
 
@@ -384,15 +342,9 @@ ggplot(df, aes(x=time, y=values, group=group)) +  geom_point() + geom_line() +
 
 
 
-
-
-
 ## Continuity
 
 Humans tendency is to see shapes as continuous to the greatest degree possible. The human eye/brain follows lines, curves or a sequence of shapes to create pathways.
-
-
-
 
 
 
@@ -401,9 +353,6 @@ library(tidyverse)
 ggplot(mpg) +
     geom_bar(aes(x = class))
 ```
-
-
-
 
 
 
@@ -420,9 +369,6 @@ Example 2: [Click here: https://thiyangt.github.io/coviddashboard/](https://thiy
 ## Simplicity
 
 The law of simplicity indicates that our mind perceives everything in its simplest form.
-
-
-
 
 
 
@@ -449,15 +395,9 @@ animate(p, fps=5)
 
 
 
-
-
-
 ## Common fate
 
 When objects move in the same direction or at a similar pace, our brains automatically group them together. (eg: a flock of birds)
-
-
-
 
 
 
@@ -478,9 +418,6 @@ ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, colour = country)) +
 
 
 
-
-
-
 # Preattentive attributes that we can use in our visualisations to direct our readers attention.
 
 Watch [this video](https://www.interaction-design.org/literature/topics/law-of-continuity).
@@ -488,9 +425,6 @@ Watch [this video](https://www.interaction-design.org/literature/topics/law-of-c
 ## Exercise
 
 Draw a plot to show the relationship between Life Expectancy and Countries
-
-
-
 
 
 
@@ -504,13 +438,9 @@ gapminder |>
 
 
 
-
-
-
 ## Acknowledgement
 
 -   Kirk, A. (2016). Data visualisation: a handbook for data driven design
 
 -   [Gestalt Laws Applied to Data Visualization, https://daydreamingnumbers.com/](https://daydreamingnumbers.com/blog/gestalt-laws-data-visualization/)
-
 
