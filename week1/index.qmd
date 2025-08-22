@@ -299,7 +299,7 @@ ggplot(df, aes(x=time, y=values)) +  geom_point() +
 
 ------------------------------------------------------------------------
 
-```{r seven} 
+```{r seven}
 time <- 2000:2020
 time <- rep(lubridate::ymd(time, truncated = 2L), times= 2)
 set.seed(5)

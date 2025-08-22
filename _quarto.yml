@@ -4,6 +4,7 @@ project:
 
 website:
   title: "Data Visualisation"
+  google-analytics: "G-NWLWNHNE9K"
   navbar:
     left:
       - href: index.qmd
