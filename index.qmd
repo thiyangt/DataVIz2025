@@ -22,11 +22,29 @@ To access important information regarding the unit, please go to the Google Clas
 
 ### Week 1: May 27, 2025
 
+[Introduction to Data Visualisation](./week1/index.html)
+
+Assignment 1: See Google Classroom for information.
+
 ### Week 2: June 3, 2025
+
+[The Grammar of Graphics](./week2/index.html)
 
 ### Week 3: June 17, 2025
 
-### Week 10: August 1, 2025
+[Beyond Basics: Elevate Your Plots](./week3/index.html)
+
+### Week 4: June 24, 2025
+
+### Week 5: July 8, 2025
+
+### Week 6: July 22, 2025
+
+### Week 7: July 25, 2025
+
+### Week 8: July 29, 2025
+
+### Week 9: August 1, 2025
 
 [Create interactive dashboards](https://thiyanga-statisticalconsultancy.netlify.app/slides/lecture2#1)
 
@@ -34,20 +52,19 @@ To access important information regarding the unit, please go to the Google Clas
 
 [Data Visualisation Catalogue](https://datavizcatalogue.com/search/distribution.html)
 
-### Week 11: August 5, 2025
+### Week 10: August 5, 2025
 
 [Data Quality Analysis](https://thiyangt.github.io/tstalagala-MIS4141/ch2.html)
 
 <!--https://clauswilke.com/dataviz/boxplots-violins.html-->
 
-### Week 12: August 12, 2025
+### Week 11: August 12, 2025
 
 [Dimension Reduction Methods](https://thiyangt.github.io/DR/)
 
-### Week 13: August 19, 2025
+### Week 12: August 19, 2025
 
-[Interactive Data Visualisation](https://thiyangt.github.io/iviz/
-)
+[Interactive Data Visualisation](https://thiyangt.github.io/iviz/)
 
 Improve [this](https://github.com/thiyangt/DescriptiveStatistics25/blob/main/week15/pie2.png) chart
 
