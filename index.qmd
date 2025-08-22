@@ -30,11 +30,15 @@ Assignment 1: See Google Classroom for information.
 
 [The Grammar of Graphics](./week2/index.html)
 
+> June 10, 2025: Public Holiday
+
 ### Week 3: June 17, 2025
 
 [Beyond Basics: Elevate Your Plots](./week3/index.html)
 
 ### Week 4: June 24, 2025
+
+[Visualising Qualitative Data](./week4/index.html)
 
 ### Week 5: July 8, 2025
 
