@@ -2,7 +2,6 @@
 title: "Time Series Visualisation - Calendar Plots"
 ---
 
-
 ```{r, warning=FALSE, message=FALSE}
 library(tidyr)
 library(dplyr)
@@ -16,7 +15,7 @@ centre <- pedestrian17 %>%
 centre_calendar <- centre %>%
   frame_calendar(x = Time, y = Hourly_Counts, date = Date, calendar = "monthly")
 centre_calendar
-View(centre_calendar)
+#View(centre_calendar)
 
 p1 <- centre_calendar %>% 
   ggplot(aes(x = .Time, y = .Hourly_Counts, group = Date)) +

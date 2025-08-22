@@ -235,7 +235,7 @@ Perceiving -\> Interpreting -\> Comprehending
 
 We perceive objects close to each other as belonging to a group.
 
-```{r, echo=FALSE}
+```{r one, echo=FALSE}
 library(ggplot2)
 ggplot(iris, aes(x=Petal.Length, y=Petal.Width)) + geom_point() + theme(aspect.ratio = 1)
 ```
@@ -244,14 +244,14 @@ ggplot(iris, aes(x=Petal.Length, y=Petal.Width)) + geom_point() + theme(aspect.r
 
 Our brain group objects that share the same colour, shape, and direction
 
-```{r, echo=FALSE}
+```{r two, echo=FALSE}
 library(ggplot2)
 ggplot(iris, aes(x=Petal.Length, y=Petal.Width, col=Species)) + geom_point() + scale_color_brewer(palette="Dark2") + theme(aspect.ratio = 1)
 ```
 
 ------------------------------------------------------------------------
 
-```{r, echo=FALSE}
+```{r three, echo=FALSE}
 library(ggplot2)
 ggplot(iris, aes(x=Petal.Length, y=Petal.Width, shape=Species)) + geom_point() +  theme(aspect.ratio = 1)
 ```
@@ -260,7 +260,7 @@ ggplot(iris, aes(x=Petal.Length, y=Petal.Width, shape=Species)) + geom_point() +
 
 We perceive objects as belonging to a group when they are enclosed in a way that creates a boundary or border around them.
 
-```{r, echo=FALSE}
+```{r four, echo=FALSE}
 library(ggforce)
 ggplot(iris, aes(x=Petal.Length, y=Petal.Width, shape=Species)) + geom_point() + geom_mark_ellipse(aes(label = Species)) +  theme(aspect.ratio = 1)
 ```
@@ -269,7 +269,7 @@ ggplot(iris, aes(x=Petal.Length, y=Petal.Width, shape=Species)) + geom_point() +
 
 Our brains tend to complete missing parts in the picture.
 
-```{r}
+```{r five}
 time <- 2000:2020
 time <- lubridate::ymd(time, truncated = 2L)
 set.seed(5)
@@ -284,7 +284,7 @@ ggplot(df, aes(x=time, y=values)) + geom_path() + geom_point() +
 
 We perceive objects connected to each other as a single group.
 
-```{r}
+```{r six}
 time <- 2000:2020
 time <- rep(lubridate::ymd(time, truncated = 2L), times= 2)
 set.seed(5)
@@ -299,7 +299,7 @@ ggplot(df, aes(x=time, y=values)) +  geom_point() +
 
 ------------------------------------------------------------------------
 
-```{r}
+```{r seven} 
 time <- 2000:2020
 time <- rep(lubridate::ymd(time, truncated = 2L), times= 2)
 set.seed(5)
@@ -316,7 +316,7 @@ ggplot(df, aes(x=time, y=values, group=group)) +  geom_point() + geom_line() +
 
 Humans tendency is to see shapes as continuous to the greatest degree possible. The human eye/brain follows lines, curves or a sequence of shapes to create pathways.
 
-```{r}
+```{r eight}
 library(tidyverse)
 ggplot(mpg) +
     geom_bar(aes(x = class))
@@ -336,7 +336,7 @@ Example 2: [Click here: https://thiyangt.github.io/coviddashboard/](https://thiy
 
 The law of simplicity indicates that our mind perceives everything in its simplest form.
 
-```{r}
+```{r }
 library(gganimate)
 p <- ggplot(df, aes(x=time, y=values, group=group)) +
   geom_line() +
@@ -361,7 +361,7 @@ animate(p, fps=5)
 
 When objects move in the same direction or at a similar pace, our brains automatically group them together. (eg: a flock of birds)
 
-```{r}
+```{r }
 library(gapminder)
 library(gganimate)
 ggplot(gapminder, aes(gdpPercap, lifeExp, size = pop, colour = country)) +
