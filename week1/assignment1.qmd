@@ -6,19 +6,19 @@ title: "STA 492 2.0/ASP 460 2.0 Data Visualisation"
 
 31 May 2025
 
-**Assignment 1:** 
+**Assignment 1:**
 
 10 marks
 
 **Task:**
 
-- Capture a photograph demonstrating the application of Gestalt laws.
+-   Capture a photograph demonstrating the application of Gestalt laws.
 
-- Explain how the Gestalt principles were utilized in your photograph.
+-   Explain how the Gestalt principles were utilized in your photograph.
 
-- You can use any location to take your photograph.
+-   You can use any location to take your photograph.
 
-- You must document your work in an RMarkdown document. Your work should be fully reproducible. That means, you should submit your .Rmd file, .html file and any attachments. The best reports will be published on the course's website.
+-   You must document your work in an RMarkdown document. Your work should be fully reproducible. That means, you should submit your .Rmd file, .html file and any attachments. The best reports will be published on the course's website.
 
 **Academic Integrity Notice:**
 
