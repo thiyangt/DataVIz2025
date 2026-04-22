@@ -1,0 +1,31 @@
+---
+title: "Data 2026"
+---
+
+## Week 1
+
+```{r, echo=FALSE}
+set.seed(123)
+
+# Create base data
+n <- 20
+
+data <- data.frame(
+  group = rep(c("A", "B"), each = n/2),
+  x = round(c(rnorm(n/2, mean = 10, sd = 2),
+        rnorm(n/2, mean = 15, sd = 2)), 0),
+  y = round(c(rnorm(n/2, mean = 20, sd = 3),
+        rnorm(n/2, mean = 25, sd = 3)),0)
+)
+
+# Add an influential observation (far away)
+outlier <- data.frame(
+  group = "A",
+  x = 40,
+  y = 80
+)
+
+data <- rbind(data, outlier)
+
+data |> knitr::kable()
+```
