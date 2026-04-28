@@ -1,5 +1,6 @@
 ---
 title: "STA 492 2.0/ ASP 460 2.0 Data Visualisation"
+editor: source
 ---
 
 ## Lecturer-in-charge:
@@ -22,4 +23,18 @@ To access important information regarding the unit, please go to the Google Clas
 
 ### Week 1: April 22, 2026
 
+Introduction to grammar of graphics
+
 [The Grammar of Graphics](./week2/index.html)
+
+### Week 2: April 29, 2026
+
+Common plots for quantitative data with qualitative variables
+
+[Common plots for quantitative data with qualitative variables](./week4/index.html)
+
+In-Class Exercise:
+
+Recreate `imag1.jpeg` and `img2.jpeg`. Identify the drawbacks of the given chart, if any, and suggest suitable improvements to make the visualization clearer, more effective, and easier to interpret.
+
+

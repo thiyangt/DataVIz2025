@@ -1,5 +1,6 @@
 ---
 title: "STA 492 2.0/ ASP 460 2.0 Data Visualisation"
+editor: source
 ---
 
 ## Lecturer-in-charge:
