@@ -42,3 +42,7 @@ Data source for `image 1`: [https://ec.europa.eu/eurostat/databrowser/view/edat_
 ## Week 3: 6 May 2026
 
 [Visualizing Distributions](https://tstdataviz.netlify.app/slides/dis22#1)
+
+## Week 4: 13 May 2026
+
+[Spatial Data Visualization](https://thiyanga-dataviz.netlify.app/slides/sp_viz#1)
