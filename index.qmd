@@ -46,3 +46,13 @@ Data source for `image 1`: [https://ec.europa.eu/eurostat/databrowser/view/edat_
 ## Week 4: 13 May 2026
 
 [Spatial Data Visualization](https://thiyanga-dataviz.netlify.app/slides/sp_viz#1)
+
+## Week 5: 20 May 2026
+
+Interactive Spatial Data Visualisation - In class demonstrations
+
+## Week 6: 27 May 2026
+
+[Time Series Data Visualisation](https://thiyangt.github.io/datavisualisation/week5/#/title-slide)
+
+Task 1: See Google Classroom
