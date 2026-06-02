@@ -65,6 +65,8 @@ Task 1: See Google Classroom
 
 Creating Quarto dashboard - In class demo
 
+[Reference](https://thiyangt.github.io/dashboardworkshop/#/title-slide)
+
 ## Mid evaluation - Mini Project
 
 Assignment announced date: 2 June 2026
