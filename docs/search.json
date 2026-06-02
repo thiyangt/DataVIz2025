@@ -1,5 +1,33 @@
 [
   {
+    "objectID": "week8/index.html",
+    "href": "week8/index.html",
+    "title": "Interactive Time Series VIsualisation",
+    "section": "",
+    "text": "library(denguedatahub)\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.2.0     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.2     ✔ tibble    3.3.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.2\n✔ purrr     1.2.1     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors"
+  },
+  {
+    "objectID": "week8/index.html#packages",
+    "href": "week8/index.html#packages",
+    "title": "Interactive Time Series VIsualisation",
+    "section": "",
+    "text": "library(denguedatahub)\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.2.0     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.2     ✔ tibble    3.3.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.2\n✔ purrr     1.2.1     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors"
+  },
+  {
+    "objectID": "week8/index.html#data",
+    "href": "week8/index.html#data",
+    "title": "Interactive Time Series VIsualisation",
+    "section": "Data",
+    "text": "Data\n\ndata(srilanka_weekly_data)\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\")"
+  },
+  {
+    "objectID": "week8/index.html#interactive-time-series-plot",
+    "href": "week8/index.html#interactive-time-series-plot",
+    "title": "Interactive Time Series VIsualisation",
+    "section": "Interactive time series plot",
+    "text": "Interactive time series plot\n\nlibrary(dplyr)\nlibrary(lubridate)\n\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(start.date = mdy(start.date)) |&gt;\n  arrange(start.date)\n\n\nlibrary(xts)\n\nLoading required package: zoo\n\n\n\nAttaching package: 'zoo'\n\n\nThe following objects are masked from 'package:base':\n\n    as.Date, as.Date.numeric\n\n\n\n######################### Warning from 'xts' package ##########################\n#                                                                             #\n# The dplyr lag() function breaks how base R's lag() function is supposed to  #\n# work, which breaks lag(my_xts). Calls to lag(my_xts) that you type or       #\n# source() into this session won't work correctly.                            #\n#                                                                             #\n# Use stats::lag() to make sure you're not using dplyr::lag(), or you can add #\n# conflictRules('dplyr', exclude = 'lag') to your .Rprofile to stop           #\n# dplyr from breaking base R's lag() function.                                #\n#                                                                             #\n# Code in packages is not affected. It's protected by R's namespace mechanism #\n# Set `options(xts.warn_dplyr_breaks_lag = FALSE)` to suppress this warning.  #\n#                                                                             #\n###############################################################################\n\n\n\nAttaching package: 'xts'\n\n\nThe following objects are masked from 'package:dplyr':\n\n    first, last\n\ncolombo_xts &lt;- xts(\n  colombo$cases,\n  order.by = colombo$start.date\n)\n\n\nlibrary(dygraphs)\n\ndygraph(colombo_xts, main = \"Colombo Weekly Dengue Cases\") |&gt;\n  dyRangeSelector()"
+  },
+  {
     "objectID": "week6/index.html",
     "href": "week6/index.html",
     "title": "Time Series Visualisation - Calendar Plots",
@@ -427,6 +455,20 @@
     "text": "Week 6: 27 May 2026\nTime Series Data Visualisation\nTask 1: See Google Classroom"
   },
   {
+    "objectID": "index.html#week-7-2-june-2026",
+    "href": "index.html#week-7-2-june-2026",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Week 7: 2 June 2026",
+    "text": "Week 7: 2 June 2026\nVisualisation with timetk\nInteractive timeseries visualisation\nCreating Quarto dashboard - In class demo"
+  },
+  {
+    "objectID": "index.html#mid-evaluation---mini-project",
+    "href": "index.html#mid-evaluation---mini-project",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Mid evaluation - Mini Project",
+    "text": "Mid evaluation - Mini Project\nAssignment announced date: 2 June 2026\nUse Sri Lanka dengue data from the denguedatahub package to develop an interactive dashboard for exploring dengue situation in Sri Lanka. In addition, prepare a short report explaining the data, the methods used for analysis (such as trend and seasonality exploration), and the key findings, including any observed patterns or outbreak periods.\nDue date: 17 June 2026\nPlease upload all your documents as a single file to the “Mid Evaluation” tab in Google Classroom. Ensure that the file is named using your index number."
+  },
+  {
     "objectID": "week1/assignment1.html",
     "href": "week1/assignment1.html",
     "title": "STA 492 2.0/ASP 460 2.0 Data Visualisation",
@@ -581,34 +623,6 @@
     "text": "Categorical with two Quantitative variables\nR code: ___________\n\n\n\n\n\n\n\n\n\n\nR code: ___________\n\n\n\n\n\n\n\n\n\nR code: ___________\n\n\n\n\n\n\n\n\n\nR code: ___________\n\n\n\n\n\n\n\n\n\nR code: ___________\n\n\n\n\n\n\n\n\n\nR code: ___________\n\n\n\n\n\n\n\n\n\nYour turn: What is the best chart to visualize the relationship between the price, carat, and color of diamonds?"
   },
   {
-    "objectID": "week8/index.html",
-    "href": "week8/index.html",
-    "title": "Interactive Time Series VIsualisation",
-    "section": "",
-    "text": "library(denguedatahub)\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.2.0     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.2     ✔ tibble    3.3.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.2\n✔ purrr     1.2.1     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors"
-  },
-  {
-    "objectID": "week8/index.html#packages",
-    "href": "week8/index.html#packages",
-    "title": "Interactive Time Series VIsualisation",
-    "section": "",
-    "text": "library(denguedatahub)\nlibrary(tidyverse)\n\n── Attaching core tidyverse packages ──────────────────────── tidyverse 2.0.0 ──\n✔ dplyr     1.2.0     ✔ readr     2.1.6\n✔ forcats   1.0.1     ✔ stringr   1.6.0\n✔ ggplot2   4.0.2     ✔ tibble    3.3.1\n✔ lubridate 1.9.4     ✔ tidyr     1.3.2\n✔ purrr     1.2.1     \n── Conflicts ────────────────────────────────────────── tidyverse_conflicts() ──\n✖ dplyr::filter() masks stats::filter()\n✖ dplyr::lag()    masks stats::lag()\nℹ Use the conflicted package (&lt;http://conflicted.r-lib.org/&gt;) to force all conflicts to become errors"
-  },
-  {
-    "objectID": "week8/index.html#data",
-    "href": "week8/index.html#data",
-    "title": "Interactive Time Series VIsualisation",
-    "section": "Data",
-    "text": "Data\n\ndata(srilanka_weekly_data)\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\")"
-  },
-  {
-    "objectID": "week8/index.html#interactive-time-series-plot",
-    "href": "week8/index.html#interactive-time-series-plot",
-    "title": "Interactive Time Series VIsualisation",
-    "section": "Interactive time series plot",
-    "text": "Interactive time series plot\n\nlibrary(dplyr)\nlibrary(lubridate)\n\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(start.date = mdy(start.date)) |&gt;\n  arrange(start.date)\n\n\nlibrary(xts)\n\nLoading required package: zoo\n\n\n\nAttaching package: 'zoo'\n\n\nThe following objects are masked from 'package:base':\n\n    as.Date, as.Date.numeric\n\n\n\n######################### Warning from 'xts' package ##########################\n#                                                                             #\n# The dplyr lag() function breaks how base R's lag() function is supposed to  #\n# work, which breaks lag(my_xts). Calls to lag(my_xts) that you type or       #\n# source() into this session won't work correctly.                            #\n#                                                                             #\n# Use stats::lag() to make sure you're not using dplyr::lag(), or you can add #\n# conflictRules('dplyr', exclude = 'lag') to your .Rprofile to stop           #\n# dplyr from breaking base R's lag() function.                                #\n#                                                                             #\n# Code in packages is not affected. It's protected by R's namespace mechanism #\n# Set `options(xts.warn_dplyr_breaks_lag = FALSE)` to suppress this warning.  #\n#                                                                             #\n###############################################################################\n\n\n\nAttaching package: 'xts'\n\n\nThe following objects are masked from 'package:dplyr':\n\n    first, last\n\ncolombo_xts &lt;- xts(\n  colombo$cases,\n  order.by = colombo$start.date\n)\n\n\nlibrary(dygraphs)\n\ndygraph(colombo_xts, main = \"Colombo Weekly Dengue Cases\") |&gt;\n  dyRangeSelector()"
-  },
-  {
     "objectID": "week7/index.html",
     "href": "week7/index.html",
     "title": "Untitled",
@@ -684,12 +698,5 @@
     "title": "Untitled",
     "section": "",
     "text": "See the plot"
-  },
-  {
-    "objectID": "index.html#week-7-2-june-2026",
-    "href": "index.html#week-7-2-june-2026",
-    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
-    "section": "Week 7: 2 June 2026",
-    "text": "Week 7: 2 June 2026\nVisualisation with timetk\nInteractive timeseries visualisation"
   }
 ]
