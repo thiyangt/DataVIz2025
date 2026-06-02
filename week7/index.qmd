@@ -1,0 +1,234 @@
+---
+title: "Untitled"
+editor: source
+---
+
+# Visualising time series data with `timetk`
+
+## Packages
+
+```{r, warning=FALSE, message=FALSE}
+library("timetk")
+library("tidyquant")
+library(tidyverse)
+library(denguedatahub)
+library(anomalize)
+library(tsibble)
+library(fable)
+library(fabletools) 
+library(feasts) #STL decomposition
+```
+
+## Data
+
+```{r}
+data(srilanka_weekly_data)
+colombo <- srilanka_weekly_data |>
+  filter(district == "Colombo")
+# create a proper date index column
+colombo <- srilanka_weekly_data |>
+  filter(district == "Colombo") |>
+  mutate(
+    start.date = mdy(start.date)
+  )
+```
+
+## Time Series Plot
+
+```{r}
+
+colombo |>
+  plot_time_series(
+    .date_var = start.date,
+    .value = cases,
+    .interactive = FALSE
+  ) +
+  labs(
+    title = "Weekly Dengue Cases in Colombo",
+    x = "Year",
+    y = "Cases"
+  )
+```
+
+```{r}
+data(srilanka_weekly_data)
+colombo <- srilanka_weekly_data |>
+  filter(district == "Colombo")
+# create a proper date index column
+colombo <- srilanka_weekly_data |>
+  filter(district == "Colombo") |>
+  mutate(
+    start.date = mdy(start.date)
+  )
+```
+
+## Seasonal plot
+
+```{r, fig.height=15, fig.width=10}
+colombo |>
+  plot_seasonal_diagnostics(
+    .date_var = start.date,
+    .value = cases,
+    .interactive = FALSE
+  )
+```
+
+## STL decomposition
+
+
+What do you think about the plot? Is this correct?
+
+```{r, fig.height=15, fig.width=10}
+colombo |>
+  plot_stl_diagnostics(
+    .date_var = start.date,
+    .value = cases,
+    .interactive = FALSE
+  )
+```
+
+
+Let's fix the issue using tsibble and fabletools
+
+What is wrong with the following code?
+
+```{r}
+colombo_tsibble <- srilanka_weekly_data |>
+  filter(district == "Colombo") |>
+  mutate(
+    start.date = mdy(start.date)
+  ) |>
+  arrange(start.date) |>
+  as_tsibble(index = start.date)
+colombo_tsibble
+```
+
+Let's fix the issue
+
+```{r}
+colombo_tsibble <- srilanka_weekly_data |>
+  filter(district == "Colombo") |>
+  mutate(
+    start.date = mdy(start.date),
+    year_week = yearweek(start.date)
+  ) |>
+  arrange(year_week) |>
+  as_tsibble(index = year_week)
+colombo_tsibble
+interval(colombo_tsibble)
+```
+
+```{r}
+colombo_stl <- colombo_tsibble |>
+  model(
+    STL(cases ~ season(period = 52))
+  )
+colombo_stl
+```
+
+```{r}
+colombo_components <- colombo_stl |>
+  components()
+colombo_components
+```
+
+```{r}
+colombo_components |>
+  autoplot()
+```
+
+Let's fix the issue with timetk
+
+```{r, fig.height=15, fig.width=10}
+colombo %>%
+  plot_stl_diagnostics(
+    .date_var = start.date,
+    .value = cases,
+    .frequency = 52,
+    .trend = 104,
+    .interactive = FALSE
+  )
+```
+
+## Anomaly Detection
+
+```{r, fig.height=15, fig.width=10}
+colombo %>%
+  time_decompose(
+    cases,
+    method = "stl",
+    frequency = 52
+  ) %>%
+  anomalize(
+    remainder,
+    method = "iqr"
+  ) %>%
+  time_recompose() %>%
+  plot_anomalies(time_recomposed = TRUE)
+
+```
+
+## Calendar Heatmap
+
+```{r}
+colombo |>
+  plot_time_series(
+    .date_var = start.date,
+    .value = cases,
+    .color_var = year(start.date),
+    .interactive = TRUE
+  )
+```
+
+or
+
+```{r}
+library(ggplot2)
+
+colombo |>
+  mutate(
+    Year = year(start.date),
+    Week = isoweek(start.date)
+  ) |>
+  ggplot(aes(Week, factor(Year), fill = cases)) +
+  geom_tile() +
+  labs(
+    title = "Weekly Dengue Cases Heatmap",
+    x = "Week",
+    y = "Year"
+  )
+```
+
+## Rolling Mean
+
+```{r}
+library(dplyr)
+library(slider)
+library(timetk)
+
+colombo |>
+  mutate(
+    MA52 = slide_dbl(cases,
+                     mean,
+                     .before = 51,
+                     .complete = TRUE)
+  ) |>
+  plot_time_series(
+    .date_var = start.date,
+    .value = cases,
+    .interactive = FALSE
+  ) +
+  geom_line(aes(y = MA52), color = "blue")
+```
+
+## Time Series Signature Exploration
+
+```{r}
+colombo |>
+  tk_augment_timeseries_signature(start.date) |>
+  glimpse()
+```
+
+## Additional Reading
+
+[See the plot](https://business-science.github.io/timetk/articles/TK04_Plotting_Time_Series.html)

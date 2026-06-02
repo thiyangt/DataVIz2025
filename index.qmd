@@ -56,3 +56,9 @@ Interactive Spatial Data Visualisation - In class demonstrations
 [Time Series Data Visualisation](https://thiyangt.github.io/datavisualisation/week5/#/title-slide)
 
 Task 1: See Google Classroom
+
+## Week 7: 2 June 2026
+
+[Visualisation with timetk](./week7/index.html)
+
+[Interactive timeseries visualisation](./week8/index.html)

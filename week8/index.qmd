@@ -1,0 +1,47 @@
+---
+title: "Interactive Time Series VIsualisation"
+source: editor
+---
+
+## Packages
+
+```{r}
+library(denguedatahub)
+library(tidyverse)
+```
+
+## Data
+
+```{r}
+data(srilanka_weekly_data)
+colombo <- srilanka_weekly_data |>
+  filter(district == "Colombo")
+```
+
+## Interactive time series plot
+
+```{r}
+library(dplyr)
+library(lubridate)
+
+colombo <- srilanka_weekly_data |>
+  filter(district == "Colombo") |>
+  mutate(start.date = mdy(start.date)) |>
+  arrange(start.date)
+```
+
+```{r}
+library(xts)
+
+colombo_xts <- xts(
+  colombo$cases,
+  order.by = colombo$start.date
+)
+```
+
+```{r}
+library(dygraphs)
+
+dygraph(colombo_xts, main = "Colombo Weekly Dengue Cases") |>
+  dyRangeSelector()
+```
