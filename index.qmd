@@ -21,13 +21,13 @@ To access important information regarding the unit, please go to the Google Clas
 
 ## Weekly Schedule:
 
-### Week 1: April 22, 2026
+## Week 1: April 22, 2026
 
 Introduction to grammar of graphics
 
 [The Grammar of Graphics](./week2/index.html)
 
-### Week 2: April 29, 2026
+## Week 2: April 29, 2026
 
 Common plots for quantitative data with qualitative variables
 
