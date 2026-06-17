@@ -76,3 +76,11 @@ Use Sri Lanka dengue data from the denguedatahub package to develop an interacti
 Due date: 17 June 2026
 
 Please upload all your documents as a single file to the “Mid Evaluation” tab in Google Classroom. Ensure that the file is named using your index number.
+
+## Week 8: 9 June 2026
+
+[Dimension Reduction Methods](https://thiyangt.github.io/DR/)
+
+## Week 9: 16 June 2026
+
+[Cross talk with plots](./week9/interactive_dataviz.R)
