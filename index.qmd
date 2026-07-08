@@ -73,7 +73,7 @@ Assignment announced date: 2 June 2026
 
 Use Sri Lanka dengue data from the denguedatahub package to develop an interactive dashboard for exploring dengue situation in Sri Lanka. In addition, prepare a short report explaining the data, the methods used for analysis (such as trend and seasonality exploration), and the key findings, including any observed patterns or outbreak periods.
 
-Due date: 17 June 2026
+Due date: ~17 June 2026~ 10 July 2026
 
 Please upload all your documents as a single file to the “Mid Evaluation” tab in Google Classroom. Ensure that the file is named using your index number.
 
@@ -84,3 +84,12 @@ Please upload all your documents as a single file to the “Mid Evaluation” ta
 ## Week 9: 16 June 2026
 
 [Cross talk with plots](./week9/interactive_dataviz.R)
+
+## Week 10-11: 24 June 2026/ 1 July 2026
+
+Dengue Data Dashboard Visualisation
+
+## Week 12: 8 July 2026
+
+[Data Quality Analysis](https://thiyangt.github.io/tstalagala-MIS4141/ch2.html)
+
