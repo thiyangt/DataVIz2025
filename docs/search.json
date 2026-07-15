@@ -159,5 +159,229 @@
     "title": "Untitled",
     "section": "",
     "text": "See the plot"
+  },
+  {
+    "objectID": "otherplots.html",
+    "href": "otherplots.html",
+    "title": "Other plots",
+    "section": "",
+    "text": "library(tidyverse)\n\n\nlibrary(ggforce)\nggplot(iris, aes(Petal.Length, Petal.Width, colour = Species)) +\n    geom_point() +\n    facet_zoom(x = Species == \"versicolor\")\n\n\n\n\n\n\n\n\n\nlibrary(\"ggalt\")\n\nRegistered S3 methods overwritten by 'ggalt':\n  method                  from   \n  grobHeight.absoluteGrob ggplot2\n  grobWidth.absoluteGrob  ggplot2\n  grobX.absoluteGrob      ggplot2\n  grobY.absoluteGrob      ggplot2\n\ncircle.df &lt;- iris |&gt; filter(Species == \"setosa\")\nggplot(iris, aes(Petal.Length, Petal.Width)) +\n    geom_point(aes(colour = Species)) + \n  geom_encircle(data = circle.df, linetype = 2)\n\n\n\n\n\n\n\n\n\nlibrary(ggpubr)\n# Grouped Scatter plot with marginal density plots\nggscatterhist(\n  iris, x = \"Sepal.Length\", y = \"Sepal.Width\",\n  color = \"Species\", size = 3, alpha = 0.6,\n  palette = c(\"#00AFBB\", \"#E7B800\", \"#FC4E07\"),\n  margin.params = list(fill = \"Species\", color = \"black\", size = 0.2)\n  )\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\nℹ The deprecated feature was likely used in the ggpubr package.\n  Please report the issue at &lt;https://github.com/kassambara/ggpubr/issues&gt;.\n\n\n\n\n\n\n\n\n\n\n# Use box plot as marginal plots\nggscatterhist(\n  iris, x = \"Sepal.Length\", y = \"Sepal.Width\",\n  color = \"Species\", size = 3, alpha = 0.6,\n  palette = c(\"#00AFBB\", \"#E7B800\", \"#FC4E07\"),\n  margin.plot = \"boxplot\",\n  ggtheme = theme_bw()\n  )"
+  },
+  {
+    "objectID": "program2025.html",
+    "href": "program2025.html",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "",
+    "text": "Dr Thiyanga S. Talagala"
+  },
+  {
+    "objectID": "program2025.html#lecturer-in-charge",
+    "href": "program2025.html#lecturer-in-charge",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "",
+    "text": "Dr Thiyanga S. Talagala"
+  },
+  {
+    "objectID": "program2025.html#email",
+    "href": "program2025.html#email",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Email:",
+    "text": "Email:\nttatalagala@sjp.ac.lk"
+  },
+  {
+    "objectID": "program2025.html#course-outline",
+    "href": "program2025.html#course-outline",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Course outline:",
+    "text": "Course outline:\nAvailable on Google Classroom"
+  },
+  {
+    "objectID": "program2025.html#policies-and-regulations",
+    "href": "program2025.html#policies-and-regulations",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Policies and regulations:",
+    "text": "Policies and regulations:\nTo access important information regarding the unit, please go to the Google Classroom."
+  },
+  {
+    "objectID": "program2025.html#weekly-schedule-2025",
+    "href": "program2025.html#weekly-schedule-2025",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Weekly Schedule: 2025",
+    "text": "Weekly Schedule: 2025\n\nWeek 1: April 22, 2026\nThe Grammar of Graphics\n\n\nWeek 3: June 17, 2025\nBeyond Basics: Elevate Your Plots\n\n\nWeek 4: June 24, 2025\nVisualising Qualitative Data\n\n\nWeek 5: July 8, 2025\nTime Series Visualization\n\n\nWeek 6: July 22, 2025\nVisualizing Pedestrian dataset\n\nDataset: available in the Google classroom\nData preprocessing steps: available in the Google classroom\nCalendar Plots\n\n\n\nWeek 7: July 25, 2025\nSpatial Data Visualisation\n\n\nWeek 8: July 29, 2025\nSpatial Data Visualisation - cont. - in class demonstration\nReading\n\n\nWeek 9: August 1, 2025\nCreate interactive dashboards\nVisualising Distributions\nData Visualisation Catalogue\nData visualisaion: measles dataset\n\n\nWeek 10: August 5, 2025\nData Quality Analysis\n\nCode\n\n\nWeek 11: August 12, 2025\nDimension Reduction Methods\n\n\nWeek 12: August 15, 2025\nAssignment 2: Go to Google Classroom\n\n\nWeek 13: August 19, 2025\nInteractive Data Visualisation\nImprove this chart"
+  },
+  {
+    "objectID": "program2025.html#datasets",
+    "href": "program2025.html#datasets",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Datasets",
+    "text": "Datasets\n\nPedestrian counts in Melbourne city\n\nlibrary(sugrrants)\ndata(hourly_peds)\n\nTickets issued for parking violations in the city of Philadelphia, Pennsylvania in 2017\n\nlibrary(tidyverse)\n\nphilly &lt;- read_csv(\"https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2019/2019-12-03/tickets.csv\")\n\nEmission data\n\nemissions &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/master/data/2024/2024-05-21/emissions.csv')\nemissions\n4 ToothGrowth\nToothGrowth\nTake a suitable visualization to illustrate the relationship between supp, dose, and the mean tooth growth\n\nSydney Beaches: Water Quality Reliability\n\nsuppressPackageStartupMessages({\nif (!require(\"pacman\")) install.packages(\"pacman\")\npacman::p_load(\n  tidytuesdayR,\n  tidyverse,    \n  ggtext,        \n  showtext,      \n  janitor,       \n  scales,        \n  glue         \n  )\n})\ntt &lt;- tidytuesdayR::tt_load(2025, week = 20)\n\nwater_quality_raw &lt;- tt$water_quality |&gt; clean_names()\nweather_raw &lt;- tt$weather |&gt; clean_names()\n\ntidytuesdayR::readme(tt)\nrm(tt)"
+  },
+  {
+    "objectID": "program2025.html#additional-reading",
+    "href": "program2025.html#additional-reading",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Additional Reading",
+    "text": "Additional Reading\nR1\nR2"
+  },
+  {
+    "objectID": "index.html",
+    "href": "index.html",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "",
+    "text": "Dr Thiyanga S. Talagala"
+  },
+  {
+    "objectID": "index.html#lecturer-in-charge",
+    "href": "index.html#lecturer-in-charge",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "",
+    "text": "Dr Thiyanga S. Talagala"
+  },
+  {
+    "objectID": "index.html#email",
+    "href": "index.html#email",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Email:",
+    "text": "Email:\nttatalagala@sjp.ac.lk"
+  },
+  {
+    "objectID": "index.html#course-outline",
+    "href": "index.html#course-outline",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Course outline:",
+    "text": "Course outline:\nAvailable on Google Classroom"
+  },
+  {
+    "objectID": "index.html#policies-and-regulations",
+    "href": "index.html#policies-and-regulations",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Policies and regulations:",
+    "text": "Policies and regulations:\nTo access important information regarding the unit, please go to the Google Classroom."
+  },
+  {
+    "objectID": "index.html#weekly-schedule",
+    "href": "index.html#weekly-schedule",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Weekly Schedule:",
+    "text": "Weekly Schedule:"
+  },
+  {
+    "objectID": "index.html#week-1-april-22-2026",
+    "href": "index.html#week-1-april-22-2026",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Week 1: April 22, 2026",
+    "text": "Week 1: April 22, 2026\nIntroduction to grammar of graphics\nThe Grammar of Graphics"
+  },
+  {
+    "objectID": "index.html#week-2-april-29-2026",
+    "href": "index.html#week-2-april-29-2026",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Week 2: April 29, 2026",
+    "text": "Week 2: April 29, 2026\nCommon plots for quantitative data with qualitative variables\nCommon plots for quantitative data with qualitative variables\nIn-Class Exercise:\nRecreate imag1.jpeg and img2.jpeg. Identify the drawbacks of the given chart, if any, and suggest suitable improvements to make the visualization clearer, more effective, and easier to interpret.\nData source for image 1: https://ec.europa.eu/eurostat/databrowser/view/edat_aes_l21/default/table?lang=en&category=educ.educ_lang.educ_lang_00.edat_aes_l2"
+  },
+  {
+    "objectID": "index.html#week-3-6-may-2026",
+    "href": "index.html#week-3-6-may-2026",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Week 3: 6 May 2026",
+    "text": "Week 3: 6 May 2026\nVisualizing Distributions"
+  },
+  {
+    "objectID": "index.html#week-4-13-may-2026",
+    "href": "index.html#week-4-13-may-2026",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Week 4: 13 May 2026",
+    "text": "Week 4: 13 May 2026\nSpatial Data Visualization"
+  },
+  {
+    "objectID": "index.html#week-5-20-may-2026",
+    "href": "index.html#week-5-20-may-2026",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Week 5: 20 May 2026",
+    "text": "Week 5: 20 May 2026\nInteractive Spatial Data Visualisation - In class demonstrations"
+  },
+  {
+    "objectID": "index.html#week-6-27-may-2026",
+    "href": "index.html#week-6-27-may-2026",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Week 6: 27 May 2026",
+    "text": "Week 6: 27 May 2026\nTime Series Data Visualisation\nTask 1: See Google Classroom"
+  },
+  {
+    "objectID": "index.html#week-7-2-june-2026",
+    "href": "index.html#week-7-2-june-2026",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Week 7: 2 June 2026",
+    "text": "Week 7: 2 June 2026\nVisualisation with timetk\nInteractive timeseries visualisation\nCreating Quarto dashboard - In class demo\nReference"
+  },
+  {
+    "objectID": "index.html#mid-evaluation---mini-project",
+    "href": "index.html#mid-evaluation---mini-project",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Mid evaluation - Mini Project",
+    "text": "Mid evaluation - Mini Project\nAssignment announced date: 2 June 2026\nUse Sri Lanka dengue data from the denguedatahub package to develop an interactive dashboard for exploring dengue situation in Sri Lanka. In addition, prepare a short report explaining the data, the methods used for analysis (such as trend and seasonality exploration), and the key findings, including any observed patterns or outbreak periods.\nDue date: ~17 June 2026~ 10 July 2026\nPlease upload all your documents as a single file to the “Mid Evaluation” tab in Google Classroom. Ensure that the file is named using your index number."
+  },
+  {
+    "objectID": "index.html#week-8-9-june-2026",
+    "href": "index.html#week-8-9-june-2026",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Week 8: 9 June 2026",
+    "text": "Week 8: 9 June 2026\nDimension Reduction Methods"
+  },
+  {
+    "objectID": "index.html#week-9-16-june-2026",
+    "href": "index.html#week-9-16-june-2026",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Week 9: 16 June 2026",
+    "text": "Week 9: 16 June 2026\nCross talk with plots"
+  },
+  {
+    "objectID": "index.html#week-10-11-24-june-2026-1-july-2026",
+    "href": "index.html#week-10-11-24-june-2026-1-july-2026",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Week 10-11: 24 June 2026/ 1 July 2026",
+    "text": "Week 10-11: 24 June 2026/ 1 July 2026\nDengue Data Dashboard Visualisation"
+  },
+  {
+    "objectID": "index.html#week-12-8-july-2026",
+    "href": "index.html#week-12-8-july-2026",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Week 12: 8 July 2026",
+    "text": "Week 12: 8 July 2026\nData Quality Analysis"
+  },
+  {
+    "objectID": "index.html#week-13-15-july-2026",
+    "href": "index.html#week-13-15-july-2026",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Week 13: 15 July 2026",
+    "text": "Week 13: 15 July 2026\nTask 1: Obtain a suotable visualisation to visualise mandatary and voluntary maternity leave in EU 2024\nLink to data: https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-06-02/eplp.csv\nlibrary(tidytuesday)\ndata &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-06-02/eplp.csv') |&gt; \n  mutate(across(where(is.numeric), ~replace_values(.x, -98 ~ NA))) \nTask 2: Visualise measles data\ncases_month &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-06-24/cases_month.csv')\nTask 3:\nOther plots\nPlot 1\nPlot 2"
+  },
+  {
+    "objectID": "index.html#r-interface-to-d3-visualizations",
+    "href": "index.html#r-interface-to-d3-visualizations",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "R Interface to D3 Visualizations",
+    "text": "R Interface to D3 Visualizations\nClick here"
+  },
+  {
+    "objectID": "index.html#movement-data-visualisation",
+    "href": "index.html#movement-data-visualisation",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Movement Data Visualisation",
+    "text": "Movement Data Visualisation\nClick here"
+  },
+  {
+    "objectID": "week14/index.html",
+    "href": "week14/index.html",
+    "title": "Other plots",
+    "section": "",
+    "text": "library(tidyverse)\n\n\nlibrary(ggforce)\nggplot(iris, aes(Petal.Length, Petal.Width, colour = Species)) +\n    geom_point() +\n    facet_zoom(x = Species == \"versicolor\")\n\n\n\n\n\n\n\n\n\nlibrary(\"ggalt\")\n\nRegistered S3 methods overwritten by 'ggalt':\n  method                  from   \n  grobHeight.absoluteGrob ggplot2\n  grobWidth.absoluteGrob  ggplot2\n  grobX.absoluteGrob      ggplot2\n  grobY.absoluteGrob      ggplot2\n\ncircle.df &lt;- iris |&gt; filter(Species == \"setosa\")\nggplot(iris, aes(Petal.Length, Petal.Width)) +\n    geom_point(aes(colour = Species)) + \n  geom_encircle(data = circle.df, linetype = 2)\n\n\n\n\n\n\n\n\n\nlibrary(ggpubr)\n# Grouped Scatter plot with marginal density plots\nggscatterhist(\n  iris, x = \"Sepal.Length\", y = \"Sepal.Width\",\n  color = \"Species\", size = 3, alpha = 0.6,\n  palette = c(\"#00AFBB\", \"#E7B800\", \"#FC4E07\"),\n  margin.params = list(fill = \"Species\", color = \"black\", size = 0.2)\n  )\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\nℹ The deprecated feature was likely used in the ggpubr package.\n  Please report the issue at &lt;https://github.com/kassambara/ggpubr/issues&gt;.\n\n\n\n\n\n\n\n\n\n\n# Use box plot as marginal plots\nggscatterhist(\n  iris, x = \"Sepal.Length\", y = \"Sepal.Width\",\n  color = \"Species\", size = 3, alpha = 0.6,\n  palette = c(\"#00AFBB\", \"#E7B800\", \"#FC4E07\"),\n  margin.plot = \"boxplot\",\n  ggtheme = theme_bw()\n  )"
+  },
+  {
+    "objectID": "index.html#other-plots",
+    "href": "index.html#other-plots",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Other plots",
+    "text": "Other plots\nClick here"
   }
 ]

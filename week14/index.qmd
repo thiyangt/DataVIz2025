@@ -1,0 +1,47 @@
+---
+title: "Other plots"
+editor: source
+---
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+```
+
+
+```{r}
+library(ggforce)
+ggplot(iris, aes(Petal.Length, Petal.Width, colour = Species)) +
+    geom_point() +
+    facet_zoom(x = Species == "versicolor")
+```
+
+
+```{r}
+library("ggalt")
+circle.df <- iris |> filter(Species == "setosa")
+ggplot(iris, aes(Petal.Length, Petal.Width)) +
+    geom_point(aes(colour = Species)) + 
+  geom_encircle(data = circle.df, linetype = 2)
+```
+
+```{r}
+library(ggpubr)
+# Grouped Scatter plot with marginal density plots
+ggscatterhist(
+  iris, x = "Sepal.Length", y = "Sepal.Width",
+  color = "Species", size = 3, alpha = 0.6,
+  palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+  margin.params = list(fill = "Species", color = "black", size = 0.2)
+  )
+```
+
+```{r}
+# Use box plot as marginal plots
+ggscatterhist(
+  iris, x = "Sepal.Length", y = "Sepal.Width",
+  color = "Species", size = 3, alpha = 0.6,
+  palette = c("#00AFBB", "#E7B800", "#FC4E07"),
+  margin.plot = "boxplot",
+  ggtheme = theme_bw()
+  )
+```
