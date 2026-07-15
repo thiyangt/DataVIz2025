@@ -1,0 +1,453 @@
+---
+editor: source
+---
+
+## Simulate Movement Data
+
+```{r, warning=FALSE, message=FALSE}
+library(tidyverse)
+set.seed(123)
+n <- 120
+movement <- data.frame(
+  Time = seq.POSIXt(
+    from = as.POSIXct("2025-01-01 08:00"),
+    by = "30 min",
+    length.out = n
+  )
+)
+
+movement$X <- cumsum(rnorm(n, mean = 2, sd = 4))
+movement$Y <- cumsum(rnorm(n, mean = 1, sd = 3))
+
+head(movement)
+```
+
+## Without any background
+
+```{r}
+library(ggplot2)
+
+ggplot(movement, aes(x = X, y = Y)) +
+  geom_path(colour = "steelblue", linewidth = 0.7, alpha = 0.8) +
+  geom_point(colour = "red", size = 2, alpha = 0.7) +
+  labs(
+    title = "Simulated Animal Movement",
+    x = "X Coordinate",
+    y = "Y Coordinate"
+  ) +
+  theme_minimal()
+```
+
+## With map background
+
+```{r}
+# Install packages if needed
+# install.packages(c("sf", "maptiles", "ggplot2", "dplyr", "ggspatial"))
+
+library(dplyr)
+library(ggplot2)
+library(sf)
+library(maptiles)
+library(ggspatial)
+
+#-------------------------------------------------
+# Simulate animal movement
+#-------------------------------------------------
+
+set.seed(123)
+
+n <- 120
+
+movement <- data.frame(
+  Time = seq.POSIXt(
+    from = as.POSIXct("2025-01-01 08:00"),
+    by = "30 min",
+    length.out = n
+  )
+)
+
+# Simulated random walk
+movement$dx <- rnorm(n, mean = 0.001, sd = 0.003)
+movement$dy <- rnorm(n, mean = 0.0005, sd = 0.002)
+
+# Starting location (Colombo)
+start_lon <- 79.8612
+start_lat <- 6.9271
+
+movement$Longitude <- start_lon + cumsum(movement$dx)
+movement$Latitude  <- start_lat + cumsum(movement$dy)
+
+#-------------------------------------------------
+# Convert to sf object
+#-------------------------------------------------
+
+pts <- st_as_sf(
+  movement,
+  coords = c("Longitude", "Latitude"),
+  crs = 4326,
+  remove = FALSE
+)
+
+#-------------------------------------------------
+# Download OpenStreetMap tiles
+#-------------------------------------------------
+# downloads map tiles from OpenStreetMap for the area covered by your movement points.
+osm <- get_tiles(
+  pts,
+  provider = "OpenStreetMap",
+  zoom = 13
+)
+
+#-------------------------------------------------
+# Plot
+#-------------------------------------------------
+
+ggplot() +
+  layer_spatial(osm) +
+  geom_path(
+    data = movement,
+    aes(Longitude, Latitude),
+    colour = "blue",
+    linewidth = 1
+  ) +
+  geom_point(
+    data = movement,
+    aes(Longitude, Latitude),
+    colour = "red",
+    size = 2
+  ) +
+  labs(
+    title = "Simulated Animal Movement",
+    x = "Longitude",
+    y = "Latitude"
+  ) +
+  theme_minimal()
+```
+
+## Interactive Visualisation
+
+```{r}
+# Install if needed
+# install.packages(c("sp", "mapview"))
+
+library(sp)
+library(mapview)
+library(dplyr)
+
+#---------------------------------------
+# Simulated movement data
+#---------------------------------------
+
+set.seed(123)
+
+n <- 120
+
+movement <- data.frame(
+  Time = seq.POSIXt(
+    from = as.POSIXct("2025-01-01 08:00"),
+    by = "30 min",
+    length.out = n
+  )
+)
+
+# Simulated longitude and latitude
+movement$Longitude <- 79.8612 + cumsum(rnorm(n, 0.001, 0.003))
+movement$Latitude  <- 6.9271 + cumsum(rnorm(n, 0.0005, 0.002))
+
+
+# Create an animal ID
+movement$Animal <- "Caribou_1"
+
+
+#---------------------------------------
+# Convert data frame to spatial points
+#---------------------------------------
+
+movement.sp <- movement
+
+coordinates(movement.sp) <- ~ Longitude + Latitude
+
+
+# Assign coordinate reference system
+proj4string(movement.sp) <- CRS("+proj=longlat +datum=WGS84")
+
+
+#---------------------------------------
+# Interactive map
+#---------------------------------------
+
+mapview(
+  movement.sp,
+  zcol = "Animal",
+  legend = TRUE,
+  cex = 3,
+  lwd = 1,
+  map.types = "Esri.WorldImagery"
+)
+```
+
+```{r}
+mapview(
+  movement.sp,
+  zcol = "Animal",
+  legend = TRUE,
+  cex = 3,
+  map.types = "Esri.WorldImagery"
+) +
+mapview(
+  SpatialLines(
+    list(
+      Lines(
+        list(
+          Line(coordinates(movement.sp))
+        ),
+        ID = "Caribou_1"
+      )
+    ),
+    proj4string = CRS("+proj=longlat +datum=WGS84")
+  ),
+  color = "red"
+)
+```
+
+
+This code creates a spatial line (trajectory) from your simulated movement points and displays it interactively using mapview.
+
+
+                    *-------------*
+
+
+### 1. Extract coordinates
+coordinates(movement.sp)
+
+movement.sp is a spatial points object.
+
+It contains:
+
+Longitude  Latitude
+
+79.8612     6.9271
+
+79.8625     6.9280
+
+79.8640     6.9295
+...
+
+coordinates() extracts only the coordinate matrix:
+
+        Longitude Latitude
+        
+[1,]     79.8612   6.9271
+
+[2,]     79.8625   6.9280
+
+[3,]     79.8640   6.9295
+
+
+### 2. Create a line from coordinates
+
+Line(coordinates(movement.sp))
+
+Line() is an sp package function.
+
+It takes a sequence of coordinates and joins them in order.
+
+Example:
+
+Input:
+
+(79.861, 6.927)
+(79.862, 6.928)
+(79.864, 6.930)
+
+Output:
+
+(79.861,6.927) -------- (79.862,6.928) -------- (79.864,6.930)
+
+This represents the animal's movement trajectory.
+
+### 3. Convert Line into a Lines object
+
+Lines(
+  list(
+    Line(coordinates(movement.sp))
+  ),
+  ID = "Caribou_1"
+)
+Why another function?
+
+Line() creates one line.
+
+Lines() creates a spatial line object with an identifier.
+
+The structure is:
+
+Example:
+
+Caribou_1 → Line 1
+Caribou_2 → Line 2
+Caribou_3 → Line 3
+
+The ID allows multiple animals to have different paths.
+
+### 4. Create SpatialLines object
+
+```r
+SpatialLines(
+  list(
+    Lines(...)
+  ),
+  proj4string = CRS("+proj=longlat +datum=WGS84")
+)
+```
+
+A Lines object only contains geometry.
+
+SpatialLines() adds:
+
+Coordinates
+
+Coordinate reference system (CRS)
+
+The CRS:
+
+CRS("+proj=longlat +datum=WGS84")
+
+means:
+
+coordinates are longitude/latitude
+based on the WGS84 Earth reference system
+the same system used by GPS devices
+
+So R knows:
+
+79.8612 = longitude
+6.9271  = latitude
+
+### 5. Display using mapview
+
+mapview(
+  SpatialLines(...),
+  color = "red"
+)
+
+mapview() creates an interactive Leaflet map.
+
+The output:
+
+satellite background
+red movement trajectory
+zoom and pan controls
+Complete workflow
+movement data frame
+
+Longitude Latitude
+    |        |
+    ↓        ↓
+
+SpatialPoints
+    |
+    ↓
+coordinates()
+
+    |
+    ↓
+
+Line()
+(connect points)
+
+    |
+    ↓
+
+Lines()
+(add ID)
+
+    |
+    ↓
+
+SpatialLines()
+(add CRS)
+
+    |
+    ↓
+
+mapview()
+(interactive map)
+
+In animal movement analysis, this line represents the animal's track or trajectory, while the original points represent individual GPS observations.
+
+# Other map types
+
+## Example 1: OpenStreetMap (road map)
+
+```{r}
+mapview(
+  movement.sp,
+  zcol = "Animal",
+  map.types = "OpenStreetMap"
+)
+```
+
+## Example 2: Satellite imagery
+
+```{r}
+mapview(
+  movement.sp,
+  zcol = "Animal",
+  map.types = "Esri.WorldImagery"
+)
+```
+
+## Example 3: Topographic map
+
+```{r}
+mapview(
+  movement.sp,
+  zcol = "Animal",
+  map.types = "Esri.WorldTopoMap"
+)
+```
+
+
+## Example 4: Dark background
+
+```{r}
+mapview(
+  movement.sp,
+  zcol = "Animal",
+  map.types = "CartoDB.DarkMatter"
+)
+```
+
+## Example 5: Multiple basemaps (switch interactively)
+
+You can provide several maps:
+
+```{r}
+mapview(
+  movement.sp,
+  zcol = "Animal",
+  map.types = c(
+    "OpenStreetMap",
+    "Esri.WorldImagery",
+    "Esri.WorldTopoMap"
+  )
+)
+```
+
+
+Then the map viewer will allow you to switch between:
+
+Road map
+Satellite map
+Terrain map
+
+For animal movement visualization, I would usually use:
+
+map.types = "Esri.WorldImagery"
+
+for ecological interpretation (forest, rivers, habitat), and
+
+map.types = "OpenStreetMap"
+
+for teaching movement trajectories because roads and landmarks are easier to identify.

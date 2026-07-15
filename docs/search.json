@@ -236,5 +236,89 @@
     "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
     "section": "Week 12: 8 July 2026",
     "text": "Week 12: 8 July 2026\nData Quality Analysis"
+  },
+  {
+    "objectID": "week13/special.html",
+    "href": "week13/special.html",
+    "title": "Other map types",
+    "section": "",
+    "text": "library(tidyverse)\nset.seed(123)\nn &lt;- 120\nmovement &lt;- data.frame(\n  Time = seq.POSIXt(\n    from = as.POSIXct(\"2025-01-01 08:00\"),\n    by = \"30 min\",\n    length.out = n\n  )\n)\n\nmovement$X &lt;- cumsum(rnorm(n, mean = 2, sd = 4))\nmovement$Y &lt;- cumsum(rnorm(n, mean = 1, sd = 3))\n\nhead(movement)\n\n                 Time          X          Y\n1 2025-01-01 08:00:00 -0.2419026  1.3529398\n2 2025-01-01 08:30:00  0.8373875 -0.4894841\n3 2025-01-01 09:00:00  9.0722207 -0.9611564\n4 2025-01-01 09:30:00 11.3542543 -0.7294330\n5 2025-01-01 10:00:00 13.8714052  5.8021531\n6 2025-01-01 10:30:00 22.7316652  4.8463034"
+  },
+  {
+    "objectID": "week13/special.html#simulate-movement-data",
+    "href": "week13/special.html#simulate-movement-data",
+    "title": "Other map types",
+    "section": "",
+    "text": "library(tidyverse)\nset.seed(123)\nn &lt;- 120\nmovement &lt;- data.frame(\n  Time = seq.POSIXt(\n    from = as.POSIXct(\"2025-01-01 08:00\"),\n    by = \"30 min\",\n    length.out = n\n  )\n)\n\nmovement$X &lt;- cumsum(rnorm(n, mean = 2, sd = 4))\nmovement$Y &lt;- cumsum(rnorm(n, mean = 1, sd = 3))\n\nhead(movement)\n\n                 Time          X          Y\n1 2025-01-01 08:00:00 -0.2419026  1.3529398\n2 2025-01-01 08:30:00  0.8373875 -0.4894841\n3 2025-01-01 09:00:00  9.0722207 -0.9611564\n4 2025-01-01 09:30:00 11.3542543 -0.7294330\n5 2025-01-01 10:00:00 13.8714052  5.8021531\n6 2025-01-01 10:30:00 22.7316652  4.8463034"
+  },
+  {
+    "objectID": "index.html#week-13-15-july-2026",
+    "href": "index.html#week-13-15-july-2026",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Week 13: 15 July 2026",
+    "text": "Week 13: 15 July 2026\nTask 1: Obtain a suotable visualisation to visualise mandatary and voluntary maternity leave in EU 2024\nLink to data: https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-06-02/eplp.csv\nlibrary(tidytuesday)\ndata &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-06-02/eplp.csv') |&gt; \n  mutate(across(where(is.numeric), ~replace_values(.x, -98 ~ NA))) \nTask 2: Visualise measles data\ncases_month &lt;- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-06-24/cases_month.csv')\nTask 3:\nOther plots\nPlot 1\nPlot 2"
+  },
+  {
+    "objectID": "index.html#r-interface-to-d3-visualizations",
+    "href": "index.html#r-interface-to-d3-visualizations",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "R Interface to D3 Visualizations",
+    "text": "R Interface to D3 Visualizations\nClick here"
+  },
+  {
+    "objectID": "week13/special.html#without-any-background",
+    "href": "week13/special.html#without-any-background",
+    "title": "Other map types",
+    "section": "Without any background",
+    "text": "Without any background\n\nlibrary(ggplot2)\n\nggplot(movement, aes(x = X, y = Y)) +\n  geom_path(colour = \"steelblue\", linewidth = 0.7, alpha = 0.8) +\n  geom_point(colour = \"red\", size = 2, alpha = 0.7) +\n  labs(\n    title = \"Simulated Animal Movement\",\n    x = \"X Coordinate\",\n    y = \"Y Coordinate\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "week13/special.html#with-map-background",
+    "href": "week13/special.html#with-map-background",
+    "title": "Other map types",
+    "section": "With map background",
+    "text": "With map background\n\n# Install packages if needed\n# install.packages(c(\"sf\", \"maptiles\", \"ggplot2\", \"dplyr\", \"ggspatial\"))\n\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(sf)\n\nLinking to GEOS 3.14.1, GDAL 3.12.1, PROJ 9.7.1; sf_use_s2() is TRUE\n\nlibrary(maptiles)\nlibrary(ggspatial)\n\n#-------------------------------------------------\n# Simulate animal movement\n#-------------------------------------------------\n\nset.seed(123)\n\nn &lt;- 120\n\nmovement &lt;- data.frame(\n  Time = seq.POSIXt(\n    from = as.POSIXct(\"2025-01-01 08:00\"),\n    by = \"30 min\",\n    length.out = n\n  )\n)\n\n# Simulated random walk\nmovement$dx &lt;- rnorm(n, mean = 0.001, sd = 0.003)\nmovement$dy &lt;- rnorm(n, mean = 0.0005, sd = 0.002)\n\n# Starting location (Colombo)\nstart_lon &lt;- 79.8612\nstart_lat &lt;- 6.9271\n\nmovement$Longitude &lt;- start_lon + cumsum(movement$dx)\nmovement$Latitude  &lt;- start_lat + cumsum(movement$dy)\n\n#-------------------------------------------------\n# Convert to sf object\n#-------------------------------------------------\n\npts &lt;- st_as_sf(\n  movement,\n  coords = c(\"Longitude\", \"Latitude\"),\n  crs = 4326,\n  remove = FALSE\n)\n\n#-------------------------------------------------\n# Download OpenStreetMap tiles\n#-------------------------------------------------\n# downloads map tiles from OpenStreetMap for the area covered by your movement points.\nosm &lt;- get_tiles(\n  pts,\n  provider = \"OpenStreetMap\",\n  zoom = 13\n)\n\n#-------------------------------------------------\n# Plot\n#-------------------------------------------------\n\nggplot() +\n  layer_spatial(osm) +\n  geom_path(\n    data = movement,\n    aes(Longitude, Latitude),\n    colour = \"blue\",\n    linewidth = 1\n  ) +\n  geom_point(\n    data = movement,\n    aes(Longitude, Latitude),\n    colour = \"red\",\n    size = 2\n  ) +\n  labs(\n    title = \"Simulated Animal Movement\",\n    x = \"Longitude\",\n    y = \"Latitude\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "week13/special.html#interactive-visualisation",
+    "href": "week13/special.html#interactive-visualisation",
+    "title": "Other map types",
+    "section": "Interactive Visualisation",
+    "text": "Interactive Visualisation\n\n# Install if needed\n# install.packages(c(\"sp\", \"mapview\"))\n\nlibrary(sp)\nlibrary(mapview)\nlibrary(dplyr)\n\n#---------------------------------------\n# Simulated movement data\n#---------------------------------------\n\nset.seed(123)\n\nn &lt;- 120\n\nmovement &lt;- data.frame(\n  Time = seq.POSIXt(\n    from = as.POSIXct(\"2025-01-01 08:00\"),\n    by = \"30 min\",\n    length.out = n\n  )\n)\n\n# Simulated longitude and latitude\nmovement$Longitude &lt;- 79.8612 + cumsum(rnorm(n, 0.001, 0.003))\nmovement$Latitude  &lt;- 6.9271 + cumsum(rnorm(n, 0.0005, 0.002))\n\n\n# Create an animal ID\nmovement$Animal &lt;- \"Caribou_1\"\n\n\n#---------------------------------------\n# Convert data frame to spatial points\n#---------------------------------------\n\nmovement.sp &lt;- movement\n\ncoordinates(movement.sp) &lt;- ~ Longitude + Latitude\n\n\n# Assign coordinate reference system\nproj4string(movement.sp) &lt;- CRS(\"+proj=longlat +datum=WGS84\")\n\n\n#---------------------------------------\n# Interactive map\n#---------------------------------------\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  legend = TRUE,\n  cex = 3,\n  lwd = 1,\n  map.types = \"Esri.WorldImagery\"\n)\n\n\n\n\n\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  legend = TRUE,\n  cex = 3,\n  map.types = \"Esri.WorldImagery\"\n) +\nmapview(\n  SpatialLines(\n    list(\n      Lines(\n        list(\n          Line(coordinates(movement.sp))\n        ),\n        ID = \"Caribou_1\"\n      )\n    ),\n    proj4string = CRS(\"+proj=longlat +datum=WGS84\")\n  ),\n  color = \"red\"\n)\n\n\n\n\n\nThis code creates a spatial line (trajectory) from your simulated movement points and displays it interactively using mapview.\n                *-------------*\n\n1. Extract coordinates\ncoordinates(movement.sp)\nmovement.sp is a spatial points object.\nIt contains:\nLongitude Latitude\n79.8612 6.9271\n79.8625 6.9280\n79.8640 6.9295 …\ncoordinates() extracts only the coordinate matrix:\n    Longitude Latitude\n    \n[1,] 79.8612 6.9271\n[2,] 79.8625 6.9280\n[3,] 79.8640 6.9295\n\n\n2. Create a line from coordinates\nLine(coordinates(movement.sp))\nLine() is an sp package function.\nIt takes a sequence of coordinates and joins them in order.\nExample:\nInput:\n(79.861, 6.927) (79.862, 6.928) (79.864, 6.930)\nOutput:\n(79.861,6.927) ——– (79.862,6.928) ——– (79.864,6.930)\nThis represents the animal’s movement trajectory.\n\n\n3. Convert Line into a Lines object\nLines( list( Line(coordinates(movement.sp)) ), ID = “Caribou_1” ) Why another function?\nLine() creates one line.\nLines() creates a spatial line object with an identifier.\nThe structure is:\nExample:\nCaribou_1 → Line 1 Caribou_2 → Line 2 Caribou_3 → Line 3\nThe ID allows multiple animals to have different paths.\n\n\n4. Create SpatialLines object\nSpatialLines(\n  list(\n    Lines(...)\n  ),\n  proj4string = CRS(\"+proj=longlat +datum=WGS84\")\n)\nA Lines object only contains geometry.\nSpatialLines() adds:\nCoordinates\nCoordinate reference system (CRS)\nThe CRS:\nCRS(“+proj=longlat +datum=WGS84”)\nmeans:\ncoordinates are longitude/latitude based on the WGS84 Earth reference system the same system used by GPS devices\nSo R knows:\n79.8612 = longitude 6.9271 = latitude\n\n\n5. Display using mapview\nmapview( SpatialLines(…), color = “red” )\nmapview() creates an interactive Leaflet map.\nThe output:\nsatellite background red movement trajectory zoom and pan controls Complete workflow movement data frame\nLongitude Latitude | | ↓ ↓\nSpatialPoints | ↓ coordinates()\n|\n↓\nLine() (connect points)\n|\n↓\nLines() (add ID)\n|\n↓\nSpatialLines() (add CRS)\n|\n↓\nmapview() (interactive map)\nIn animal movement analysis, this line represents the animal’s track or trajectory, while the original points represent individual GPS observations."
+  },
+  {
+    "objectID": "week13/special.html#example-1-openstreetmap-road-map",
+    "href": "week13/special.html#example-1-openstreetmap-road-map",
+    "title": "Other map types",
+    "section": "Example 1: OpenStreetMap (road map)",
+    "text": "Example 1: OpenStreetMap (road map)\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = \"OpenStreetMap\"\n)"
+  },
+  {
+    "objectID": "week13/special.html#example-2-satellite-imagery",
+    "href": "week13/special.html#example-2-satellite-imagery",
+    "title": "Other map types",
+    "section": "Example 2: Satellite imagery",
+    "text": "Example 2: Satellite imagery\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = \"Esri.WorldImagery\"\n)"
+  },
+  {
+    "objectID": "week13/special.html#example-3-topographic-map",
+    "href": "week13/special.html#example-3-topographic-map",
+    "title": "Other map types",
+    "section": "Example 3: Topographic map",
+    "text": "Example 3: Topographic map\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = \"Esri.WorldTopoMap\"\n)"
+  },
+  {
+    "objectID": "week13/special.html#example-4-dark-background",
+    "href": "week13/special.html#example-4-dark-background",
+    "title": "Other map types",
+    "section": "Example 4: Dark background",
+    "text": "Example 4: Dark background\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = \"CartoDB.DarkMatter\"\n)"
+  },
+  {
+    "objectID": "week13/special.html#example-5-multiple-basemaps-switch-interactively",
+    "href": "week13/special.html#example-5-multiple-basemaps-switch-interactively",
+    "title": "Other map types",
+    "section": "Example 5: Multiple basemaps (switch interactively)",
+    "text": "Example 5: Multiple basemaps (switch interactively)\nYou can provide several maps:\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = c(\n    \"OpenStreetMap\",\n    \"Esri.WorldImagery\",\n    \"Esri.WorldTopoMap\"\n  )\n)\n\n\n\n\n\nThen the map viewer will allow you to switch between:\nRoad map Satellite map Terrain map\nFor animal movement visualization, I would usually use:\nmap.types = “Esri.WorldImagery”\nfor ecological interpretation (forest, rivers, habitat), and\nmap.types = “OpenStreetMap”\nfor teaching movement trajectories because roads and landmarks are easier to identify."
   }
 ]

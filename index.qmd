@@ -93,3 +93,35 @@ Dengue Data Dashboard Visualisation
 
 [Data Quality Analysis](https://thiyangt.github.io/tstalagala-MIS4141/ch2.html)
 
+## Week 13: 15 July 2026
+
+Task 1: Obtain a suotable visualisation to visualise mandatary and voluntary maternity leave in EU 2024
+
+Link to data: [https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-06-02/eplp.csv](https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-06-02/eplp.csv)
+
+
+```r
+library(tidytuesday)
+data <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2026/2026-06-02/eplp.csv') |> 
+  mutate(across(where(is.numeric), ~replace_values(.x, -98 ~ NA))) 
+```
+
+Task 2: Visualise measles data
+
+```r
+cases_month <- readr::read_csv('https://raw.githubusercontent.com/rfordatascience/tidytuesday/main/data/2025/2025-06-24/cases_month.csv')
+```
+
+Task 3: 
+
+
+Other plots
+
+
+[Plot 1](https://www.google.com/search?q=Radar+bar+chart+%28min+vs+max+temperature%29+%2Btidytuesday+%2Bsunburst+plot&sca_esv=53ab19e28dc03dd8&udm=2&biw=1280&bih=612&sxsrf=APpeQnulKR8MKgjRFM-yv5YfFLz5Y6WQdg%3A1784080070218&ei=xuZWavLrDNCE4-EPxIf32AE&ved=0ahUKEwjy5teWyNOVAxVQwjgGHcTDHRsQ4dUDCBE&uact=5&oq=Radar+bar+chart+%28min+vs+max+temperature%29+%2Btidytuesday+%2Bsunburst+plot&gs_lp=Egtnd3Mtd2l6LWltZyJEUmFkYXIgYmFyIGNoYXJ0IChtaW4gdnMgbWF4IHRlbXBlcmF0dXJlKSArdGlkeXR1ZXNkYXkgK3N1bmJ1cnN0IHBsb3RI4yhQowFY9CZwAXgAkAEAmAFEoAHKB6oBAjE1uAEDyAEA-AEBmAIAoAIAmAMAiAYBkgcAoAe0AbIHALgHAMIHAMgHAIAIAQ&sclient=gws-wiz-img#sv=CAMSURoyKhBlLVdWb3BZYnpSY2FDOFNNMg5XVm9wWWJ6UmNhQzhTTToOdTVNaWRfMzdwRVhCV00gBCoXCgFzEhBlLVdWb3BZYnpSY2FDOFNNGAEwARgHIO3eiY0ISggQARgBIAEoAQ)
+
+[Plot 2](https://observablehq.com/@thetylerwolf/day-17-radial-bar-chart)
+
+## R Interface to D3 Visualizations
+
+[Click here](https://rstudio.github.io/r2d3/)
