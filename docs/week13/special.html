@@ -203,8 +203,11 @@ gtag('config', 'G-NWLWNHNE9K', { 'anonymize_ip': true});
    
   <ul>
   <li><a href="#simulate-movement-data" id="toc-simulate-movement-data" class="nav-link active" data-scroll-target="#simulate-movement-data">Simulate Movement Data</a></li>
+  <li><a href="#static-plots" id="toc-static-plots" class="nav-link" data-scroll-target="#static-plots">Static Plots</a>
+  <ul class="collapse">
   <li><a href="#without-any-background" id="toc-without-any-background" class="nav-link" data-scroll-target="#without-any-background">Without any background</a></li>
   <li><a href="#with-map-background" id="toc-with-map-background" class="nav-link" data-scroll-target="#with-map-background">With map background</a></li>
+  </ul></li>
   <li><a href="#interactive-visualisation" id="toc-interactive-visualisation" class="nav-link" data-scroll-target="#interactive-visualisation">Interactive Visualisation</a>
   <ul class="collapse">
   <li><a href="#extract-coordinates" id="toc-extract-coordinates" class="nav-link" data-scroll-target="#extract-coordinates">1. Extract coordinates</a></li>
@@ -225,13 +228,29 @@ gtag('config', 'G-NWLWNHNE9K', { 'anonymize_ip': true});
 </nav>
     </div>
 <!-- main -->
-<main class="content" id="quarto-document-content"><header id="title-block-header" class="quarto-title-block"></header>
+<main class="content" id="quarto-document-content">
+
+<header id="title-block-header" class="quarto-title-block default">
+<div class="quarto-title">
+<h1 class="title">Movement Data Visualisation</h1>
+</div>
 
 
 
+<div class="quarto-title-meta">
 
-<section id="simulate-movement-data" class="level2">
-<h2 class="anchored" data-anchor-id="simulate-movement-data">Simulate Movement Data</h2>
+    
+  
+    
+  </div>
+  
+
+
+</header>
+
+
+<section id="simulate-movement-data" class="level1">
+<h1>Simulate Movement Data</h1>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb1"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="fu">library</span>(tidyverse)</span>
 <span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="fu">set.seed</span>(<span class="dv">123</span>)</span>
@@ -259,6 +278,8 @@ gtag('config', 'G-NWLWNHNE9K', { 'anonymize_ip': true});
 </div>
 </div>
 </section>
+<section id="static-plots" class="level1">
+<h1>Static Plots</h1>
 <section id="without-any-background" class="level2">
 <h2 class="anchored" data-anchor-id="without-any-background">Without any background</h2>
 <div class="cell">
@@ -378,8 +399,9 @@ gtag('config', 'G-NWLWNHNE9K', { 'anonymize_ip': true});
 </div>
 </div>
 </section>
-<section id="interactive-visualisation" class="level2">
-<h2 class="anchored" data-anchor-id="interactive-visualisation">Interactive Visualisation</h2>
+</section>
+<section id="interactive-visualisation" class="level1">
+<h1>Interactive Visualisation</h1>
 <div class="cell">
 <div class="code-copy-outer-scaffold"><div class="sourceCode cell-code" id="cb7"><pre class="sourceCode r code-with-copy"><code class="sourceCode r"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># Install if needed</span></span>
 <span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># install.packages(c("sp", "mapview"))</span></span>

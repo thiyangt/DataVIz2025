@@ -1,8 +1,10 @@
 ---
+title: "Movement Data Visualisation"
 editor: source
+toc: true
 ---
 
-## Simulate Movement Data
+# Simulate Movement Data
 
 ```{r, warning=FALSE, message=FALSE}
 library(tidyverse)
@@ -21,6 +23,8 @@ movement$Y <- cumsum(rnorm(n, mean = 1, sd = 3))
 
 head(movement)
 ```
+
+# Static Plots
 
 ## Without any background
 
@@ -124,7 +128,7 @@ ggplot() +
   theme_minimal()
 ```
 
-## Interactive Visualisation
+# Interactive Visualisation
 
 ```{r}
 # Install if needed

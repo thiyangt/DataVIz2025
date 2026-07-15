@@ -240,7 +240,7 @@
   {
     "objectID": "week13/special.html",
     "href": "week13/special.html",
-    "title": "Other map types",
+    "title": "Movement Data Visualisation",
     "section": "",
     "text": "library(tidyverse)\nset.seed(123)\nn &lt;- 120\nmovement &lt;- data.frame(\n  Time = seq.POSIXt(\n    from = as.POSIXct(\"2025-01-01 08:00\"),\n    by = \"30 min\",\n    length.out = n\n  )\n)\n\nmovement$X &lt;- cumsum(rnorm(n, mean = 2, sd = 4))\nmovement$Y &lt;- cumsum(rnorm(n, mean = 1, sd = 3))\n\nhead(movement)\n\n                 Time          X          Y\n1 2025-01-01 08:00:00 -0.2419026  1.3529398\n2 2025-01-01 08:30:00  0.8373875 -0.4894841\n3 2025-01-01 09:00:00  9.0722207 -0.9611564\n4 2025-01-01 09:30:00 11.3542543 -0.7294330\n5 2025-01-01 10:00:00 13.8714052  5.8021531\n6 2025-01-01 10:30:00 22.7316652  4.8463034"
   },
@@ -268,14 +268,14 @@
   {
     "objectID": "week13/special.html#without-any-background",
     "href": "week13/special.html#without-any-background",
-    "title": "Other map types",
+    "title": "Movement Data Visualisation",
     "section": "Without any background",
     "text": "Without any background\n\nlibrary(ggplot2)\n\nggplot(movement, aes(x = X, y = Y)) +\n  geom_path(colour = \"steelblue\", linewidth = 0.7, alpha = 0.8) +\n  geom_point(colour = \"red\", size = 2, alpha = 0.7) +\n  labs(\n    title = \"Simulated Animal Movement\",\n    x = \"X Coordinate\",\n    y = \"Y Coordinate\"\n  ) +\n  theme_minimal()"
   },
   {
     "objectID": "week13/special.html#with-map-background",
     "href": "week13/special.html#with-map-background",
-    "title": "Other map types",
+    "title": "Movement Data Visualisation",
     "section": "With map background",
     "text": "With map background\n\n# Install packages if needed\n# install.packages(c(\"sf\", \"maptiles\", \"ggplot2\", \"dplyr\", \"ggspatial\"))\n\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(sf)\n\nLinking to GEOS 3.14.1, GDAL 3.12.1, PROJ 9.7.1; sf_use_s2() is TRUE\n\nlibrary(maptiles)\nlibrary(ggspatial)\n\n#-------------------------------------------------\n# Simulate animal movement\n#-------------------------------------------------\n\nset.seed(123)\n\nn &lt;- 120\n\nmovement &lt;- data.frame(\n  Time = seq.POSIXt(\n    from = as.POSIXct(\"2025-01-01 08:00\"),\n    by = \"30 min\",\n    length.out = n\n  )\n)\n\n# Simulated random walk\nmovement$dx &lt;- rnorm(n, mean = 0.001, sd = 0.003)\nmovement$dy &lt;- rnorm(n, mean = 0.0005, sd = 0.002)\n\n# Starting location (Colombo)\nstart_lon &lt;- 79.8612\nstart_lat &lt;- 6.9271\n\nmovement$Longitude &lt;- start_lon + cumsum(movement$dx)\nmovement$Latitude  &lt;- start_lat + cumsum(movement$dy)\n\n#-------------------------------------------------\n# Convert to sf object\n#-------------------------------------------------\n\npts &lt;- st_as_sf(\n  movement,\n  coords = c(\"Longitude\", \"Latitude\"),\n  crs = 4326,\n  remove = FALSE\n)\n\n#-------------------------------------------------\n# Download OpenStreetMap tiles\n#-------------------------------------------------\n# downloads map tiles from OpenStreetMap for the area covered by your movement points.\nosm &lt;- get_tiles(\n  pts,\n  provider = \"OpenStreetMap\",\n  zoom = 13\n)\n\n#-------------------------------------------------\n# Plot\n#-------------------------------------------------\n\nggplot() +\n  layer_spatial(osm) +\n  geom_path(\n    data = movement,\n    aes(Longitude, Latitude),\n    colour = \"blue\",\n    linewidth = 1\n  ) +\n  geom_point(\n    data = movement,\n    aes(Longitude, Latitude),\n    colour = \"red\",\n    size = 2\n  ) +\n  labs(\n    title = \"Simulated Animal Movement\",\n    x = \"Longitude\",\n    y = \"Latitude\"\n  ) +\n  theme_minimal()"
   },
@@ -289,35 +289,35 @@
   {
     "objectID": "week13/special.html#example-1-openstreetmap-road-map",
     "href": "week13/special.html#example-1-openstreetmap-road-map",
-    "title": "Other map types",
+    "title": "Movement Data Visualisation",
     "section": "Example 1: OpenStreetMap (road map)",
     "text": "Example 1: OpenStreetMap (road map)\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = \"OpenStreetMap\"\n)"
   },
   {
     "objectID": "week13/special.html#example-2-satellite-imagery",
     "href": "week13/special.html#example-2-satellite-imagery",
-    "title": "Other map types",
+    "title": "Movement Data Visualisation",
     "section": "Example 2: Satellite imagery",
     "text": "Example 2: Satellite imagery\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = \"Esri.WorldImagery\"\n)"
   },
   {
     "objectID": "week13/special.html#example-3-topographic-map",
     "href": "week13/special.html#example-3-topographic-map",
-    "title": "Other map types",
+    "title": "Movement Data Visualisation",
     "section": "Example 3: Topographic map",
     "text": "Example 3: Topographic map\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = \"Esri.WorldTopoMap\"\n)"
   },
   {
     "objectID": "week13/special.html#example-4-dark-background",
     "href": "week13/special.html#example-4-dark-background",
-    "title": "Other map types",
+    "title": "Movement Data Visualisation",
     "section": "Example 4: Dark background",
     "text": "Example 4: Dark background\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = \"CartoDB.DarkMatter\"\n)"
   },
   {
     "objectID": "week13/special.html#example-5-multiple-basemaps-switch-interactively",
     "href": "week13/special.html#example-5-multiple-basemaps-switch-interactively",
-    "title": "Other map types",
+    "title": "Movement Data Visualisation",
     "section": "Example 5: Multiple basemaps (switch interactively)",
     "text": "Example 5: Multiple basemaps (switch interactively)\nYou can provide several maps:\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = c(\n    \"OpenStreetMap\",\n    \"Esri.WorldImagery\",\n    \"Esri.WorldTopoMap\"\n  )\n)\n\n\n\n\n\nThen the map viewer will allow you to switch between:\nRoad map Satellite map Terrain map\nFor animal movement visualization, I would usually use:\nmap.types = “Esri.WorldImagery”\nfor ecological interpretation (forest, rivers, habitat), and\nmap.types = “OpenStreetMap”\nfor teaching movement trajectories because roads and landmarks are easier to identify."
   }
