@@ -140,6 +140,8 @@ Click [here](/week14/index.html)
 
 How to apply the laws of Gestalt to data visualization - In class demo
 
+Let's watch [this](https://www.youtube.com/watch?v=hMQQkmKs16Y) video and see how those concepts can be use in data visualisation.
+
 
 [How to apply the laws of Gestalt to data visualization](https://www.intotheminds.com/blog/en/data-visualization-gestalt-laws/)
 
