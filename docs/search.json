@@ -1,61 +1,5 @@
 [
   {
-    "objectID": "week13/index.html",
-    "href": "week13/index.html",
-    "title": "Movement Data Visualisation",
-    "section": "",
-    "text": "library(tidyverse)\nset.seed(123)\nn &lt;- 120\nmovement &lt;- data.frame(\n  Time = seq.POSIXt(\n    from = as.POSIXct(\"2025-01-01 08:00\"),\n    by = \"30 min\",\n    length.out = n\n  )\n)\n\nmovement$X &lt;- cumsum(rnorm(n, mean = 2, sd = 4))\nmovement$Y &lt;- cumsum(rnorm(n, mean = 1, sd = 3))\n\nhead(movement)\n\n                 Time          X          Y\n1 2025-01-01 08:00:00 -0.2419026  1.3529398\n2 2025-01-01 08:30:00  0.8373875 -0.4894841\n3 2025-01-01 09:00:00  9.0722207 -0.9611564\n4 2025-01-01 09:30:00 11.3542543 -0.7294330\n5 2025-01-01 10:00:00 13.8714052  5.8021531\n6 2025-01-01 10:30:00 22.7316652  4.8463034"
-  },
-  {
-    "objectID": "week13/index.html#without-any-background",
-    "href": "week13/index.html#without-any-background",
-    "title": "Movement Data Visualisation",
-    "section": "Without any background",
-    "text": "Without any background\n\nlibrary(ggplot2)\n\nggplot(movement, aes(x = X, y = Y)) +\n  geom_path(colour = \"steelblue\", linewidth = 0.7, alpha = 0.8) +\n  geom_point(colour = \"red\", size = 2, alpha = 0.7) +\n  labs(\n    title = \"Simulated Animal Movement\",\n    x = \"X Coordinate\",\n    y = \"Y Coordinate\"\n  ) +\n  theme_minimal()"
-  },
-  {
-    "objectID": "week13/index.html#with-map-background",
-    "href": "week13/index.html#with-map-background",
-    "title": "Movement Data Visualisation",
-    "section": "With map background",
-    "text": "With map background\n\n# Install packages if needed\n# install.packages(c(\"sf\", \"maptiles\", \"ggplot2\", \"dplyr\", \"ggspatial\"))\n\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(sf)\n\nLinking to GEOS 3.14.1, GDAL 3.12.1, PROJ 9.7.1; sf_use_s2() is TRUE\n\nlibrary(maptiles)\nlibrary(ggspatial)\n\n#-------------------------------------------------\n# Simulate animal movement\n#-------------------------------------------------\n\nset.seed(123)\n\nn &lt;- 120\n\nmovement &lt;- data.frame(\n  Time = seq.POSIXt(\n    from = as.POSIXct(\"2025-01-01 08:00\"),\n    by = \"30 min\",\n    length.out = n\n  )\n)\n\n# Simulated random walk\nmovement$dx &lt;- rnorm(n, mean = 0.001, sd = 0.003)\nmovement$dy &lt;- rnorm(n, mean = 0.0005, sd = 0.002)\n\n# Starting location (Colombo)\nstart_lon &lt;- 79.8612\nstart_lat &lt;- 6.9271\n\nmovement$Longitude &lt;- start_lon + cumsum(movement$dx)\nmovement$Latitude  &lt;- start_lat + cumsum(movement$dy)\n\n#-------------------------------------------------\n# Convert to sf object\n#-------------------------------------------------\n\npts &lt;- st_as_sf(\n  movement,\n  coords = c(\"Longitude\", \"Latitude\"),\n  crs = 4326,\n  remove = FALSE\n)\n\n#-------------------------------------------------\n# Download OpenStreetMap tiles\n#-------------------------------------------------\n# downloads map tiles from OpenStreetMap for the area covered by your movement points.\nosm &lt;- get_tiles(\n  pts,\n  provider = \"OpenStreetMap\",\n  zoom = 13\n)\n\n#-------------------------------------------------\n# Plot\n#-------------------------------------------------\n\nggplot() +\n  layer_spatial(osm) +\n  geom_path(\n    data = movement,\n    aes(Longitude, Latitude),\n    colour = \"blue\",\n    linewidth = 1\n  ) +\n  geom_point(\n    data = movement,\n    aes(Longitude, Latitude),\n    colour = \"red\",\n    size = 2\n  ) +\n  labs(\n    title = \"Simulated Animal Movement\",\n    x = \"Longitude\",\n    y = \"Latitude\"\n  ) +\n  theme_minimal()"
-  },
-  {
-    "objectID": "week13/index.html#example-1-openstreetmap-road-map",
-    "href": "week13/index.html#example-1-openstreetmap-road-map",
-    "title": "Movement Data Visualisation",
-    "section": "Example 1: OpenStreetMap (road map)",
-    "text": "Example 1: OpenStreetMap (road map)\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = \"OpenStreetMap\"\n)"
-  },
-  {
-    "objectID": "week13/index.html#example-2-satellite-imagery",
-    "href": "week13/index.html#example-2-satellite-imagery",
-    "title": "Movement Data Visualisation",
-    "section": "Example 2: Satellite imagery",
-    "text": "Example 2: Satellite imagery\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = \"Esri.WorldImagery\"\n)"
-  },
-  {
-    "objectID": "week13/index.html#example-3-topographic-map",
-    "href": "week13/index.html#example-3-topographic-map",
-    "title": "Movement Data Visualisation",
-    "section": "Example 3: Topographic map",
-    "text": "Example 3: Topographic map\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = \"Esri.WorldTopoMap\"\n)"
-  },
-  {
-    "objectID": "week13/index.html#example-4-dark-background",
-    "href": "week13/index.html#example-4-dark-background",
-    "title": "Movement Data Visualisation",
-    "section": "Example 4: Dark background",
-    "text": "Example 4: Dark background\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = \"CartoDB.DarkMatter\"\n)"
-  },
-  {
-    "objectID": "week13/index.html#example-5-multiple-basemaps-switch-interactively",
-    "href": "week13/index.html#example-5-multiple-basemaps-switch-interactively",
-    "title": "Movement Data Visualisation",
-    "section": "Example 5: Multiple basemaps (switch interactively)",
-    "text": "Example 5: Multiple basemaps (switch interactively)\nYou can provide several maps:\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = c(\n    \"OpenStreetMap\",\n    \"Esri.WorldImagery\",\n    \"Esri.WorldTopoMap\"\n  )\n)\n\n\n\n\n\nThen the map viewer will allow you to switch between:\nRoad map Satellite map Terrain map\nFor animal movement visualization, I would usually use:\nmap.types = “Esri.WorldImagery”\nfor ecological interpretation (forest, rivers, habitat), and\nmap.types = “OpenStreetMap”\nfor teaching movement trajectories because roads and landmarks are easier to identify."
-  },
-  {
     "objectID": "week8/index.html",
     "href": "week8/index.html",
     "title": "Interactive Time Series VIsualisation",
@@ -84,88 +28,298 @@
     "text": "Interactive time series plot\n\nlibrary(dplyr)\nlibrary(lubridate)\n\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(start.date = mdy(start.date)) |&gt;\n  arrange(start.date)\n\n\nlibrary(xts)\n\nLoading required package: zoo\n\n\n\nAttaching package: 'zoo'\n\n\nThe following objects are masked from 'package:base':\n\n    as.Date, as.Date.numeric\n\n\n\n######################### Warning from 'xts' package ##########################\n#                                                                             #\n# The dplyr lag() function breaks how base R's lag() function is supposed to  #\n# work, which breaks lag(my_xts). Calls to lag(my_xts) that you type or       #\n# source() into this session won't work correctly.                            #\n#                                                                             #\n# Use stats::lag() to make sure you're not using dplyr::lag(), or you can add #\n# conflictRules('dplyr', exclude = 'lag') to your .Rprofile to stop           #\n# dplyr from breaking base R's lag() function.                                #\n#                                                                             #\n# Code in packages is not affected. It's protected by R's namespace mechanism #\n# Set `options(xts.warn_dplyr_breaks_lag = FALSE)` to suppress this warning.  #\n#                                                                             #\n###############################################################################\n\n\n\nAttaching package: 'xts'\n\n\nThe following objects are masked from 'package:dplyr':\n\n    first, last\n\ncolombo_xts &lt;- xts(\n  colombo$cases,\n  order.by = colombo$start.date\n)\n\n\nlibrary(dygraphs)\n\ndygraph(colombo_xts, main = \"Colombo Weekly Dengue Cases\") |&gt;\n  dyRangeSelector()"
   },
   {
-    "objectID": "week7/index.html",
-    "href": "week7/index.html",
-    "title": "Untitled",
+    "objectID": "week6/index.html",
+    "href": "week6/index.html",
+    "title": "Time Series Visualisation - Calendar Plots",
     "section": "",
-    "text": "library(\"timetk\")\nlibrary(\"tidyquant\")\nlibrary(tidyverse)\nlibrary(denguedatahub)\nlibrary(anomalize)\nlibrary(tsibble)\nlibrary(fable)\nlibrary(fabletools) \nlibrary(feasts) #STL decomposition\n\n\n\n\n\ndata(srilanka_weekly_data)\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\")\n# create a proper date index column\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(\n    start.date = mdy(start.date)\n  )\n\n\n\n\n\ncolombo |&gt;\n  plot_time_series(\n    .date_var = start.date,\n    .value = cases,\n    .interactive = FALSE\n  ) +\n  labs(\n    title = \"Weekly Dengue Cases in Colombo\",\n    x = \"Year\",\n    y = \"Cases\"\n  )\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\nℹ The deprecated feature was likely used in the timetk package.\n  Please report the issue at\n  &lt;https://github.com/business-science/timetk/issues&gt;.\n\n\nIgnoring unknown labels:\n• colour : \"Legend\"\n\n\n\n\n\n\n\n\n\n\ndata(srilanka_weekly_data)\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\")\n# create a proper date index column\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(\n    start.date = mdy(start.date)\n  )\n\n\n\n\n\ncolombo |&gt;\n  plot_seasonal_diagnostics(\n    .date_var = start.date,\n    .value = cases,\n    .interactive = FALSE\n  )\n\n\n\n\n\n\n\n\n\n\n\nWhat do you think about the plot? Is this correct?\n\ncolombo |&gt;\n  plot_stl_diagnostics(\n    .date_var = start.date,\n    .value = cases,\n    .interactive = FALSE\n  )\n\nfrequency = 13 observations per 1 quarter\n\n\ntrend = 53 observations per 1 year\n\n\n\n\n\n\n\n\n\nLet’s fix the issue using tsibble and fabletools\nWhat is wrong with the following code?\n\ncolombo_tsibble &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(\n    start.date = mdy(start.date)\n  ) |&gt;\n  arrange(start.date) |&gt;\n  as_tsibble(index = start.date)\ncolombo_tsibble\n\n# A tsibble: 991 x 6 [1D]\n    year  week start.date end.date   district cases\n   &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;\n 1  2006    52 2006-12-23 12/29/2006 Colombo     71\n 2  2007     1 2006-12-30 1/5/2007   Colombo     40\n 3  2007     2 2007-01-06 1/12/2007  Colombo     43\n 4  2007     3 2007-01-13 1/19/2007  Colombo     38\n 5  2007     4 2007-01-20 1/26/2007  Colombo     52\n 6  2007     5 2007-01-27 2/2/2007   Colombo     69\n 7  2007     6 2007-02-03 2/9/2007   Colombo     36\n 8  2007     7 2007-02-10 2/16/2007  Colombo     42\n 9  2007     8 2007-02-17 2/23/2007  Colombo     28\n10  2007     9 2007-02-24 3/2/2007   Colombo     20\n# ℹ 981 more rows\n\n\nLet’s fix the issue\n\ncolombo_tsibble &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(\n    start.date = mdy(start.date),\n    year_week = yearweek(start.date)\n  ) |&gt;\n  arrange(year_week) |&gt;\n  as_tsibble(index = year_week)\ncolombo_tsibble\n\n# A tsibble: 991 x 7 [1W]\n    year  week start.date end.date   district cases year_week\n   &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;    &lt;week&gt;\n 1  2006    52 2006-12-23 12/29/2006 Colombo     71  2006 W51\n 2  2007     1 2006-12-30 1/5/2007   Colombo     40  2006 W52\n 3  2007     2 2007-01-06 1/12/2007  Colombo     43  2007 W01\n 4  2007     3 2007-01-13 1/19/2007  Colombo     38  2007 W02\n 5  2007     4 2007-01-20 1/26/2007  Colombo     52  2007 W03\n 6  2007     5 2007-01-27 2/2/2007   Colombo     69  2007 W04\n 7  2007     6 2007-02-03 2/9/2007   Colombo     36  2007 W05\n 8  2007     7 2007-02-10 2/16/2007  Colombo     42  2007 W06\n 9  2007     8 2007-02-17 2/23/2007  Colombo     28  2007 W07\n10  2007     9 2007-02-24 3/2/2007   Colombo     20  2007 W08\n# ℹ 981 more rows\n\ninterval(colombo_tsibble)\n\n&lt;interval[1]&gt;\n[1] 1W\n\n\n\ncolombo_stl &lt;- colombo_tsibble |&gt;\n  model(\n    STL(cases ~ season(period = 52))\n  )\ncolombo_stl\n\n# A mable: 1 x 1\n  `STL(cases ~ season(period = 52))`\n                             &lt;model&gt;\n1                              &lt;STL&gt;\n\n\n\ncolombo_components &lt;- colombo_stl |&gt;\n  components()\ncolombo_components\n\n# A dable: 991 x 7 [1W]\n# Key:     .model [1]\n# :        cases = trend + season_52 + remainder\n   .model                year_week cases trend season_52 remainder season_adjust\n   &lt;chr&gt;                    &lt;week&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;\n 1 STL(cases ~ season(p…  2006 W51    71  22.6     24.7      23.7           46.3\n 2 STL(cases ~ season(p…  2006 W52    40  22.9     14.0       3.10          26.0\n 3 STL(cases ~ season(p…  2007 W01    43  23.1     24.4      -4.53          18.6\n 4 STL(cases ~ season(p…  2007 W02    38  23.4     19.7      -5.12          18.3\n 5 STL(cases ~ season(p…  2007 W03    52  23.7     20.4       7.92          31.6\n 6 STL(cases ~ season(p…  2007 W04    69  24.0     18.6      26.4           50.4\n 7 STL(cases ~ season(p…  2007 W05    36  24.2      4.55      7.21          31.5\n 8 STL(cases ~ season(p…  2007 W06    42  24.5      4.54     12.9           37.5\n 9 STL(cases ~ season(p…  2007 W07    28  24.8      1.73      1.47          26.3\n10 STL(cases ~ season(p…  2007 W08    20  25.1    -18.4      13.3           38.4\n# ℹ 981 more rows\n\n\n\ncolombo_components |&gt;\n  autoplot()\n\nIgnoring unknown labels:\n• colour : \".model\"\n• fill : \".model\"\n\n\n\n\n\n\n\n\n\nLet’s fix the issue with timetk\n\ncolombo %&gt;%\n  plot_stl_diagnostics(\n    .date_var = start.date,\n    .value = cases,\n    .frequency = 52,\n    .trend = 104,\n    .interactive = FALSE\n  )\n\nfrequency = 52 observations\n\n\ntrend = 104 observations\n\n\n\n\n\n\n\n\n\n\n\n\n\ncolombo %&gt;%\n  time_decompose(\n    cases,\n    method = \"stl\",\n    frequency = 52\n  ) %&gt;%\n  anomalize(\n    remainder,\n    method = \"iqr\"\n  ) %&gt;%\n  time_recompose() %&gt;%\n  plot_anomalies(time_recomposed = TRUE)\n\nRegistered S3 method overwritten by 'tibbletime':\n  method  from\n  seq.hms hms \n\n\nConverting from tbl_df to tbl_time.\nAuto-index message: index = start.date\n\n\nfrequency = 52 weeks\n\n\ntrend = 52 weeks\n\n\nWarning: `aes_string()` was deprecated in ggplot2 3.0.0.\nℹ Please use tidy evaluation idioms with `aes()`.\nℹ See also `vignette(\"ggplot2-in-packages\")` for more information.\nℹ The deprecated feature was likely used in the anomalize package.\n  Please report the issue at\n  &lt;https://github.com/business-science/anomalize/issues&gt;.\n\n\nWarning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.\nℹ Please use the `linewidth` argument instead.\nℹ The deprecated feature was likely used in the anomalize package.\n  Please report the issue at\n  &lt;https://github.com/business-science/anomalize/issues&gt;.\n\n\nWarning: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.\nℹ Please use the `linewidth` argument instead.\nℹ The deprecated feature was likely used in the anomalize package.\n  Please report the issue at\n  &lt;https://github.com/business-science/anomalize/issues&gt;.\n\n\n\n\n\n\n\n\n\n\n\n\n\ncolombo |&gt;\n  plot_time_series(\n    .date_var = start.date,\n    .value = cases,\n    .color_var = year(start.date),\n    .interactive = TRUE\n  )\n\nWarning: There were 5 warnings in `dplyr::mutate()`.\nThe first warning was:\nℹ In argument: `.value_smooth = auto_smooth(...)`.\nℹ In group 1: `.color_mod = 2006`.\nCaused by warning in `simpleLoess()`:\n! span too small.   fewer data values than degrees of freedom.\nℹ Run `dplyr::last_dplyr_warnings()` to see the 4 remaining warnings.\n\n\n\n\n\n\nor\n\nlibrary(ggplot2)\n\ncolombo |&gt;\n  mutate(\n    Year = year(start.date),\n    Week = isoweek(start.date)\n  ) |&gt;\n  ggplot(aes(Week, factor(Year), fill = cases)) +\n  geom_tile() +\n  labs(\n    title = \"Weekly Dengue Cases Heatmap\",\n    x = \"Week\",\n    y = \"Year\"\n  )\n\n\n\n\n\n\n\n\n\n\n\n\nlibrary(dplyr)\nlibrary(slider)\nlibrary(timetk)\n\ncolombo |&gt;\n  mutate(\n    MA52 = slide_dbl(cases,\n                     mean,\n                     .before = 51,\n                     .complete = TRUE)\n  ) |&gt;\n  plot_time_series(\n    .date_var = start.date,\n    .value = cases,\n    .interactive = FALSE\n  ) +\n  geom_line(aes(y = MA52), color = \"blue\")\n\nIgnoring unknown labels:\n• colour : \"Legend\"\n\n\nWarning: Removed 51 rows containing missing values or values outside the scale range\n(`geom_line()`).\n\n\n\n\n\n\n\n\n\n\n\n\n\ncolombo |&gt;\n  tk_augment_timeseries_signature(start.date) |&gt;\n  glimpse()\n\nNew names:\n• `year` -&gt; `year...1`\n• `week` -&gt; `week...2`\n• `year` -&gt; `year...9`\n• `week` -&gt; `week...29`\n\n\nRows: 991\nColumns: 34\n$ year...1   &lt;dbl&gt; 2006, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007,…\n$ week...2   &lt;dbl&gt; 52, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …\n$ start.date &lt;date&gt; 2006-12-23, 2006-12-30, 2007-01-06, 2007-01-13, 2007-01-20…\n$ end.date   &lt;chr&gt; \"12/29/2006\", \"1/5/2007\", \"1/12/2007\", \"1/19/2007\", \"1/26/2…\n$ district   &lt;chr&gt; \"Colombo\", \"Colombo\", \"Colombo\", \"Colombo\", \"Colombo\", \"Col…\n$ cases      &lt;dbl&gt; 71, 40, 43, 38, 52, 69, 36, 42, 28, 20, 19, 11, 11, 3, 10, …\n$ index.num  &lt;dbl&gt; 1166832000, 1167436800, 1168041600, 1168646400, 1169251200,…\n$ diff       &lt;dbl&gt; NA, 604800, 604800, 604800, 604800, 604800, 604800, 604800,…\n$ year...9   &lt;int&gt; 2006, 2006, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007,…\n$ year.iso   &lt;int&gt; 2006, 2006, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007,…\n$ half       &lt;int&gt; 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…\n$ quarter    &lt;int&gt; 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,…\n$ month      &lt;int&gt; 12, 12, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, …\n$ month.xts  &lt;int&gt; 11, 11, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, …\n$ month.lbl  &lt;ord&gt; December, December, January, January, January, January, Feb…\n$ day        &lt;int&gt; 23, 30, 6, 13, 20, 27, 3, 10, 17, 24, 3, 10, 17, 24, 31, 7,…\n$ hour       &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…\n$ minute     &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…\n$ second     &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…\n$ hour12     &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…\n$ am.pm      &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…\n$ wday       &lt;int&gt; 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,…\n$ wday.xts   &lt;int&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,…\n$ wday.lbl   &lt;ord&gt; Saturday, Saturday, Saturday, Saturday, Saturday, Saturday,…\n$ mday       &lt;int&gt; 23, 30, 6, 13, 20, 27, 3, 10, 17, 24, 3, 10, 17, 24, 31, 7,…\n$ qday       &lt;int&gt; 84, 91, 6, 13, 20, 27, 34, 41, 48, 55, 62, 69, 76, 83, 90, …\n$ yday       &lt;int&gt; 357, 364, 6, 13, 20, 27, 34, 41, 48, 55, 62, 69, 76, 83, 90…\n$ mweek      &lt;int&gt; 4, 5, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 5, 1, 2, 3, 4, 1,…\n$ week...29  &lt;int&gt; 51, 52, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …\n$ week.iso   &lt;int&gt; 51, 52, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …\n$ week2      &lt;int&gt; 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,…\n$ week3      &lt;int&gt; 0, 1, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0,…\n$ week4      &lt;int&gt; 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2,…\n$ mday7      &lt;int&gt; 4, 5, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 5, 2, 3, 4, 5, 1,…\n\n\n\n\n\nSee the plot"
+    "text": "library(tidyr)\nlibrary(dplyr)\nlibrary(viridis)\nlibrary(sugrrants)\npedestrian17 &lt;- filter(hourly_peds, Year == \"2017\")\npedestrian17\n\n# A tibble: 19,488 × 10\n   Date_Time           Date        Year Month   Mdate Day     Time Sensor_ID\n   &lt;dttm&gt;              &lt;date&gt;     &lt;dbl&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;ord&gt;  &lt;dbl&gt;     &lt;dbl&gt;\n 1 2017-01-01 00:00:00 2017-01-01  2017 January     1 Sunday     0        18\n 2 2017-01-01 00:00:00 2017-01-01  2017 January     1 Sunday     0        13\n 3 2017-01-01 00:00:00 2017-01-01  2017 January     1 Sunday     0         9\n 4 2017-01-01 00:00:00 2017-01-01  2017 January     1 Sunday     0         6\n 5 2017-01-01 00:00:00 2017-01-01  2017 January     1 Sunday     0        25\n 6 2017-01-01 00:00:00 2017-01-01  2017 January     1 Sunday     0        30\n 7 2017-01-01 01:00:00 2017-01-01  2017 January     1 Sunday     1        18\n 8 2017-01-01 01:00:00 2017-01-01  2017 January     1 Sunday     1        13\n 9 2017-01-01 01:00:00 2017-01-01  2017 January     1 Sunday     1         9\n10 2017-01-01 01:00:00 2017-01-01  2017 January     1 Sunday     1         6\n# ℹ 19,478 more rows\n# ℹ 2 more variables: Sensor_Name &lt;chr&gt;, Hourly_Counts &lt;dbl&gt;\n\ncentre &lt;- pedestrian17 %&gt;% \n  filter(Sensor_Name == \"Melbourne Convention Exhibition Centre\")\ncentre_calendar &lt;- centre %&gt;%\n  frame_calendar(x = Time, y = Hourly_Counts, date = Date, calendar = \"monthly\")\ncentre_calendar\n\n# A tibble: 2,880 × 12\n   Date_Time           Date        Year Month   Mdate Day     Time Sensor_ID\n   &lt;dttm&gt;              &lt;date&gt;     &lt;dbl&gt; &lt;ord&gt;   &lt;dbl&gt; &lt;ord&gt;  &lt;dbl&gt;     &lt;dbl&gt;\n 1 2017-01-01 00:00:00 2017-01-01  2017 January     1 Sunday     0        25\n 2 2017-01-01 01:00:00 2017-01-01  2017 January     1 Sunday     1        25\n 3 2017-01-01 02:00:00 2017-01-01  2017 January     1 Sunday     2        25\n 4 2017-01-01 03:00:00 2017-01-01  2017 January     1 Sunday     3        25\n 5 2017-01-01 04:00:00 2017-01-01  2017 January     1 Sunday     4        25\n 6 2017-01-01 05:00:00 2017-01-01  2017 January     1 Sunday     5        25\n 7 2017-01-01 06:00:00 2017-01-01  2017 January     1 Sunday     6        25\n 8 2017-01-01 07:00:00 2017-01-01  2017 January     1 Sunday     7        25\n 9 2017-01-01 08:00:00 2017-01-01  2017 January     1 Sunday     8        25\n10 2017-01-01 09:00:00 2017-01-01  2017 January     1 Sunday     9        25\n# ℹ 2,870 more rows\n# ℹ 4 more variables: Sensor_Name &lt;chr&gt;, Hourly_Counts &lt;dbl&gt;, .Time &lt;dbl&gt;,\n#   .Hourly_Counts &lt;dbl&gt;\n\n#View(centre_calendar)\n\np1 &lt;- centre_calendar %&gt;% \n  ggplot(aes(x = .Time, y = .Hourly_Counts, group = Date)) +\n  geom_line()\np1\n\n\n\n\n\n\n\nprettify(p1)\n\n\n\n\n\n\n\ncentre_calendar_free &lt;- centre %&gt;%\n  frame_calendar(x = Time, y = Hourly_Counts, date = Date, calendar = \"monthly\",\n                 scale = \"free\", ncol = 4)\np2 &lt;- ggplot(centre_calendar_free, \n             aes(x = .Time, y = .Hourly_Counts, group = Date)) +\n  geom_line()\nprettify(p2)\n\n\n\n\n\n\n\ncentre_calendar_wday &lt;- centre %&gt;%\n  frame_calendar(x = Time, y = Hourly_Counts, date = Date, calendar = \"monthly\",\n                 scale = \"free_wday\", ncol = 4)\np3 &lt;- ggplot(centre_calendar_wday, \n             aes(x = .Time, y = .Hourly_Counts, group = Date)) +\n  geom_line()\nprettify(p3)"
   },
   {
-    "objectID": "week7/index.html#packages",
-    "href": "week7/index.html#packages",
-    "title": "Untitled",
-    "section": "",
-    "text": "library(\"timetk\")\nlibrary(\"tidyquant\")\nlibrary(tidyverse)\nlibrary(denguedatahub)\nlibrary(anomalize)\nlibrary(tsibble)\nlibrary(fable)\nlibrary(fabletools) \nlibrary(feasts) #STL decomposition"
+    "objectID": "week3/index.html#packages",
+    "href": "week3/index.html#packages",
+    "title": "Beyond Basics: Elevate Your Plots",
+    "section": "Packages",
+    "text": "Packages\n\nlibrary(ggplot2)\nlibrary(tibble)\n# install.packages(\"devtools\")\n#devtools::install_github(\"thiyangt/elephants\")\nlibrary(elephants)\n#devtools::install_github(\"thiyangt/drone\")\nlibrary(drone)"
   },
   {
-    "objectID": "week7/index.html#data",
-    "href": "week7/index.html#data",
-    "title": "Untitled",
-    "section": "",
-    "text": "data(srilanka_weekly_data)\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\")\n# create a proper date index column\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(\n    start.date = mdy(start.date)\n  )"
+    "objectID": "week3/index.html#data",
+    "href": "week3/index.html#data",
+    "title": "Beyond Basics: Elevate Your Plots",
+    "section": "Data",
+    "text": "Data\n\nelephants\n\n# A tibble: 1,700 × 9\n   Category Age_Category Gender Flank_Girth Heart_Girth Neck_Girth Weight Height\n   &lt;chr&gt;    &lt;chr&gt;        &lt;chr&gt;        &lt;dbl&gt;       &lt;dbl&gt;      &lt;dbl&gt;  &lt;dbl&gt;  &lt;dbl&gt;\n 1 African  less than 1… male          291.        239.       211.  1775.   2.46\n 2 African  less than 1… male          270.        331.       119.  1564.   2.28\n 3 African  less than 1… male          291.        275.       200.  2070.   2.56\n 4 African  less than 1… male          285.        253.       111.  1716.   2.33\n 5 African  less than 1… male          184.        389.       180.  2736.   2.38\n 6 African  less than 1… male          235.        284.       158.  1773.   2.2 \n 7 African  less than 1… male          265.        262.       161.  1651.   2.68\n 8 African  less than 1… male          226.        226.       123.  2053.   2.67\n 9 African  less than 1… male          266.        290.       191.  2159.   2.63\n10 African  less than 1… male          163.        332.       172.  2075.   2.12\n# ℹ 1,690 more rows\n# ℹ 1 more variable: Fore_Feet_Circumference &lt;dbl&gt;\n\n\n\ndata(\"worldbankdata\")\nworldbankdata\n\n# A tibble: 7,937 × 7\n   Country Code  Region                     Year Cooking Electricity Income\n   &lt;fct&gt;   &lt;fct&gt; &lt;fct&gt;                     &lt;dbl&gt;   &lt;dbl&gt;       &lt;dbl&gt; &lt;fct&gt; \n 1 Aruba   ABW   Latin America & Caribbean  1990      NA       100   H     \n 2 Aruba   ABW   Latin America & Caribbean  2000      NA        91.7 H     \n 3 Aruba   ABW   Latin America & Caribbean  2013      NA       100   H     \n 4 Aruba   ABW   Latin America & Caribbean  2014      NA       100   H     \n 5 Aruba   ABW   Latin America & Caribbean  2015      NA       100   H     \n 6 Aruba   ABW   Latin America & Caribbean  2016      NA       100   H     \n 7 Aruba   ABW   Latin America & Caribbean  2017      NA       100   H     \n 8 Aruba   ABW   Latin America & Caribbean  2018      NA       100   H     \n 9 Aruba   ABW   Latin America & Caribbean  2019      NA       100   H     \n10 Aruba   ABW   Latin America & Caribbean  2020      NA       100   H     \n# ℹ 7,927 more rows"
   },
   {
-    "objectID": "week7/index.html#time-series-plot",
-    "href": "week7/index.html#time-series-plot",
-    "title": "Untitled",
+    "objectID": "week3/index.html#section",
+    "href": "week3/index.html#section",
+    "title": "Beyond Basics: Elevate Your Plots",
     "section": "",
-    "text": "colombo |&gt;\n  plot_time_series(\n    .date_var = start.date,\n    .value = cases,\n    .interactive = FALSE\n  ) +\n  labs(\n    title = \"Weekly Dengue Cases in Colombo\",\n    x = \"Year\",\n    y = \"Cases\"\n  )\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\nℹ The deprecated feature was likely used in the timetk package.\n  Please report the issue at\n  &lt;https://github.com/business-science/timetk/issues&gt;.\n\n\nIgnoring unknown labels:\n• colour : \"Legend\"\n\n\n\n\n\n\n\n\n\n\ndata(srilanka_weekly_data)\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\")\n# create a proper date index column\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(\n    start.date = mdy(start.date)\n  )"
+    "text": "#install.packages(\"GGally\")\nlibrary(GGally)\nggpairs(elephants)"
   },
   {
-    "objectID": "week7/index.html#seasonal-plot",
-    "href": "week7/index.html#seasonal-plot",
-    "title": "Untitled",
+    "objectID": "week3/index.html#section-1",
+    "href": "week3/index.html#section-1",
+    "title": "Beyond Basics: Elevate Your Plots",
     "section": "",
-    "text": "colombo |&gt;\n  plot_seasonal_diagnostics(\n    .date_var = start.date,\n    .value = cases,\n    .interactive = FALSE\n  )"
+    "text": "ggpairs(elephants, columns = c(2, 3, 4))"
   },
   {
-    "objectID": "week7/index.html#stl-decomposition",
-    "href": "week7/index.html#stl-decomposition",
-    "title": "Untitled",
+    "objectID": "week3/index.html#section-2",
+    "href": "week3/index.html#section-2",
+    "title": "Beyond Basics: Elevate Your Plots",
     "section": "",
-    "text": "What do you think about the plot? Is this correct?\n\ncolombo |&gt;\n  plot_stl_diagnostics(\n    .date_var = start.date,\n    .value = cases,\n    .interactive = FALSE\n  )\n\nfrequency = 13 observations per 1 quarter\n\n\ntrend = 53 observations per 1 year\n\n\n\n\n\n\n\n\n\nLet’s fix the issue using tsibble and fabletools\nWhat is wrong with the following code?\n\ncolombo_tsibble &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(\n    start.date = mdy(start.date)\n  ) |&gt;\n  arrange(start.date) |&gt;\n  as_tsibble(index = start.date)\ncolombo_tsibble\n\n# A tsibble: 991 x 6 [1D]\n    year  week start.date end.date   district cases\n   &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;\n 1  2006    52 2006-12-23 12/29/2006 Colombo     71\n 2  2007     1 2006-12-30 1/5/2007   Colombo     40\n 3  2007     2 2007-01-06 1/12/2007  Colombo     43\n 4  2007     3 2007-01-13 1/19/2007  Colombo     38\n 5  2007     4 2007-01-20 1/26/2007  Colombo     52\n 6  2007     5 2007-01-27 2/2/2007   Colombo     69\n 7  2007     6 2007-02-03 2/9/2007   Colombo     36\n 8  2007     7 2007-02-10 2/16/2007  Colombo     42\n 9  2007     8 2007-02-17 2/23/2007  Colombo     28\n10  2007     9 2007-02-24 3/2/2007   Colombo     20\n# ℹ 981 more rows\n\n\nLet’s fix the issue\n\ncolombo_tsibble &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(\n    start.date = mdy(start.date),\n    year_week = yearweek(start.date)\n  ) |&gt;\n  arrange(year_week) |&gt;\n  as_tsibble(index = year_week)\ncolombo_tsibble\n\n# A tsibble: 991 x 7 [1W]\n    year  week start.date end.date   district cases year_week\n   &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;    &lt;week&gt;\n 1  2006    52 2006-12-23 12/29/2006 Colombo     71  2006 W51\n 2  2007     1 2006-12-30 1/5/2007   Colombo     40  2006 W52\n 3  2007     2 2007-01-06 1/12/2007  Colombo     43  2007 W01\n 4  2007     3 2007-01-13 1/19/2007  Colombo     38  2007 W02\n 5  2007     4 2007-01-20 1/26/2007  Colombo     52  2007 W03\n 6  2007     5 2007-01-27 2/2/2007   Colombo     69  2007 W04\n 7  2007     6 2007-02-03 2/9/2007   Colombo     36  2007 W05\n 8  2007     7 2007-02-10 2/16/2007  Colombo     42  2007 W06\n 9  2007     8 2007-02-17 2/23/2007  Colombo     28  2007 W07\n10  2007     9 2007-02-24 3/2/2007   Colombo     20  2007 W08\n# ℹ 981 more rows\n\ninterval(colombo_tsibble)\n\n&lt;interval[1]&gt;\n[1] 1W\n\n\n\ncolombo_stl &lt;- colombo_tsibble |&gt;\n  model(\n    STL(cases ~ season(period = 52))\n  )\ncolombo_stl\n\n# A mable: 1 x 1\n  `STL(cases ~ season(period = 52))`\n                             &lt;model&gt;\n1                              &lt;STL&gt;\n\n\n\ncolombo_components &lt;- colombo_stl |&gt;\n  components()\ncolombo_components\n\n# A dable: 991 x 7 [1W]\n# Key:     .model [1]\n# :        cases = trend + season_52 + remainder\n   .model                year_week cases trend season_52 remainder season_adjust\n   &lt;chr&gt;                    &lt;week&gt; &lt;dbl&gt; &lt;dbl&gt;     &lt;dbl&gt;     &lt;dbl&gt;         &lt;dbl&gt;\n 1 STL(cases ~ season(p…  2006 W51    71  22.6     24.7      23.7           46.3\n 2 STL(cases ~ season(p…  2006 W52    40  22.9     14.0       3.10          26.0\n 3 STL(cases ~ season(p…  2007 W01    43  23.1     24.4      -4.53          18.6\n 4 STL(cases ~ season(p…  2007 W02    38  23.4     19.7      -5.12          18.3\n 5 STL(cases ~ season(p…  2007 W03    52  23.7     20.4       7.92          31.6\n 6 STL(cases ~ season(p…  2007 W04    69  24.0     18.6      26.4           50.4\n 7 STL(cases ~ season(p…  2007 W05    36  24.2      4.55      7.21          31.5\n 8 STL(cases ~ season(p…  2007 W06    42  24.5      4.54     12.9           37.5\n 9 STL(cases ~ season(p…  2007 W07    28  24.8      1.73      1.47          26.3\n10 STL(cases ~ season(p…  2007 W08    20  25.1    -18.4      13.3           38.4\n# ℹ 981 more rows\n\n\n\ncolombo_components |&gt;\n  autoplot()\n\nIgnoring unknown labels:\n• colour : \".model\"\n• fill : \".model\"\n\n\n\n\n\n\n\n\n\nLet’s fix the issue with timetk\n\ncolombo %&gt;%\n  plot_stl_diagnostics(\n    .date_var = start.date,\n    .value = cases,\n    .frequency = 52,\n    .trend = 104,\n    .interactive = FALSE\n  )\n\nfrequency = 52 observations\n\n\ntrend = 104 observations"
+    "text": "ggpairs(elephants, columns = c(2, 8, 9))"
   },
   {
-    "objectID": "week7/index.html#anomaly-detection",
-    "href": "week7/index.html#anomaly-detection",
-    "title": "Untitled",
+    "objectID": "week3/index.html#section-3",
+    "href": "week3/index.html#section-3",
+    "title": "Beyond Basics: Elevate Your Plots",
     "section": "",
-    "text": "colombo %&gt;%\n  time_decompose(\n    cases,\n    method = \"stl\",\n    frequency = 52\n  ) %&gt;%\n  anomalize(\n    remainder,\n    method = \"iqr\"\n  ) %&gt;%\n  time_recompose() %&gt;%\n  plot_anomalies(time_recomposed = TRUE)\n\nRegistered S3 method overwritten by 'tibbletime':\n  method  from\n  seq.hms hms \n\n\nConverting from tbl_df to tbl_time.\nAuto-index message: index = start.date\n\n\nfrequency = 52 weeks\n\n\ntrend = 52 weeks\n\n\nWarning: `aes_string()` was deprecated in ggplot2 3.0.0.\nℹ Please use tidy evaluation idioms with `aes()`.\nℹ See also `vignette(\"ggplot2-in-packages\")` for more information.\nℹ The deprecated feature was likely used in the anomalize package.\n  Please report the issue at\n  &lt;https://github.com/business-science/anomalize/issues&gt;.\n\n\nWarning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.\nℹ Please use the `linewidth` argument instead.\nℹ The deprecated feature was likely used in the anomalize package.\n  Please report the issue at\n  &lt;https://github.com/business-science/anomalize/issues&gt;.\n\n\nWarning: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.\nℹ Please use the `linewidth` argument instead.\nℹ The deprecated feature was likely used in the anomalize package.\n  Please report the issue at\n  &lt;https://github.com/business-science/anomalize/issues&gt;."
+    "text": "ggpairs(elephants, columns = c(2, 8, 9), mapping=aes(color=Gender))"
   },
   {
-    "objectID": "week7/index.html#calendar-heatmap",
-    "href": "week7/index.html#calendar-heatmap",
-    "title": "Untitled",
+    "objectID": "week3/index.html#section-4",
+    "href": "week3/index.html#section-4",
+    "title": "Beyond Basics: Elevate Your Plots",
     "section": "",
-    "text": "colombo |&gt;\n  plot_time_series(\n    .date_var = start.date,\n    .value = cases,\n    .color_var = year(start.date),\n    .interactive = TRUE\n  )\n\nWarning: There were 5 warnings in `dplyr::mutate()`.\nThe first warning was:\nℹ In argument: `.value_smooth = auto_smooth(...)`.\nℹ In group 1: `.color_mod = 2006`.\nCaused by warning in `simpleLoess()`:\n! span too small.   fewer data values than degrees of freedom.\nℹ Run `dplyr::last_dplyr_warnings()` to see the 4 remaining warnings.\n\n\n\n\n\n\nor\n\nlibrary(ggplot2)\n\ncolombo |&gt;\n  mutate(\n    Year = year(start.date),\n    Week = isoweek(start.date)\n  ) |&gt;\n  ggplot(aes(Week, factor(Year), fill = cases)) +\n  geom_tile() +\n  labs(\n    title = \"Weekly Dengue Cases Heatmap\",\n    x = \"Week\",\n    y = \"Year\"\n  )"
+    "text": "ggpairs(elephants, columns = c(2, 8, 9), mapping=aes(color=Gender)) + scale_color_brewer(palette = \"Dark2\")"
   },
   {
-    "objectID": "week7/index.html#rolling-mean",
-    "href": "week7/index.html#rolling-mean",
-    "title": "Untitled",
+    "objectID": "week3/index.html#section-5",
+    "href": "week3/index.html#section-5",
+    "title": "Beyond Basics: Elevate Your Plots",
     "section": "",
-    "text": "library(dplyr)\nlibrary(slider)\nlibrary(timetk)\n\ncolombo |&gt;\n  mutate(\n    MA52 = slide_dbl(cases,\n                     mean,\n                     .before = 51,\n                     .complete = TRUE)\n  ) |&gt;\n  plot_time_series(\n    .date_var = start.date,\n    .value = cases,\n    .interactive = FALSE\n  ) +\n  geom_line(aes(y = MA52), color = \"blue\")\n\nIgnoring unknown labels:\n• colour : \"Legend\"\n\n\nWarning: Removed 51 rows containing missing values or values outside the scale range\n(`geom_line()`)."
+    "text": "ggpairs(elephants, columns = c(2, 8, 9), mapping=aes(color=Gender)) + scale_color_brewer(palette = \"Dark2\") + scale_fill_brewer(palette = \"Dark2\")"
   },
   {
-    "objectID": "week7/index.html#time-series-signature-exploration",
-    "href": "week7/index.html#time-series-signature-exploration",
-    "title": "Untitled",
+    "objectID": "week3/index.html#section-6",
+    "href": "week3/index.html#section-6",
+    "title": "Beyond Basics: Elevate Your Plots",
     "section": "",
-    "text": "colombo |&gt;\n  tk_augment_timeseries_signature(start.date) |&gt;\n  glimpse()\n\nNew names:\n• `year` -&gt; `year...1`\n• `week` -&gt; `week...2`\n• `year` -&gt; `year...9`\n• `week` -&gt; `week...29`\n\n\nRows: 991\nColumns: 34\n$ year...1   &lt;dbl&gt; 2006, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007,…\n$ week...2   &lt;dbl&gt; 52, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …\n$ start.date &lt;date&gt; 2006-12-23, 2006-12-30, 2007-01-06, 2007-01-13, 2007-01-20…\n$ end.date   &lt;chr&gt; \"12/29/2006\", \"1/5/2007\", \"1/12/2007\", \"1/19/2007\", \"1/26/2…\n$ district   &lt;chr&gt; \"Colombo\", \"Colombo\", \"Colombo\", \"Colombo\", \"Colombo\", \"Col…\n$ cases      &lt;dbl&gt; 71, 40, 43, 38, 52, 69, 36, 42, 28, 20, 19, 11, 11, 3, 10, …\n$ index.num  &lt;dbl&gt; 1166832000, 1167436800, 1168041600, 1168646400, 1169251200,…\n$ diff       &lt;dbl&gt; NA, 604800, 604800, 604800, 604800, 604800, 604800, 604800,…\n$ year...9   &lt;int&gt; 2006, 2006, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007,…\n$ year.iso   &lt;int&gt; 2006, 2006, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007,…\n$ half       &lt;int&gt; 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…\n$ quarter    &lt;int&gt; 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,…\n$ month      &lt;int&gt; 12, 12, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, …\n$ month.xts  &lt;int&gt; 11, 11, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, …\n$ month.lbl  &lt;ord&gt; December, December, January, January, January, January, Feb…\n$ day        &lt;int&gt; 23, 30, 6, 13, 20, 27, 3, 10, 17, 24, 3, 10, 17, 24, 31, 7,…\n$ hour       &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…\n$ minute     &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…\n$ second     &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…\n$ hour12     &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…\n$ am.pm      &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…\n$ wday       &lt;int&gt; 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,…\n$ wday.xts   &lt;int&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,…\n$ wday.lbl   &lt;ord&gt; Saturday, Saturday, Saturday, Saturday, Saturday, Saturday,…\n$ mday       &lt;int&gt; 23, 30, 6, 13, 20, 27, 3, 10, 17, 24, 3, 10, 17, 24, 31, 7,…\n$ qday       &lt;int&gt; 84, 91, 6, 13, 20, 27, 34, 41, 48, 55, 62, 69, 76, 83, 90, …\n$ yday       &lt;int&gt; 357, 364, 6, 13, 20, 27, 34, 41, 48, 55, 62, 69, 76, 83, 90…\n$ mweek      &lt;int&gt; 4, 5, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 5, 1, 2, 3, 4, 1,…\n$ week...29  &lt;int&gt; 51, 52, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …\n$ week.iso   &lt;int&gt; 51, 52, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …\n$ week2      &lt;int&gt; 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,…\n$ week3      &lt;int&gt; 0, 1, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0,…\n$ week4      &lt;int&gt; 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2,…\n$ mday7      &lt;int&gt; 4, 5, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 5, 2, 3, 4, 5, 1,…"
+    "text": "ggpairs(elephants, columns = c(2, 8, 9), mapping=aes(color=Gender)) + scale_color_brewer(palette = \"Dark2\") + scale_fill_brewer(palette = \"Dark2\") + theme_bw()"
   },
   {
-    "objectID": "week7/index.html#additional-reading",
-    "href": "week7/index.html#additional-reading",
-    "title": "Untitled",
+    "objectID": "week3/index.html#section-7",
+    "href": "week3/index.html#section-7",
+    "title": "Beyond Basics: Elevate Your Plots",
     "section": "",
-    "text": "See the plot"
+    "text": "ggpairs(elephants, columns = c(2, 8, 9), mapping=aes(color=Gender, alpha=0.5)) + scale_color_brewer(palette = \"Dark2\") + scale_fill_brewer(palette = \"Dark2\") + theme_bw()\n\n\nYour turn: Fix aspect ratio of the plots."
   },
   {
-    "objectID": "otherplots.html",
-    "href": "otherplots.html",
+    "objectID": "week3/index.html#beware",
+    "href": "week3/index.html#beware",
+    "title": "Beyond Basics: Elevate Your Plots",
+    "section": "Beware!",
+    "text": "Beware!\n\nggpairs(elephants, columns = c(2, 8, 9), mapping=aes(color=Gender, alpha=0.5)) + scale_color_brewer(palette = \"Dark2\") + scale_fill_brewer(palette = \"Dark2\") + coord_fixed(ratio=ar)"
+  },
+  {
+    "objectID": "week3/index.html#beware-1",
+    "href": "week3/index.html#beware-1",
+    "title": "Beyond Basics: Elevate Your Plots",
+    "section": "Beware!",
+    "text": "Beware!\n\nggpairs(elephants, columns = c(2, 8, 9), mapping=aes(color=Gender, alpha=0.5)) + scale_color_brewer(palette = \"Dark2\") + scale_fill_brewer(palette = \"Dark2\") + theme(aspect.ratio = ar)"
+  },
+  {
+    "objectID": "week3/index.html#section-11",
+    "href": "week3/index.html#section-11",
+    "title": "Beyond Basics: Elevate Your Plots",
+    "section": "",
+    "text": "library(patchwork)\np1+p2"
+  },
+  {
+    "objectID": "week3/index.html#section-12",
+    "href": "week3/index.html#section-12",
+    "title": "Beyond Basics: Elevate Your Plots",
+    "section": "",
+    "text": "library(cowplot)\nplot_grid(p1, p2, labels = c('A', 'B'), label_size = 12)"
+  },
+  {
+    "objectID": "week3/index.html#section-13",
+    "href": "week3/index.html#section-13",
+    "title": "Beyond Basics: Elevate Your Plots",
+    "section": "",
+    "text": "library(ggstatsplot)\nggbetweenstats(\n  data  = elephants,\n  x     = Gender,\n  y     = Height,\n  title = \"Distribution of height by gender\"\n)"
+  },
+  {
+    "objectID": "week3/index.html#section-14",
+    "href": "week3/index.html#section-14",
+    "title": "Beyond Basics: Elevate Your Plots",
+    "section": "",
+    "text": "To visualize the distribution of a single variable and check if its mean is significantly different from a specified value with a one-sample test\n\ngghistostats(\n  data       = elephants,\n  x          = Height,\n  title      = \"Height of Elephants\",\n  test.value = 2.5,\n  binwidth   = 0.5\n)"
+  },
+  {
+    "objectID": "week3/index.html#section-15",
+    "href": "week3/index.html#section-15",
+    "title": "Beyond Basics: Elevate Your Plots",
+    "section": "",
+    "text": "library(\"ggpubr\")\ngghistogram(elephants, x = \"Height\",\n   add = \"mean\", rug = TRUE,\n   color = \"Gender\", fill = \"Gender\",\n   palette = c( \"#e7298a\",\"#081d58\"))"
+  },
+  {
+    "objectID": "week3/index.html#section-16",
+    "href": "week3/index.html#section-16",
+    "title": "Beyond Basics: Elevate Your Plots",
+    "section": "",
+    "text": "ggboxplot(elephants, y = \"Height\", x=\"Gender\",\n   color = \"Gender\",\n   palette = c( \"#e7298a\",\"#081d58\"),\n   add = \"jitter\", shape = \"Gender\")"
+  },
+  {
+    "objectID": "week3/index.html#in-class-demo",
+    "href": "week3/index.html#in-class-demo",
+    "title": "Beyond Basics: Elevate Your Plots",
+    "section": "In-class demo",
+    "text": "In-class demo\nlibrary(\"esquisse\")\nesquisse::esquisser(elephants::elephants)"
+  },
+  {
+    "objectID": "week3/index.html#task-1",
+    "href": "week3/index.html#task-1",
+    "title": "Beyond Basics: Elevate Your Plots",
+    "section": "Task 1",
+    "text": "Task 1"
+  },
+  {
+    "objectID": "week3/index.html#task-2",
+    "href": "week3/index.html#task-2",
+    "title": "Beyond Basics: Elevate Your Plots",
+    "section": "Task 2",
+    "text": "Task 2\n\nlibrary(drone)\nggplot(worldbankdata, aes(x=Cooking, y=Electricity, col=Region)) + geom_point()"
+  },
+  {
+    "objectID": "week14/index.html",
+    "href": "week14/index.html",
     "title": "Other plots",
     "section": "",
     "text": "library(tidyverse)\n\n\nlibrary(ggforce)\nggplot(iris, aes(Petal.Length, Petal.Width, colour = Species)) +\n    geom_point() +\n    facet_zoom(x = Species == \"versicolor\")\n\n\n\n\n\n\n\n\n\nlibrary(\"ggalt\")\n\nRegistered S3 methods overwritten by 'ggalt':\n  method                  from   \n  grobHeight.absoluteGrob ggplot2\n  grobWidth.absoluteGrob  ggplot2\n  grobX.absoluteGrob      ggplot2\n  grobY.absoluteGrob      ggplot2\n\ncircle.df &lt;- iris |&gt; filter(Species == \"setosa\")\nggplot(iris, aes(Petal.Length, Petal.Width)) +\n    geom_point(aes(colour = Species)) + \n  geom_encircle(data = circle.df, linetype = 2)\n\n\n\n\n\n\n\n\n\nlibrary(ggpubr)\n# Grouped Scatter plot with marginal density plots\nggscatterhist(\n  iris, x = \"Sepal.Length\", y = \"Sepal.Width\",\n  color = \"Species\", size = 3, alpha = 0.6,\n  palette = c(\"#00AFBB\", \"#E7B800\", \"#FC4E07\"),\n  margin.params = list(fill = \"Species\", color = \"black\", size = 0.2)\n  )\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\nℹ The deprecated feature was likely used in the ggpubr package.\n  Please report the issue at &lt;https://github.com/kassambara/ggpubr/issues&gt;.\n\n\n\n\n\n\n\n\n\n\n# Use box plot as marginal plots\nggscatterhist(\n  iris, x = \"Sepal.Length\", y = \"Sepal.Width\",\n  color = \"Species\", size = 3, alpha = 0.6,\n  palette = c(\"#00AFBB\", \"#E7B800\", \"#FC4E07\"),\n  margin.plot = \"boxplot\",\n  ggtheme = theme_bw()\n  )"
+  },
+  {
+    "objectID": "week1/index.html#perceiving",
+    "href": "week1/index.html#perceiving",
+    "title": "Introduction to Data Visualisation",
+    "section": "Perceiving",
+    "text": "Perceiving\n\nWhat do I see?: Reading the chart\n\n\nWhat data is shown?\nWhat is on x-axis/ y-axis?\nWhat do colours represent?\nWhat range of values are displayed?\nStepped magnitude judgement?\nWhere are the least and most/ average?/largest and smallest?"
+  },
+  {
+    "objectID": "week1/index.html#interpreting",
+    "href": "week1/index.html#interpreting",
+    "title": "Introduction to Data Visualisation",
+    "section": "Interpreting",
+    "text": "Interpreting\n\nTranslate what you see into quantitative and/or qualitative meaning\nReader’s ability to perform relational interpretation\n\nAre these patterns normal, expected or unusual?\nWhat features are interesting?\nWhat features are important given the subject knowledge?\n\n\n\nIf you do not have any knowledge about the subject your understanding stops after the perceiving phase."
+  },
+  {
+    "objectID": "week1/index.html#comprehending",
+    "href": "week1/index.html#comprehending",
+    "title": "Introduction to Data Visualisation",
+    "section": "Comprehending",
+    "text": "Comprehending\n\nWhat does it mean to me?\n\n\nWhat does one do with this understanding?\nHave I learned something I did not know before?\nWas it confirmed I did not know before?"
+  },
+  {
+    "objectID": "week1/index.html#exploratory-vs-explanatory",
+    "href": "week1/index.html#exploratory-vs-explanatory",
+    "title": "Introduction to Data Visualisation",
+    "section": "Exploratory vs Explanatory",
+    "text": "Exploratory vs Explanatory\n\n\nExploratory\n\nWhen you have a whole bunch of data and you are not sure what types of trends, relationships, etc. it contains.\nFind the story that the data has to tell you.\n\n\nExplanatory\n\nWhen you already know what the data has to say and you are trying to tell that story to somebody else."
+  },
+  {
+    "objectID": "week1/index.html#three-important-parties",
+    "href": "week1/index.html#three-important-parties",
+    "title": "Introduction to Data Visualisation",
+    "section": "Three important parties",
+    "text": "Three important parties\n\nData\nDesigner\nReader"
+  },
+  {
+    "objectID": "week1/index.html#data",
+    "href": "week1/index.html#data",
+    "title": "Introduction to Data Visualisation",
+    "section": "Data",
+    "text": "Data\n\nCategorical?\nOrdinal?\nDiscrete or continuous?\nHow they are bounded?\nNetwroks/ trees/ hierarchy\nCollection of items, groups, sets, clusters\nSpatial field: scalar, vector, tensor\nOutliers\nHow many dimensions?"
+  },
+  {
+    "objectID": "week1/index.html#designer",
+    "href": "week1/index.html#designer",
+    "title": "Introduction to Data Visualisation",
+    "section": "Designer",
+    "text": "Designer\n\nPlanning:\n\n\nWhat is the output format? (printout, mobile app, etc)\nTime scale\nTools\nWho is your audience (How much assistance do they need?, How familiar are they with the charts?)\nIdentify the goal\n\nWhat point or message are you trying to convey?\nWhat information should they be able to learn from your visualisations?\nExamples: Compare performances, Identify trends, Find outliers, Find relationshsips"
+  },
+  {
+    "objectID": "week1/index.html#reader",
+    "href": "week1/index.html#reader",
+    "title": "Introduction to Data Visualisation",
+    "section": "Reader",
+    "text": "Reader\n\nContextual considerations for the reader\n\n\nPerceiving: What do colors means? What is on x-axis, y-axis?\nIn what direction does the reader follow the plot?\nWhich types of plots are they familiar with?"
+  },
+  {
+    "objectID": "week1/index.html#proximity",
+    "href": "week1/index.html#proximity",
+    "title": "Introduction to Data Visualisation",
+    "section": "Proximity",
+    "text": "Proximity\nWe perceive objects close to each other as belonging to a group."
+  },
+  {
+    "objectID": "week1/index.html#similarity",
+    "href": "week1/index.html#similarity",
+    "title": "Introduction to Data Visualisation",
+    "section": "Similarity",
+    "text": "Similarity\nOur brain group objects that share the same colour, shape, and direction"
+  },
+  {
+    "objectID": "week1/index.html#enclosure",
+    "href": "week1/index.html#enclosure",
+    "title": "Introduction to Data Visualisation",
+    "section": "Enclosure",
+    "text": "Enclosure\nWe perceive objects as belonging to a group when they are enclosed in a way that creates a boundary or border around them."
+  },
+  {
+    "objectID": "week1/index.html#closure",
+    "href": "week1/index.html#closure",
+    "title": "Introduction to Data Visualisation",
+    "section": "Closure",
+    "text": "Closure\nOur brains tend to complete missing parts in the picture."
+  },
+  {
+    "objectID": "week1/index.html#connectedness",
+    "href": "week1/index.html#connectedness",
+    "title": "Introduction to Data Visualisation",
+    "section": "Connectedness",
+    "text": "Connectedness\nWe perceive objects connected to each other as a single group."
+  },
+  {
+    "objectID": "week1/index.html#continuity",
+    "href": "week1/index.html#continuity",
+    "title": "Introduction to Data Visualisation",
+    "section": "Continuity",
+    "text": "Continuity\nHumans tendency is to see shapes as continuous to the greatest degree possible. The human eye/brain follows lines, curves or a sequence of shapes to create pathways."
+  },
+  {
+    "objectID": "week1/index.html#figure-and-ground",
+    "href": "week1/index.html#figure-and-ground",
+    "title": "Introduction to Data Visualisation",
+    "section": "Figure and Ground",
+    "text": "Figure and Ground\nHuman’s ability to visually differentiate between an object and its background.\nExample 1:\n\nExample 2: Click here: https://thiyangt.github.io/coviddashboard/"
+  },
+  {
+    "objectID": "week1/index.html#simplicity",
+    "href": "week1/index.html#simplicity",
+    "title": "Introduction to Data Visualisation",
+    "section": "Simplicity",
+    "text": "Simplicity\nThe law of simplicity indicates that our mind perceives everything in its simplest form."
+  },
+  {
+    "objectID": "week1/index.html#common-fate",
+    "href": "week1/index.html#common-fate",
+    "title": "Introduction to Data Visualisation",
+    "section": "Common fate",
+    "text": "Common fate\nWhen objects move in the same direction or at a similar pace, our brains automatically group them together. (eg: a flock of birds)"
+  },
+  {
+    "objectID": "week1/index.html#exercise",
+    "href": "week1/index.html#exercise",
+    "title": "Introduction to Data Visualisation",
+    "section": "Exercise",
+    "text": "Exercise\nDraw a plot to show the relationship between Life Expectancy and Countries\n\nlibrary(gapminder)\nlibrary(tidyverse)\ngapminder |&gt;\n  filter(year == 2007, continent == \"Americas\") |&gt;\n  select(country, lifeExp)\n\n# A tibble: 25 × 2\n   country            lifeExp\n   &lt;fct&gt;                &lt;dbl&gt;\n 1 Argentina             75.3\n 2 Bolivia               65.6\n 3 Brazil                72.4\n 4 Canada                80.7\n 5 Chile                 78.6\n 6 Colombia              72.9\n 7 Costa Rica            78.8\n 8 Cuba                  78.3\n 9 Dominican Republic    72.2\n10 Ecuador               75.0\n# ℹ 15 more rows"
+  },
+  {
+    "objectID": "week1/index.html#acknowledgement",
+    "href": "week1/index.html#acknowledgement",
+    "title": "Introduction to Data Visualisation",
+    "section": "Acknowledgement",
+    "text": "Acknowledgement\n\nKirk, A. (2016). Data visualisation: a handbook for data driven design\nGestalt Laws Applied to Data Visualization, https://daydreamingnumbers.com/"
   },
   {
     "objectID": "program2025.html",
@@ -222,6 +376,20 @@
     "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
     "section": "Additional Reading",
     "text": "Additional Reading\nR1\nR2"
+  },
+  {
+    "objectID": "data.html",
+    "href": "data.html",
+    "title": "Data 2026",
+    "section": "",
+    "text": "group\nx\ny\n\n\n\n\nA\n9\n17\n\n\nA\n10\n19\n\n\nA\n13\n17\n\n\nA\n10\n18\n\n\nA\n10\n18\n\n\nA\n13\n15\n\n\nA\n11\n23\n\n\nA\n7\n20\n\n\nA\n9\n17\n\n\nA\n9\n24\n\n\nB\n17\n26\n\n\nB\n16\n24\n\n\nB\n16\n28\n\n\nB\n15\n28\n\n\nB\n14\n27\n\n\nB\n19\n27\n\n\nB\n16\n27\n\n\nB\n11\n25\n\n\nB\n16\n24\n\n\nB\n14\n24\n\n\nA\n40\n80"
+  },
+  {
+    "objectID": "data.html#week-1",
+    "href": "data.html#week-1",
+    "title": "Data 2026",
+    "section": "",
+    "text": "group\nx\ny\n\n\n\n\nA\n9\n17\n\n\nA\n10\n19\n\n\nA\n13\n17\n\n\nA\n10\n18\n\n\nA\n10\n18\n\n\nA\n13\n15\n\n\nA\n11\n23\n\n\nA\n7\n20\n\n\nA\n9\n17\n\n\nA\n9\n24\n\n\nB\n17\n26\n\n\nB\n16\n24\n\n\nB\n16\n28\n\n\nB\n15\n28\n\n\nB\n14\n27\n\n\nB\n19\n27\n\n\nB\n16\n27\n\n\nB\n11\n25\n\n\nB\n16\n24\n\n\nB\n14\n24\n\n\nA\n40\n80"
   },
   {
     "objectID": "index.html",
@@ -371,17 +539,304 @@
     "text": "Movement Data Visualisation\nClick here"
   },
   {
-    "objectID": "week14/index.html",
-    "href": "week14/index.html",
-    "title": "Other plots",
-    "section": "",
-    "text": "library(tidyverse)\n\n\nlibrary(ggforce)\nggplot(iris, aes(Petal.Length, Petal.Width, colour = Species)) +\n    geom_point() +\n    facet_zoom(x = Species == \"versicolor\")\n\n\n\n\n\n\n\n\n\nlibrary(\"ggalt\")\n\nRegistered S3 methods overwritten by 'ggalt':\n  method                  from   \n  grobHeight.absoluteGrob ggplot2\n  grobWidth.absoluteGrob  ggplot2\n  grobX.absoluteGrob      ggplot2\n  grobY.absoluteGrob      ggplot2\n\ncircle.df &lt;- iris |&gt; filter(Species == \"setosa\")\nggplot(iris, aes(Petal.Length, Petal.Width)) +\n    geom_point(aes(colour = Species)) + \n  geom_encircle(data = circle.df, linetype = 2)\n\n\n\n\n\n\n\n\n\nlibrary(ggpubr)\n# Grouped Scatter plot with marginal density plots\nggscatterhist(\n  iris, x = \"Sepal.Length\", y = \"Sepal.Width\",\n  color = \"Species\", size = 3, alpha = 0.6,\n  palette = c(\"#00AFBB\", \"#E7B800\", \"#FC4E07\"),\n  margin.params = list(fill = \"Species\", color = \"black\", size = 0.2)\n  )\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\nℹ The deprecated feature was likely used in the ggpubr package.\n  Please report the issue at &lt;https://github.com/kassambara/ggpubr/issues&gt;.\n\n\n\n\n\n\n\n\n\n\n# Use box plot as marginal plots\nggscatterhist(\n  iris, x = \"Sepal.Length\", y = \"Sepal.Width\",\n  color = \"Species\", size = 3, alpha = 0.6,\n  palette = c(\"#00AFBB\", \"#E7B800\", \"#FC4E07\"),\n  margin.plot = \"boxplot\",\n  ggtheme = theme_bw()\n  )"
-  },
-  {
     "objectID": "index.html#other-plots",
     "href": "index.html#other-plots",
     "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
     "section": "Other plots",
     "text": "Other plots\nClick here"
+  },
+  {
+    "objectID": "index.html#week-14-22-july-2026",
+    "href": "index.html#week-14-22-july-2026",
+    "title": "STA 492 2.0/ ASP 460 2.0 Data Visualisation",
+    "section": "Week 14: 22 July 2026",
+    "text": "Week 14: 22 July 2026\nBeyond Basics: Elevate Your Plots\nHow to apply the laws of Gestalt to data visualization - In class demo\nHow to apply the laws of Gestalt to data visualization"
+  },
+  {
+    "objectID": "week1/assignment1.html",
+    "href": "week1/assignment1.html",
+    "title": "STA 492 2.0/ASP 460 2.0 Data Visualisation",
+    "section": "",
+    "text": "Due date:\n31 May 2025\nAssignment 1:\n10 marks\nTask:\n\nCapture a photograph demonstrating the application of Gestalt laws.\nExplain how the Gestalt principles were utilized in your photograph.\nYou can use any location to take your photograph.\nYou must document your work in an RMarkdown document. Your work should be fully reproducible. That means, you should submit your .Rmd file, .html file and any attachments. The best reports will be published on the course’s website.\n\nAcademic Integrity Notice:\nPlagiarism Policy: Reports found to be plagiarized will receive a score of 0 for the assignment."
+  },
+  {
+    "objectID": "week13/index.html",
+    "href": "week13/index.html",
+    "title": "Movement Data Visualisation",
+    "section": "",
+    "text": "library(tidyverse)\nset.seed(123)\nn &lt;- 120\nmovement &lt;- data.frame(\n  Time = seq.POSIXt(\n    from = as.POSIXct(\"2025-01-01 08:00\"),\n    by = \"30 min\",\n    length.out = n\n  )\n)\n\nmovement$X &lt;- cumsum(rnorm(n, mean = 2, sd = 4))\nmovement$Y &lt;- cumsum(rnorm(n, mean = 1, sd = 3))\n\nhead(movement)\n\n                 Time          X          Y\n1 2025-01-01 08:00:00 -0.2419026  1.3529398\n2 2025-01-01 08:30:00  0.8373875 -0.4894841\n3 2025-01-01 09:00:00  9.0722207 -0.9611564\n4 2025-01-01 09:30:00 11.3542543 -0.7294330\n5 2025-01-01 10:00:00 13.8714052  5.8021531\n6 2025-01-01 10:30:00 22.7316652  4.8463034"
+  },
+  {
+    "objectID": "week13/index.html#without-any-background",
+    "href": "week13/index.html#without-any-background",
+    "title": "Movement Data Visualisation",
+    "section": "Without any background",
+    "text": "Without any background\n\nlibrary(ggplot2)\n\nggplot(movement, aes(x = X, y = Y)) +\n  geom_path(colour = \"steelblue\", linewidth = 0.7, alpha = 0.8) +\n  geom_point(colour = \"red\", size = 2, alpha = 0.7) +\n  labs(\n    title = \"Simulated Animal Movement\",\n    x = \"X Coordinate\",\n    y = \"Y Coordinate\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "week13/index.html#with-map-background",
+    "href": "week13/index.html#with-map-background",
+    "title": "Movement Data Visualisation",
+    "section": "With map background",
+    "text": "With map background\n\n# Install packages if needed\n# install.packages(c(\"sf\", \"maptiles\", \"ggplot2\", \"dplyr\", \"ggspatial\"))\n\nlibrary(dplyr)\nlibrary(ggplot2)\nlibrary(sf)\n\nLinking to GEOS 3.14.1, GDAL 3.12.1, PROJ 9.7.1; sf_use_s2() is TRUE\n\nlibrary(maptiles)\nlibrary(ggspatial)\n\n#-------------------------------------------------\n# Simulate animal movement\n#-------------------------------------------------\n\nset.seed(123)\n\nn &lt;- 120\n\nmovement &lt;- data.frame(\n  Time = seq.POSIXt(\n    from = as.POSIXct(\"2025-01-01 08:00\"),\n    by = \"30 min\",\n    length.out = n\n  )\n)\n\n# Simulated random walk\nmovement$dx &lt;- rnorm(n, mean = 0.001, sd = 0.003)\nmovement$dy &lt;- rnorm(n, mean = 0.0005, sd = 0.002)\n\n# Starting location (Colombo)\nstart_lon &lt;- 79.8612\nstart_lat &lt;- 6.9271\n\nmovement$Longitude &lt;- start_lon + cumsum(movement$dx)\nmovement$Latitude  &lt;- start_lat + cumsum(movement$dy)\n\n#-------------------------------------------------\n# Convert to sf object\n#-------------------------------------------------\n\npts &lt;- st_as_sf(\n  movement,\n  coords = c(\"Longitude\", \"Latitude\"),\n  crs = 4326,\n  remove = FALSE\n)\n\n#-------------------------------------------------\n# Download OpenStreetMap tiles\n#-------------------------------------------------\n# downloads map tiles from OpenStreetMap for the area covered by your movement points.\nosm &lt;- get_tiles(\n  pts,\n  provider = \"OpenStreetMap\",\n  zoom = 13\n)\n\n#-------------------------------------------------\n# Plot\n#-------------------------------------------------\n\nggplot() +\n  layer_spatial(osm) +\n  geom_path(\n    data = movement,\n    aes(Longitude, Latitude),\n    colour = \"blue\",\n    linewidth = 1\n  ) +\n  geom_point(\n    data = movement,\n    aes(Longitude, Latitude),\n    colour = \"red\",\n    size = 2\n  ) +\n  labs(\n    title = \"Simulated Animal Movement\",\n    x = \"Longitude\",\n    y = \"Latitude\"\n  ) +\n  theme_minimal()"
+  },
+  {
+    "objectID": "week13/index.html#example-1-openstreetmap-road-map",
+    "href": "week13/index.html#example-1-openstreetmap-road-map",
+    "title": "Movement Data Visualisation",
+    "section": "Example 1: OpenStreetMap (road map)",
+    "text": "Example 1: OpenStreetMap (road map)\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = \"OpenStreetMap\"\n)"
+  },
+  {
+    "objectID": "week13/index.html#example-2-satellite-imagery",
+    "href": "week13/index.html#example-2-satellite-imagery",
+    "title": "Movement Data Visualisation",
+    "section": "Example 2: Satellite imagery",
+    "text": "Example 2: Satellite imagery\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = \"Esri.WorldImagery\"\n)"
+  },
+  {
+    "objectID": "week13/index.html#example-3-topographic-map",
+    "href": "week13/index.html#example-3-topographic-map",
+    "title": "Movement Data Visualisation",
+    "section": "Example 3: Topographic map",
+    "text": "Example 3: Topographic map\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = \"Esri.WorldTopoMap\"\n)"
+  },
+  {
+    "objectID": "week13/index.html#example-4-dark-background",
+    "href": "week13/index.html#example-4-dark-background",
+    "title": "Movement Data Visualisation",
+    "section": "Example 4: Dark background",
+    "text": "Example 4: Dark background\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = \"CartoDB.DarkMatter\"\n)"
+  },
+  {
+    "objectID": "week13/index.html#example-5-multiple-basemaps-switch-interactively",
+    "href": "week13/index.html#example-5-multiple-basemaps-switch-interactively",
+    "title": "Movement Data Visualisation",
+    "section": "Example 5: Multiple basemaps (switch interactively)",
+    "text": "Example 5: Multiple basemaps (switch interactively)\nYou can provide several maps:\n\nmapview(\n  movement.sp,\n  zcol = \"Animal\",\n  map.types = c(\n    \"OpenStreetMap\",\n    \"Esri.WorldImagery\",\n    \"Esri.WorldTopoMap\"\n  )\n)\n\n\n\n\n\nThen the map viewer will allow you to switch between:\nRoad map Satellite map Terrain map\nFor animal movement visualization, I would usually use:\nmap.types = “Esri.WorldImagery”\nfor ecological interpretation (forest, rivers, habitat), and\nmap.types = “OpenStreetMap”\nfor teaching movement trajectories because roads and landmarks are easier to identify."
+  },
+  {
+    "objectID": "week2/index.html#packages-we-need-today",
+    "href": "week2/index.html#packages-we-need-today",
+    "title": "The Grammar of Graphics",
+    "section": "Packages we need today",
+    "text": "Packages we need today\n\nlibrary(ggplot2)\nlibrary(palmerpenguins)"
+  },
+  {
+    "objectID": "week2/index.html#pioneers",
+    "href": "week2/index.html#pioneers",
+    "title": "The Grammar of Graphics",
+    "section": "Pioneers",
+    "text": "Pioneers\n\n\nConcept: Leland Wilkinson\n\n\nImplementation: Hadley Wickham"
+  },
+  {
+    "objectID": "week2/index.html#building-blocks-of-layers-with-the-grammar-of-graphics",
+    "href": "week2/index.html#building-blocks-of-layers-with-the-grammar-of-graphics",
+    "title": "The Grammar of Graphics",
+    "section": "Building Blocks of layers with the grammar of graphics",
+    "text": "Building Blocks of layers with the grammar of graphics\n\nData\nAesthetics\nGeometrics\nFacets\nScales\nStatistics\nCoordinates\nThemes"
+  },
+  {
+    "objectID": "week2/index.html#step-1-take-data",
+    "href": "week2/index.html#step-1-take-data",
+    "title": "The Grammar of Graphics",
+    "section": "Step 1: Take Data",
+    "text": "Step 1: Take Data\n\ndata(penguins)"
+  },
+  {
+    "objectID": "week2/index.html#step-2-take-a-canvas-to-do-the-plot",
+    "href": "week2/index.html#step-2-take-a-canvas-to-do-the-plot",
+    "title": "The Grammar of Graphics",
+    "section": "Step 2: Take a canvas to do the plot",
+    "text": "Step 2: Take a canvas to do the plot\n\nggplot()"
+  },
+  {
+    "objectID": "week2/index.html#take-your-data-onto-your-canvas-for-plotting",
+    "href": "week2/index.html#take-your-data-onto-your-canvas-for-plotting",
+    "title": "The Grammar of Graphics",
+    "section": "Take your data onto your canvas for plotting",
+    "text": "Take your data onto your canvas for plotting\n\nggplot(data=penguins)"
+  },
+  {
+    "objectID": "week2/index.html#data-aesthetics",
+    "href": "week2/index.html#data-aesthetics",
+    "title": "The Grammar of Graphics",
+    "section": "Data + Aesthetics",
+    "text": "Data + Aesthetics"
+  },
+  {
+    "objectID": "week2/index.html#data-aesthetics-geom",
+    "href": "week2/index.html#data-aesthetics-geom",
+    "title": "The Grammar of Graphics",
+    "section": "Data + Aesthetics + Geom",
+    "text": "Data + Aesthetics + Geom\n\nggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +\ngeom_point()"
+  },
+  {
+    "objectID": "week2/index.html#data-aesthetics-geom-facet",
+    "href": "week2/index.html#data-aesthetics-geom-facet",
+    "title": "The Grammar of Graphics",
+    "section": "Data + Aesthetics + Geom + Facet",
+    "text": "Data + Aesthetics + Geom + Facet\n\nggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +\ngeom_point() + \nfacet_wrap(~species)"
+  },
+  {
+    "objectID": "week2/index.html#data-aesthetics-geom-facet-scale",
+    "href": "week2/index.html#data-aesthetics-geom-facet-scale",
+    "title": "The Grammar of Graphics",
+    "section": "Data + Aesthetics + Geom + Facet + Scale",
+    "text": "Data + Aesthetics + Geom + Facet + Scale\n\nggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +\ngeom_point() + \nfacet_grid(species ~ island) + \nscale_colour_manual(values = c(\"#1b9e77\",\"#d95f02\",\"#7570b3\"))"
+  },
+  {
+    "objectID": "week2/index.html#data-aesthetics-geom-facet-stat",
+    "href": "week2/index.html#data-aesthetics-geom-facet-stat",
+    "title": "The Grammar of Graphics",
+    "section": "Data + Aesthetics + Geom + Facet + Stat",
+    "text": "Data + Aesthetics + Geom + Facet + Stat\n\nggplot(data=penguins, aes(x=flipper_length_mm, y=body_mass_g, col= species)) +\ngeom_point() + \nfacet_grid(species ~ island) +\nscale_color_brewer(palette = \"Dark2\") +\nstat_summary(\n    geom = \"point\",\n    fun.y = \"mean\",\n    col = \"black\",\n    size = 7,\n    shape = 24,\n    fill = \"red\",\n    alpha = 0.5,\n  )"
+  },
+  {
+    "objectID": "week4/index.html",
+    "href": "week4/index.html",
+    "title": "Visualising Qualitative Data",
+    "section": "",
+    "text": "library(tidyverse)\nlibrary(skimr)\nlibrary(viridis)"
+  },
+  {
+    "objectID": "week4/index.html#common-code",
+    "href": "week4/index.html#common-code",
+    "title": "Visualising Qualitative Data",
+    "section": "Common Code",
+    "text": "Common Code\n\np1 &lt;- ggplot(data=diamonds, aes(x=cut))"
+  },
+  {
+    "objectID": "week4/index.html#bar-chart-counts",
+    "href": "week4/index.html#bar-chart-counts",
+    "title": "Visualising Qualitative Data",
+    "section": "Bar chart: Counts",
+    "text": "Bar chart: Counts\n\np1 + geom_bar()\n\n\n\n\n\n\n\n\nAdd color\n\np1 + geom_bar(fill=\"forestgreen\")\n\n\n\n\n\n\n\n\nAdd title\n\n\n\n\n\n\n\n\n\nAdd sequential colour theme\n\np1 + geom_bar(aes(fill=cut))+\n  scale_fill_viridis_d() + \n  labs(title=\"Composition of diamonds by cuts\")\n\n\n\n\n\n\n\n\nChange color pallet\n\np1 + geom_bar(aes(fill=cut))+\n  scale_fill_viridis_d(option = \"magma\") + \n  labs(title=\"Composition of diamonds by cuts\")\n\n\n\n\n\n\n\n\nManually fill colors\np1 + geom_bar(aes(fill=cut))+\n  scale_fill_manual(&lt;&gt;) + \n  labs(title=\"Composition of diamonds by cuts\")"
+  },
+  {
+    "objectID": "week4/index.html#bar-charts-percentages",
+    "href": "week4/index.html#bar-charts-percentages",
+    "title": "Visualising Qualitative Data",
+    "section": "Bar charts: percentages",
+    "text": "Bar charts: percentages\n\nMethod 1: geom_col\n\ndiamonds |&gt; \n  summarize(prop = n() / nrow(diamonds), .by = cut) \n\n# A tibble: 5 × 2\n  cut         prop\n  &lt;ord&gt;      &lt;dbl&gt;\n1 Ideal     0.400 \n2 Premium   0.256 \n3 Good      0.0910\n4 Very Good 0.224 \n5 Fair      0.0298\n\n\n\ndiamonds |&gt; \n  summarize(prop = n() / nrow(diamonds), .by = cut) |&gt; \n  mutate(cut = forcats::fct_reorder(cut, prop))\n\n# A tibble: 5 × 2\n  cut         prop\n  &lt;ord&gt;      &lt;dbl&gt;\n1 Ideal     0.400 \n2 Premium   0.256 \n3 Good      0.0910\n4 Very Good 0.224 \n5 Fair      0.0298\n\n\n\ndiamonds |&gt; \n  summarize(prop = n() / nrow(diamonds), .by = cut) |&gt; \n  mutate(cut = forcats::fct_reorder(cut, prop)) |&gt; \n  ggplot(aes(y=prop, x=cut)) +\n  geom_col()\n\n\n\n\n\n\n\n\n\n\nMethod 2: geom_bar and after_stat\n\nggplot(diamonds, aes(x = cut, y = after_stat(count / sum(count)))) +\n  geom_bar()\n\n\n\n\n\n\n\n\nFlip coords\n\nggplot(diamonds, aes(x = cut, y = after_stat(count / sum(count)))) +\n  geom_bar() + \n  coord_flip()\n\n\n\n\n\n\n\n\nObtain percentage\n\nggplot(diamonds, aes(x = cut, y = after_stat(count / sum(count)*100))) +\n  geom_bar() + \n  coord_flip()"
+  },
+  {
+    "objectID": "week4/index.html#level-up-your-plots",
+    "href": "week4/index.html#level-up-your-plots",
+    "title": "Visualising Qualitative Data",
+    "section": "Level-up-your plots",
+    "text": "Level-up-your plots\n\ndiamonds |&gt; \n  summarize(prop = n() / nrow(diamonds), .by = cut) |&gt; \n  mutate(cut = forcats::fct_reorder(cut, prop)) |&gt; \n  ggplot(aes(prop, cut)) +\n  geom_col() +\n  scale_x_continuous(\n    expand = c(0, 0), limits = c(0, .50),\n    labels = scales::label_percent(),\n    name = \"Percentage\"\n  ) \n\n\n\n\n\n\n\n\nMore work on the plot\n\ndiamonds |&gt; \n  summarize(prop = n() / nrow(diamonds), .by = cut) |&gt; \n  mutate(cut = forcats::fct_reorder(cut, prop)) |&gt; \n  ggplot(aes(prop, cut)) +\n  geom_col() +\n  scale_x_continuous(\n    expand = c(0, 0), limits = c(0, .5),\n    labels = scales::label_percent(),\n    name = \"Percentage\"\n  ) + theme(axis.title.y = element_blank())\n\n\n\n\n\n\n\n\n\ndiamonds |&gt; \n  summarize(prop = n() / nrow(diamonds), .by = cut) |&gt; \n  mutate(cut = forcats::fct_reorder(cut, prop)) |&gt; \n  ggplot(aes(prop, cut)) +\n  geom_col() +\n  geom_text(\n    aes(label = paste0(\"  \", sprintf(\"%2.1f\", prop * 100), \"%  \")),\n    position = position_dodge(width = .9),    # move to center of bars\n              hjust = -0.1,    # nudge above top of bar\n              size = 3)+\n  scale_x_continuous(\n    expand = c(0, 0), limits = c(0, .5),\n    labels = scales::label_percent(),\n    name = \"Percentage\"\n  ) + theme(axis.title.y = element_blank())"
+  },
+  {
+    "objectID": "week4/index.html#bi-variate",
+    "href": "week4/index.html#bi-variate",
+    "title": "Visualising Qualitative Data",
+    "section": "Bi-variate",
+    "text": "Bi-variate\n\nStacked bar chart\nEncoding by colour\nPosition: stack\n\nb1 &lt;- ggplot(data=diamonds, aes(x=cut, fill=color))\n\nR code:___________\n\n\n\n\n\n\n\n\n\n\n\nGrouped bar chart/ Cluster bar chart\nThis chart displays bars for multiple categories grouped together side by side.\nEncoding by colour\nPosition: dodge\nR code:___________\n\n\n\n\n\n\n\n\n\n\n\nSmall Multiples or Trellis Chart\nThis chart displays multiple small bar charts, each representing a different subset of the data.\nEncoding by position\n\nggplot(data=diamonds, aes(x=color))+geom_bar()+facet_wrap(~cut)\n\n\n\n\n\n\n\n\nYour turn: What is the best chart: grouped bar chart, stack bar chart or faceting?\n\n\nPercentage stacked bar chart"
+  },
+  {
+    "objectID": "week4/index.html#cleveland-dot-chart",
+    "href": "week4/index.html#cleveland-dot-chart",
+    "title": "Visualising Qualitative Data",
+    "section": "Cleveland dot chart",
+    "text": "Cleveland dot chart\nThis is useful when you have large number of categories.\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nRepresentation using bar chart\n\n\n\n\n\n\n\n\n\nQuestion: What is the best representation? Dot chart or Bar chart?"
+  },
+  {
+    "objectID": "week4/index.html#plotting-summary-statistics-method-1",
+    "href": "week4/index.html#plotting-summary-statistics-method-1",
+    "title": "Visualising Qualitative Data",
+    "section": "Plotting Summary statistics: Method 1",
+    "text": "Plotting Summary statistics: Method 1\nCalculate summary statistics before plotting.\nR code:___________________\n\n\n# A tibble: 5 × 2\n  cut       mean_carat\n  &lt;ord&gt;          &lt;dbl&gt;\n1 Fair           1.05 \n2 Good           0.849\n3 Very Good      0.806\n4 Premium        0.892\n5 Ideal          0.703\n\n\nR Code:________________\n\n\n\n\n\n\n\n\n\n\nPlotting summary statistics: Method 2 - with stat_summary\nCommon code\n\ng1 &lt;- ggplot(diamonds, aes(x = cut, y = carat)) \n\nPlot mean values.\n\ng1+\n  stat_summary(fun.y = \"mean\", geom=\"point\", color=\"red\")\n\n\n\n\n\n\n\n\nYour turn: Plot mean and median.\nR code:___________________\n\n\n\n\n\n\n\n\n\nR code:___________________\nmean_se: mean and standard error\n\n\n\n\n\n\n\n\n\nR code:___________________\nmean_cl_normal: 95 per cent confidence interval assuming normality. (Use library(Hmisc))\n\nlibrary(Hmisc)\ng1+stat_summary(fun.data = \"mean_cl_normal\")\n\n\n\n\n\n\n\n\nR code:___________________\nmean_cl_boot: Bootstrap confidence interval (95%)\n\n\n\n\n\n\n\n\n\nConfidence limits provide us a better idea than standard error limits of whether two means would be deemed statistically different."
+  },
+  {
+    "objectID": "week4/index.html#design-of-experiments",
+    "href": "week4/index.html#design-of-experiments",
+    "title": "Visualising Qualitative Data",
+    "section": "Design of Experiments",
+    "text": "Design of Experiments\nDescription\nThe response is the length of odontoblasts (cells responsible for tooth growth) in 60 guinea pigs. Each animal received one of three dose levels of vitamin C (0.5, 1, and 2 mg/day) by one of two delivery methods, orange juice or ascorbic acid (a form of vitamin C and coded as VC).\n\n\n\nData summary\n\n\nName\nToothGrowth\n\n\nNumber of rows\n60\n\n\nNumber of columns\n3\n\n\n_______________________\n\n\n\nColumn type frequency:\n\n\n\nfactor\n1\n\n\nnumeric\n2\n\n\n________________________\n\n\n\nGroup variables\nNone\n\n\n\nVariable type: factor\n\n\n\n\n\n\n\n\n\n\n\nskim_variable\nn_missing\ncomplete_rate\nordered\nn_unique\ntop_counts\n\n\n\n\nsupp\n0\n1\nFALSE\n2\nOJ: 30, VC: 30\n\n\n\nVariable type: numeric\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\n\nskim_variable\nn_missing\ncomplete_rate\nmean\nsd\np0\np25\np50\np75\np100\nhist\n\n\n\n\nlen\n0\n1\n18.81\n7.65\n4.2\n13.07\n19.25\n25.27\n33.9\n▅▃▅▇▂\n\n\ndose\n0\n1\n1.17\n0.63\n0.5\n0.50\n1.00\n2.00\n2.0\n▇▇▁▁▇\n\n\n\n\n\n   len supp dose\n1  4.2   VC  0.5\n2 11.5   VC  0.5\n3  7.3   VC  0.5\n4  5.8   VC  0.5\n5  6.4   VC  0.5\n6 10.0   VC  0.5\n\n\nR code:___________________\n\n\n\n\n\n\n\n\n\nR code:___________________\n\n\n\n\n\n\n\n\n\nR code:____________________\nAvoid overlapping in the last category position_dodge(0.1)\n\n\n\n\n\n\n\n\n\nR code: ___________\nNot suitable for this example: Why?"
+  },
+  {
+    "objectID": "week4/index.html#categorical-with-two-quantitative-variables",
+    "href": "week4/index.html#categorical-with-two-quantitative-variables",
+    "title": "Visualising Qualitative Data",
+    "section": "Categorical with two Quantitative variables",
+    "text": "Categorical with two Quantitative variables\nR code: ___________\n\n\n\n\n\n\n\n\n\n\nR code: ___________\n\n\n\n\n\n\n\n\n\nR code: ___________\n\n\n\n\n\n\n\n\n\nR code: ___________\n\n\n\n\n\n\n\n\n\nR code: ___________\n\n\n\n\n\n\n\n\n\nR code: ___________\n\n\n\n\n\n\n\n\n\nYour turn: What is the best chart to visualize the relationship between the price, carat, and color of diamonds?"
+  },
+  {
+    "objectID": "week7/index.html",
+    "href": "week7/index.html",
+    "title": "Untitled",
+    "section": "",
+    "text": "library(\"timetk\")\nlibrary(\"tidyquant\")\nlibrary(tidyverse)\nlibrary(denguedatahub)\nlibrary(anomalize)\nlibrary(tsibble)\nlibrary(fable)\nlibrary(fabletools) \nlibrary(feasts) #STL decomposition\n\n\n\n\n\ndata(srilanka_weekly_data)\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\")\n# create a proper date index column\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(\n    start.date = mdy(start.date)\n  )\n\n\n\n\n\ncolombo |&gt;\n  plot_time_series(\n    .date_var = start.date,\n    .value = cases,\n    .interactive = FALSE\n  ) +\n  labs(\n    title = \"Weekly Dengue Cases in Colombo\",\n    x = \"Year\",\n    y = \"Cases\"\n  )\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\nℹ The deprecated feature was likely used in the timetk package.\n  Please report the issue at\n  &lt;https://github.com/business-science/timetk/issues&gt;.\n\n\nIgnoring unknown labels:\n• colour : \"Legend\"\n\n\n\n\n\n\n\n\n\n\ndata(srilanka_weekly_data)\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\")\n# create a proper date index column\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(\n    start.date = mdy(start.date)\n  )\n\n\n\n\n\ncolombo |&gt;\n  plot_seasonal_diagnostics(\n    .date_var = start.date,\n    .value = cases,\n    .interactive = FALSE\n  )\n\n\n\n\n\n\n\n\n\n\n\nWhat do you think about the plot? Is this correct?\n\ncolombo |&gt;\n  plot_stl_diagnostics(\n    .date_var = start.date,\n    .value = cases,\n    .interactive = FALSE\n  )\n\nfrequency = 13 observations per 1 quarter\n\n\ntrend = 53 observations per 1 year\n\n\n\n\n\n\n\n\n\nLet’s fix the issue using tsibble and fabletools\nWhat is wrong with the following code?\n\ncolombo_tsibble &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(\n    start.date = mdy(start.date)\n  ) |&gt;\n  arrange(start.date) |&gt;\n  as_tsibble(index = start.date)\ncolombo_tsibble\n\n# A tsibble: 1,012 x 6 [1D]\n    year  week start.date end.date   district cases\n   &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;\n 1  2006    52 2006-12-23 12/29/2006 Colombo     71\n 2  2007     1 2006-12-30 1/5/2007   Colombo     40\n 3  2007     2 2007-01-06 1/12/2007  Colombo     43\n 4  2007     3 2007-01-13 1/19/2007  Colombo     38\n 5  2007     4 2007-01-20 1/26/2007  Colombo     52\n 6  2007     5 2007-01-27 2/2/2007   Colombo     69\n 7  2007     6 2007-02-03 2/9/2007   Colombo     36\n 8  2007     7 2007-02-10 2/16/2007  Colombo     42\n 9  2007     8 2007-02-17 2/23/2007  Colombo     28\n10  2007     9 2007-02-24 3/2/2007   Colombo     20\n# ℹ 1,002 more rows\n\n\nLet’s fix the issue\n\ncolombo_tsibble &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(\n    start.date = mdy(start.date),\n    year_week = yearweek(start.date)\n  ) |&gt;\n  arrange(year_week) |&gt;\n  as_tsibble(index = year_week)\ncolombo_tsibble\n\n# A tsibble: 1,012 x 7 [1W]\n    year  week start.date end.date   district cases year_week\n   &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;    &lt;week&gt;\n 1  2006    52 2006-12-23 12/29/2006 Colombo     71  2006 W51\n 2  2007     1 2006-12-30 1/5/2007   Colombo     40  2006 W52\n 3  2007     2 2007-01-06 1/12/2007  Colombo     43  2007 W01\n 4  2007     3 2007-01-13 1/19/2007  Colombo     38  2007 W02\n 5  2007     4 2007-01-20 1/26/2007  Colombo     52  2007 W03\n 6  2007     5 2007-01-27 2/2/2007   Colombo     69  2007 W04\n 7  2007     6 2007-02-03 2/9/2007   Colombo     36  2007 W05\n 8  2007     7 2007-02-10 2/16/2007  Colombo     42  2007 W06\n 9  2007     8 2007-02-17 2/23/2007  Colombo     28  2007 W07\n10  2007     9 2007-02-24 3/2/2007   Colombo     20  2007 W08\n# ℹ 1,002 more rows\n\ninterval(colombo_tsibble)\n\n&lt;interval[1]&gt;\n[1] 1W\n\n\n\ncolombo_stl &lt;- colombo_tsibble |&gt;\n  model(\n    STL(cases ~ season(period = 52))\n  )\n\nWarning: 1 error encountered for STL(cases ~ season(period = 52))\n[1] .data contains implicit gaps in time. You should check your data and convert implicit gaps into explicit missing values using `tsibble::fill_gaps()` if required.\n\ncolombo_stl\n\n# A mable: 1 x 1\n  `STL(cases ~ season(period = 52))`\n                             &lt;model&gt;\n1                       &lt;NULL model&gt;\n\n\n\ncolombo_components &lt;- colombo_stl |&gt;\n  components()\ncolombo_components\n\n\ncolombo_components |&gt;\n  autoplot()\n\nLet’s fix the issue with timetk\n\ncolombo %&gt;%\n  plot_stl_diagnostics(\n    .date_var = start.date,\n    .value = cases,\n    .frequency = 52,\n    .trend = 104,\n    .interactive = FALSE\n  )\n\nfrequency = 52 observations\n\n\ntrend = 104 observations\n\n\n\n\n\n\n\n\n\n\n\n\n\ncolombo %&gt;%\n  time_decompose(\n    cases,\n    method = \"stl\",\n    frequency = 52\n  ) %&gt;%\n  anomalize(\n    remainder,\n    method = \"iqr\"\n  ) %&gt;%\n  time_recompose() %&gt;%\n  plot_anomalies(time_recomposed = TRUE)\n\nRegistered S3 method overwritten by 'tibbletime':\n  method  from\n  seq.hms hms \n\n\nConverting from tbl_df to tbl_time.\nAuto-index message: index = start.date\n\n\nfrequency = 52 weeks\n\n\ntrend = 52 weeks\n\n\nWarning: `aes_string()` was deprecated in ggplot2 3.0.0.\nℹ Please use tidy evaluation idioms with `aes()`.\nℹ See also `vignette(\"ggplot2-in-packages\")` for more information.\nℹ The deprecated feature was likely used in the anomalize package.\n  Please report the issue at\n  &lt;https://github.com/business-science/anomalize/issues&gt;.\n\n\nWarning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.\nℹ Please use the `linewidth` argument instead.\nℹ The deprecated feature was likely used in the anomalize package.\n  Please report the issue at\n  &lt;https://github.com/business-science/anomalize/issues&gt;.\n\n\nWarning: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.\nℹ Please use the `linewidth` argument instead.\nℹ The deprecated feature was likely used in the anomalize package.\n  Please report the issue at\n  &lt;https://github.com/business-science/anomalize/issues&gt;.\n\n\n\n\n\n\n\n\n\n\n\n\n\ncolombo |&gt;\n  plot_time_series(\n    .date_var = start.date,\n    .value = cases,\n    .color_var = year(start.date),\n    .interactive = TRUE\n  )\n\nWarning: There were 5 warnings in `dplyr::mutate()`.\nThe first warning was:\nℹ In argument: `.value_smooth = auto_smooth(...)`.\nℹ In group 1: `.color_mod = 2006`.\nCaused by warning in `simpleLoess()`:\n! span too small.   fewer data values than degrees of freedom.\nℹ Run `dplyr::last_dplyr_warnings()` to see the 4 remaining warnings.\n\n\n\n\n\n\nor\n\nlibrary(ggplot2)\n\ncolombo |&gt;\n  mutate(\n    Year = year(start.date),\n    Week = isoweek(start.date)\n  ) |&gt;\n  ggplot(aes(Week, factor(Year), fill = cases)) +\n  geom_tile() +\n  labs(\n    title = \"Weekly Dengue Cases Heatmap\",\n    x = \"Week\",\n    y = \"Year\"\n  )\n\n\n\n\n\n\n\n\n\n\n\n\nlibrary(dplyr)\nlibrary(slider)\nlibrary(timetk)\n\ncolombo |&gt;\n  mutate(\n    MA52 = slide_dbl(cases,\n                     mean,\n                     .before = 51,\n                     .complete = TRUE)\n  ) |&gt;\n  plot_time_series(\n    .date_var = start.date,\n    .value = cases,\n    .interactive = FALSE\n  ) +\n  geom_line(aes(y = MA52), color = \"blue\")\n\nIgnoring unknown labels:\n• colour : \"Legend\"\n\n\nWarning: Removed 51 rows containing missing values or values outside the scale range\n(`geom_line()`).\n\n\n\n\n\n\n\n\n\n\n\n\n\ncolombo |&gt;\n  tk_augment_timeseries_signature(start.date) |&gt;\n  glimpse()\n\nNew names:\n• `year` -&gt; `year...1`\n• `week` -&gt; `week...2`\n• `year` -&gt; `year...9`\n• `week` -&gt; `week...29`\n\n\nRows: 1,012\nColumns: 34\n$ year...1   &lt;dbl&gt; 2006, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007,…\n$ week...2   &lt;dbl&gt; 52, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …\n$ start.date &lt;date&gt; 2006-12-23, 2006-12-30, 2007-01-06, 2007-01-13, 2007-01-20…\n$ end.date   &lt;chr&gt; \"12/29/2006\", \"1/5/2007\", \"1/12/2007\", \"1/19/2007\", \"1/26/2…\n$ district   &lt;chr&gt; \"Colombo\", \"Colombo\", \"Colombo\", \"Colombo\", \"Colombo\", \"Col…\n$ cases      &lt;dbl&gt; 71, 40, 43, 38, 52, 69, 36, 42, 28, 20, 19, 11, 11, 3, 10, …\n$ index.num  &lt;dbl&gt; 1166832000, 1167436800, 1168041600, 1168646400, 1169251200,…\n$ diff       &lt;dbl&gt; NA, 604800, 604800, 604800, 604800, 604800, 604800, 604800,…\n$ year...9   &lt;int&gt; 2006, 2006, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007,…\n$ year.iso   &lt;int&gt; 2006, 2006, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007,…\n$ half       &lt;int&gt; 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…\n$ quarter    &lt;int&gt; 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,…\n$ month      &lt;int&gt; 12, 12, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, …\n$ month.xts  &lt;int&gt; 11, 11, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, …\n$ month.lbl  &lt;ord&gt; December, December, January, January, January, January, Feb…\n$ day        &lt;int&gt; 23, 30, 6, 13, 20, 27, 3, 10, 17, 24, 3, 10, 17, 24, 31, 7,…\n$ hour       &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…\n$ minute     &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…\n$ second     &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…\n$ hour12     &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…\n$ am.pm      &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…\n$ wday       &lt;int&gt; 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,…\n$ wday.xts   &lt;int&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,…\n$ wday.lbl   &lt;ord&gt; Saturday, Saturday, Saturday, Saturday, Saturday, Saturday,…\n$ mday       &lt;int&gt; 23, 30, 6, 13, 20, 27, 3, 10, 17, 24, 3, 10, 17, 24, 31, 7,…\n$ qday       &lt;int&gt; 84, 91, 6, 13, 20, 27, 34, 41, 48, 55, 62, 69, 76, 83, 90, …\n$ yday       &lt;int&gt; 357, 364, 6, 13, 20, 27, 34, 41, 48, 55, 62, 69, 76, 83, 90…\n$ mweek      &lt;int&gt; 4, 5, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 5, 1, 2, 3, 4, 1,…\n$ week...29  &lt;int&gt; 51, 52, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …\n$ week.iso   &lt;int&gt; 51, 52, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …\n$ week2      &lt;int&gt; 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,…\n$ week3      &lt;int&gt; 0, 1, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0,…\n$ week4      &lt;int&gt; 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2,…\n$ mday7      &lt;int&gt; 4, 5, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 5, 2, 3, 4, 5, 1,…\n\n\n\n\n\nSee the plot"
+  },
+  {
+    "objectID": "week7/index.html#packages",
+    "href": "week7/index.html#packages",
+    "title": "Untitled",
+    "section": "",
+    "text": "library(\"timetk\")\nlibrary(\"tidyquant\")\nlibrary(tidyverse)\nlibrary(denguedatahub)\nlibrary(anomalize)\nlibrary(tsibble)\nlibrary(fable)\nlibrary(fabletools) \nlibrary(feasts) #STL decomposition"
+  },
+  {
+    "objectID": "week7/index.html#data",
+    "href": "week7/index.html#data",
+    "title": "Untitled",
+    "section": "",
+    "text": "data(srilanka_weekly_data)\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\")\n# create a proper date index column\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(\n    start.date = mdy(start.date)\n  )"
+  },
+  {
+    "objectID": "week7/index.html#time-series-plot",
+    "href": "week7/index.html#time-series-plot",
+    "title": "Untitled",
+    "section": "",
+    "text": "colombo |&gt;\n  plot_time_series(\n    .date_var = start.date,\n    .value = cases,\n    .interactive = FALSE\n  ) +\n  labs(\n    title = \"Weekly Dengue Cases in Colombo\",\n    x = \"Year\",\n    y = \"Cases\"\n  )\n\nWarning: Using `size` aesthetic for lines was deprecated in ggplot2 3.4.0.\nℹ Please use `linewidth` instead.\nℹ The deprecated feature was likely used in the timetk package.\n  Please report the issue at\n  &lt;https://github.com/business-science/timetk/issues&gt;.\n\n\nIgnoring unknown labels:\n• colour : \"Legend\"\n\n\n\n\n\n\n\n\n\n\ndata(srilanka_weekly_data)\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\")\n# create a proper date index column\ncolombo &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(\n    start.date = mdy(start.date)\n  )"
+  },
+  {
+    "objectID": "week7/index.html#seasonal-plot",
+    "href": "week7/index.html#seasonal-plot",
+    "title": "Untitled",
+    "section": "",
+    "text": "colombo |&gt;\n  plot_seasonal_diagnostics(\n    .date_var = start.date,\n    .value = cases,\n    .interactive = FALSE\n  )"
+  },
+  {
+    "objectID": "week7/index.html#stl-decomposition",
+    "href": "week7/index.html#stl-decomposition",
+    "title": "Untitled",
+    "section": "",
+    "text": "What do you think about the plot? Is this correct?\n\ncolombo |&gt;\n  plot_stl_diagnostics(\n    .date_var = start.date,\n    .value = cases,\n    .interactive = FALSE\n  )\n\nfrequency = 13 observations per 1 quarter\n\n\ntrend = 53 observations per 1 year\n\n\n\n\n\n\n\n\n\nLet’s fix the issue using tsibble and fabletools\nWhat is wrong with the following code?\n\ncolombo_tsibble &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(\n    start.date = mdy(start.date)\n  ) |&gt;\n  arrange(start.date) |&gt;\n  as_tsibble(index = start.date)\ncolombo_tsibble\n\n# A tsibble: 1,012 x 6 [1D]\n    year  week start.date end.date   district cases\n   &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;\n 1  2006    52 2006-12-23 12/29/2006 Colombo     71\n 2  2007     1 2006-12-30 1/5/2007   Colombo     40\n 3  2007     2 2007-01-06 1/12/2007  Colombo     43\n 4  2007     3 2007-01-13 1/19/2007  Colombo     38\n 5  2007     4 2007-01-20 1/26/2007  Colombo     52\n 6  2007     5 2007-01-27 2/2/2007   Colombo     69\n 7  2007     6 2007-02-03 2/9/2007   Colombo     36\n 8  2007     7 2007-02-10 2/16/2007  Colombo     42\n 9  2007     8 2007-02-17 2/23/2007  Colombo     28\n10  2007     9 2007-02-24 3/2/2007   Colombo     20\n# ℹ 1,002 more rows\n\n\nLet’s fix the issue\n\ncolombo_tsibble &lt;- srilanka_weekly_data |&gt;\n  filter(district == \"Colombo\") |&gt;\n  mutate(\n    start.date = mdy(start.date),\n    year_week = yearweek(start.date)\n  ) |&gt;\n  arrange(year_week) |&gt;\n  as_tsibble(index = year_week)\ncolombo_tsibble\n\n# A tsibble: 1,012 x 7 [1W]\n    year  week start.date end.date   district cases year_week\n   &lt;dbl&gt; &lt;dbl&gt; &lt;date&gt;     &lt;chr&gt;      &lt;chr&gt;    &lt;dbl&gt;    &lt;week&gt;\n 1  2006    52 2006-12-23 12/29/2006 Colombo     71  2006 W51\n 2  2007     1 2006-12-30 1/5/2007   Colombo     40  2006 W52\n 3  2007     2 2007-01-06 1/12/2007  Colombo     43  2007 W01\n 4  2007     3 2007-01-13 1/19/2007  Colombo     38  2007 W02\n 5  2007     4 2007-01-20 1/26/2007  Colombo     52  2007 W03\n 6  2007     5 2007-01-27 2/2/2007   Colombo     69  2007 W04\n 7  2007     6 2007-02-03 2/9/2007   Colombo     36  2007 W05\n 8  2007     7 2007-02-10 2/16/2007  Colombo     42  2007 W06\n 9  2007     8 2007-02-17 2/23/2007  Colombo     28  2007 W07\n10  2007     9 2007-02-24 3/2/2007   Colombo     20  2007 W08\n# ℹ 1,002 more rows\n\ninterval(colombo_tsibble)\n\n&lt;interval[1]&gt;\n[1] 1W\n\n\n\ncolombo_stl &lt;- colombo_tsibble |&gt;\n  model(\n    STL(cases ~ season(period = 52))\n  )\n\nWarning: 1 error encountered for STL(cases ~ season(period = 52))\n[1] .data contains implicit gaps in time. You should check your data and convert implicit gaps into explicit missing values using `tsibble::fill_gaps()` if required.\n\ncolombo_stl\n\n# A mable: 1 x 1\n  `STL(cases ~ season(period = 52))`\n                             &lt;model&gt;\n1                       &lt;NULL model&gt;\n\n\n\ncolombo_components &lt;- colombo_stl |&gt;\n  components()\ncolombo_components\n\n\ncolombo_components |&gt;\n  autoplot()\n\nLet’s fix the issue with timetk\n\ncolombo %&gt;%\n  plot_stl_diagnostics(\n    .date_var = start.date,\n    .value = cases,\n    .frequency = 52,\n    .trend = 104,\n    .interactive = FALSE\n  )\n\nfrequency = 52 observations\n\n\ntrend = 104 observations"
+  },
+  {
+    "objectID": "week7/index.html#anomaly-detection",
+    "href": "week7/index.html#anomaly-detection",
+    "title": "Untitled",
+    "section": "",
+    "text": "colombo %&gt;%\n  time_decompose(\n    cases,\n    method = \"stl\",\n    frequency = 52\n  ) %&gt;%\n  anomalize(\n    remainder,\n    method = \"iqr\"\n  ) %&gt;%\n  time_recompose() %&gt;%\n  plot_anomalies(time_recomposed = TRUE)\n\nRegistered S3 method overwritten by 'tibbletime':\n  method  from\n  seq.hms hms \n\n\nConverting from tbl_df to tbl_time.\nAuto-index message: index = start.date\n\n\nfrequency = 52 weeks\n\n\ntrend = 52 weeks\n\n\nWarning: `aes_string()` was deprecated in ggplot2 3.0.0.\nℹ Please use tidy evaluation idioms with `aes()`.\nℹ See also `vignette(\"ggplot2-in-packages\")` for more information.\nℹ The deprecated feature was likely used in the anomalize package.\n  Please report the issue at\n  &lt;https://github.com/business-science/anomalize/issues&gt;.\n\n\nWarning: The `size` argument of `element_line()` is deprecated as of ggplot2 3.4.0.\nℹ Please use the `linewidth` argument instead.\nℹ The deprecated feature was likely used in the anomalize package.\n  Please report the issue at\n  &lt;https://github.com/business-science/anomalize/issues&gt;.\n\n\nWarning: The `size` argument of `element_rect()` is deprecated as of ggplot2 3.4.0.\nℹ Please use the `linewidth` argument instead.\nℹ The deprecated feature was likely used in the anomalize package.\n  Please report the issue at\n  &lt;https://github.com/business-science/anomalize/issues&gt;."
+  },
+  {
+    "objectID": "week7/index.html#calendar-heatmap",
+    "href": "week7/index.html#calendar-heatmap",
+    "title": "Untitled",
+    "section": "",
+    "text": "colombo |&gt;\n  plot_time_series(\n    .date_var = start.date,\n    .value = cases,\n    .color_var = year(start.date),\n    .interactive = TRUE\n  )\n\nWarning: There were 5 warnings in `dplyr::mutate()`.\nThe first warning was:\nℹ In argument: `.value_smooth = auto_smooth(...)`.\nℹ In group 1: `.color_mod = 2006`.\nCaused by warning in `simpleLoess()`:\n! span too small.   fewer data values than degrees of freedom.\nℹ Run `dplyr::last_dplyr_warnings()` to see the 4 remaining warnings.\n\n\n\n\n\n\nor\n\nlibrary(ggplot2)\n\ncolombo |&gt;\n  mutate(\n    Year = year(start.date),\n    Week = isoweek(start.date)\n  ) |&gt;\n  ggplot(aes(Week, factor(Year), fill = cases)) +\n  geom_tile() +\n  labs(\n    title = \"Weekly Dengue Cases Heatmap\",\n    x = \"Week\",\n    y = \"Year\"\n  )"
+  },
+  {
+    "objectID": "week7/index.html#rolling-mean",
+    "href": "week7/index.html#rolling-mean",
+    "title": "Untitled",
+    "section": "",
+    "text": "library(dplyr)\nlibrary(slider)\nlibrary(timetk)\n\ncolombo |&gt;\n  mutate(\n    MA52 = slide_dbl(cases,\n                     mean,\n                     .before = 51,\n                     .complete = TRUE)\n  ) |&gt;\n  plot_time_series(\n    .date_var = start.date,\n    .value = cases,\n    .interactive = FALSE\n  ) +\n  geom_line(aes(y = MA52), color = \"blue\")\n\nIgnoring unknown labels:\n• colour : \"Legend\"\n\n\nWarning: Removed 51 rows containing missing values or values outside the scale range\n(`geom_line()`)."
+  },
+  {
+    "objectID": "week7/index.html#time-series-signature-exploration",
+    "href": "week7/index.html#time-series-signature-exploration",
+    "title": "Untitled",
+    "section": "",
+    "text": "colombo |&gt;\n  tk_augment_timeseries_signature(start.date) |&gt;\n  glimpse()\n\nNew names:\n• `year` -&gt; `year...1`\n• `week` -&gt; `week...2`\n• `year` -&gt; `year...9`\n• `week` -&gt; `week...29`\n\n\nRows: 1,012\nColumns: 34\n$ year...1   &lt;dbl&gt; 2006, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007,…\n$ week...2   &lt;dbl&gt; 52, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, …\n$ start.date &lt;date&gt; 2006-12-23, 2006-12-30, 2007-01-06, 2007-01-13, 2007-01-20…\n$ end.date   &lt;chr&gt; \"12/29/2006\", \"1/5/2007\", \"1/12/2007\", \"1/19/2007\", \"1/26/2…\n$ district   &lt;chr&gt; \"Colombo\", \"Colombo\", \"Colombo\", \"Colombo\", \"Colombo\", \"Col…\n$ cases      &lt;dbl&gt; 71, 40, 43, 38, 52, 69, 36, 42, 28, 20, 19, 11, 11, 3, 10, …\n$ index.num  &lt;dbl&gt; 1166832000, 1167436800, 1168041600, 1168646400, 1169251200,…\n$ diff       &lt;dbl&gt; NA, 604800, 604800, 604800, 604800, 604800, 604800, 604800,…\n$ year...9   &lt;int&gt; 2006, 2006, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007,…\n$ year.iso   &lt;int&gt; 2006, 2006, 2007, 2007, 2007, 2007, 2007, 2007, 2007, 2007,…\n$ half       &lt;int&gt; 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…\n$ quarter    &lt;int&gt; 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 2, 2, 2,…\n$ month      &lt;int&gt; 12, 12, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3, 3, 4, 4, 4, 4, …\n$ month.xts  &lt;int&gt; 11, 11, 0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 2, 3, 3, 3, 3, …\n$ month.lbl  &lt;ord&gt; December, December, January, January, January, January, Feb…\n$ day        &lt;int&gt; 23, 30, 6, 13, 20, 27, 3, 10, 17, 24, 3, 10, 17, 24, 31, 7,…\n$ hour       &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…\n$ minute     &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…\n$ second     &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…\n$ hour12     &lt;int&gt; 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,…\n$ am.pm      &lt;int&gt; 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1,…\n$ wday       &lt;int&gt; 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7, 7,…\n$ wday.xts   &lt;int&gt; 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6, 6,…\n$ wday.lbl   &lt;ord&gt; Saturday, Saturday, Saturday, Saturday, Saturday, Saturday,…\n$ mday       &lt;int&gt; 23, 30, 6, 13, 20, 27, 3, 10, 17, 24, 3, 10, 17, 24, 31, 7,…\n$ qday       &lt;int&gt; 84, 91, 6, 13, 20, 27, 34, 41, 48, 55, 62, 69, 76, 83, 90, …\n$ yday       &lt;int&gt; 357, 364, 6, 13, 20, 27, 34, 41, 48, 55, 62, 69, 76, 83, 90…\n$ mweek      &lt;int&gt; 4, 5, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 5, 1, 2, 3, 4, 1,…\n$ week...29  &lt;int&gt; 51, 52, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …\n$ week.iso   &lt;int&gt; 51, 52, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, …\n$ week2      &lt;int&gt; 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0, 1, 0,…\n$ week3      &lt;int&gt; 0, 1, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0, 1, 2, 0,…\n$ week4      &lt;int&gt; 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2,…\n$ mday7      &lt;int&gt; 4, 5, 1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4, 5, 2, 3, 4, 5, 1,…"
+  },
+  {
+    "objectID": "week7/index.html#additional-reading",
+    "href": "week7/index.html#additional-reading",
+    "title": "Untitled",
+    "section": "",
+    "text": "See the plot"
   }
 ]

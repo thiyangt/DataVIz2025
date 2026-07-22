@@ -126,13 +126,13 @@ colombo_stl <- colombo_tsibble |>
 colombo_stl
 ```
 
-```{r}
+```{r, eval=FALSE, echo=TRUE}
 colombo_components <- colombo_stl |>
   components()
 colombo_components
 ```
 
-```{r}
+```{r, eval=FALSE, echo=TRUE}
 colombo_components |>
   autoplot()
 ```

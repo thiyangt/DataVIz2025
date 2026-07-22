@@ -134,5 +134,13 @@ Click [here](/week13/index.html)
 
 Click [here](/week14/index.html)
 
+## Week 14: 22 July 2026
+
+[Beyond Basics: Elevate Your Plots](./week3/index.html)
+
+How to apply the laws of Gestalt to data visualization - In class demo
+
+
+[How to apply the laws of Gestalt to data visualization](https://www.intotheminds.com/blog/en/data-visualization-gestalt-laws/)
 
 
